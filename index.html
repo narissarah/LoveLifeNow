@@ -1,11 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Love Life Now Self-hosted Forms</title>
+  <title>Love Life Now - Forms Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #9b51e0, #8b348f);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(139, 52, 143, 0.15);
+      border-color: #d4a5d9;
+    }
+
+    .card h2 {
+      color: #8b348f;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    .card p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .card .btn {
+      margin-top: 20px;
+      background-color: #9b51e0;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .card:hover .btn {
+      background-color: #7a3caf;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #fff;
+      color: #888;
+      font-size: 0.9rem;
+      border-top: 1px solid #eee;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Love Life Now Self-hosted Forms</h1>
+
+  <header>
+    <h1>Love Life Now Foundation</h1>
+    <p>Self-Hosted Forms & Applications</p>
+  </header>
+
+  <main>
+    <div class="grid">
+      <a href="Get%20Safe%20Fund%20Application/GetSafeApplicationForm.html" class="card">
+        <h2>Get Safe Fund Application</h2>
+        <p>Application form for survivors seeking domestic violence assistance and financial support.</p>
+        <span class="btn">View Application</span>
+      </a>
+
+      <a href="Book A Speaker/bookaspeaker.html" class="card">
+        <h2>Book A Speaker</h2>
+        <p>Request a speaker from Love Life Now for your upcoming event or organization.</p>
+        <span class="btn">Book Now</span>
+      </a>
+
+      <a href="Contact Form/Contact Form.html" class="card">
+        <h2>Contact Us</h2>
+        <p>General inquiries and communication with the Love Life Now team.</p>
+        <span class="btn">Get in Touch</span>
+      </a>
+
+      <a href="Donate/donateform.html" class="card">
+        <h2>Donate</h2>
+        <p>Support our mission by making a contribution to the foundation.</p>
+        <span class="btn">Make a Donation</span>
+      </a>
+
+      <a href="Newsletter Subscription/NewsletterSubscription.html" class="card">
+        <h2>Newsletter</h2>
+        <p>Subscribe to stay updated with our latest news, events, and stories.</p>
+        <span class="btn">Subscribe</span>
+      </a>
+
+      <a href="Volunteer/VolunteerForm.html" class="card">
+        <h2>Volunteer</h2>
+        <p>Join us in making a difference by becoming a volunteer.</p>
+        <span class="btn">Join Us</span>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; Love Life Now Foundation. All rights reserved.
+  </footer>
+
 </body>
+
 </html>
