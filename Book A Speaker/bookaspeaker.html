@@ -4,523 +4,784 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book A Speaker</title>
-    <!-- Importing the font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Book A Speaker - Love Life Now Foundation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #f5f5f5;
-            font-family: 'Poppins', sans-serif;
-            padding: 40px;
+        /* Purple Theme for Love Life Now */
+        :root {
+            --primary-purple: #6a1b9a;
+            --primary-purple-hover: #4a148c;
+            --text-dark: #333;
+            --text-light: #fff;
+            --input-border: #e0e0e0;
+            --bg-light: #f9f9f9;
+            --font-family: 'Poppins', sans-serif;
         }
 
-        /* Base Form Styles (Copied from Get Safe Fund for Consistency) */
-        .interaction-form {
-            font-family: "Poppins", "Inter", sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
+        body {
+            font-family: var(--font-family);
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            margin: 0;
             padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             background: #fff;
-            color: #333;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-purple);
+            margin-bottom: 30px;
+        }
+
+        /* Form Specific Styling Overrides */
+        #interaction-form-container {
+            width: 100%;
         }
 
         .interaction-form h3 {
-            color: #9b51e0;
-            /* Purple heading */
-            text-align: center;
+            color: var(--primary-purple);
             font-weight: 600;
-            margin-bottom: 25px;
-            font-size: 24px;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            margin-top: 30px;
         }
 
         .interaction-form .field {
             margin-bottom: 20px;
-            width: 100%;
-            box-sizing: border-box;
         }
 
-        .interaction-form label {
+        .interaction-form .label {
+            font-weight: 500;
+            color: #555;
             display: block;
             margin-bottom: 8px;
-            color: #8b348f;
-            /* Purple label text */
-            font-weight: 500;
-            font-size: 14px;
         }
 
-        .interaction-form label.error {
-            color: #d32f2f;
-            font-size: 12px;
-            margin-top: 5px;
-            display: block;
-        }
-
-        .interaction-form .required-star {
-            color: #d32f2f;
-            margin-left: 4px;
-        }
-
-        /* Inputs & Textareas */
         .interaction-form input[type="text"],
         .interaction-form input[type="email"],
         .interaction-form input[type="tel"],
         .interaction-form input[type="number"],
         .interaction-form input[type="date"],
-        .interaction-form textarea,
-        .interaction-form select {
+        .interaction-form select,
+        .interaction-form textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 16px;
+            padding: 12px 16px;
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.3s ease;
             box-sizing: border-box;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            background: #fff;
-            border-color: #d4a5d9;
-            /* Light purple border */
+            background-color: #fdfdfd;
         }
 
         .interaction-form input:focus,
-        .interaction-form textarea:focus,
-        .interaction-form select:focus {
-            border-color: #9b51e0;
+        .interaction-form select:focus,
+        .interaction-form textarea:focus {
+            border-color: var(--primary-purple);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(155, 81, 224, 0.1);
+            box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.1);
+            background-color: #fff;
         }
 
-        .interaction-form textarea {
-            min-height: 100px;
-            resize: vertical;
+        /* Radio and Checkbox */
+        .interaction-form .field.radio,
+        .interaction-form .field.checkbox {
+            margin-bottom: 10px;
         }
 
-        /* Name Fields Layout - Side by Side */
-        .section.contact .field.first-name,
-        .section.contact .field.last-name {
-            display: inline-block;
-            width: 48%;
-            vertical-align: top;
+        .interaction-form .field.radio label,
+        .interaction-form .field.checkbox label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 400;
         }
 
-        .section.contact .field.first-name {
-            margin-right: 3%;
+        .interaction-form .field.radio input,
+        .interaction-form .field.checkbox input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-purple);
         }
 
-        @media (max-width: 500px) {
-
-            .section.contact .field.first-name,
-            .section.contact .field.last-name {
-                display: block;
-                width: 100%;
-                margin-right: 0;
-            }
-        }
-
-        /* Select Dropdown Styling */
-        .interaction-form .field select {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239b51e0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px top 50%;
-            background-size: 12px auto;
-        }
-
-        .interaction-form .btn-group {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .interaction-form .btn-submit {
-            background-color: #8b348f;
-            color: white;
+        .btn-submit-interaction {
+            background-color: var(--primary-purple);
+            color: var(--text-light);
+            padding: 16px 32px;
             border: none;
-            padding: 15px 40px;
+            border-radius: 50px;
             font-size: 18px;
             font-weight: 600;
-            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s ease;
             width: 100%;
-            max-width: 300px;
-            transition: background-color 0.3s;
-            text-transform: uppercase;
-            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+            display: block;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(106, 27, 154, 0.3);
         }
 
-        .interaction-form .btn-submit:hover {
-            background-color: #6a246d;
-            transform: translateY(-1px);
+        .btn-submit-interaction:hover {
+            background-color: var(--primary-purple-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 27, 154, 0.4);
         }
 
-        .interaction-form .hidden {
-            display: none;
+        .btn-submit-interaction:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .required-star {
+            color: #d32f2f;
+            margin-left: 4px;
+        }
+
+        .interaction-form .error {
+            color: #d32f2f;
+            font-size: 13px;
+            margin-top: 6px;
+            display: block;
         }
     </style>
-
-    <!-- Mock Bloomerang Object for Preview/Standalone Functionality -->
-    <script>
-        var Bloomerang = {
-            useInteractionId: function () { return true; },
-            Util: {
-                requireStripe: function () { },
-                load: function (url, check, onload) { if (onload) onload(); },
-                getCorrectState: function () { return ""; },
-                getCorrectZipCode: function () { return ""; },
-                requireJQueryValidation: function (cb) { cb(); }
-            },
-            Account: {
-                individual: function () { return this; },
-                firstName: function () { return this; },
-                lastName: function () { return this; },
-                homeEmail: function () { return this; },
-                homePhone: function () { return this; },
-                applyInteractionCustomFields: function () { return this; },
-                optedInStatus: function () { return this; },
-                homeAddress: function () { return this; }
-            },
-            Interaction: {
-                note: function () { return this; },
-                date: function () { return this; },
-                applyInteractionCustomFields: function () { return this; }
-            },
-            Widget: { Interaction: {} },
-            Api: { submitInteraction: function () { alert('Form Submitted (Mock)!'); } },
-            Data: { WidgetIds: { Interaction: '763905' } }
-        };
-        var grecaptcha = { ready: function (cb) { cb(); }, execute: function () { return Promise.resolve('token'); }, render: function () { }, getResponse: function () { } };
-    </script>
 </head>
 
 <body>
 
-    <div id="interaction-form-container">
-        <form id="interaction-form" class="interaction-form" method="post" action="javascript:void(0)">
-            <div class="errors hidden"></div>
-            <div class="section contact">
-                <h3>Contact Information</h3>
-                <div class="field text first-name required">
-                    <label for="first-name"><span class="label">First Name</span><span
-                            class="required-star">*</span></label>
-                    <input id="first-name" name="first-name" class="required" type="text">
-                </div>
-                <div class="field text last-name required">
-                    <label for="last-name"><span class="label">Last Name</span><span
-                            class="required-star">*</span></label>
-                    <input id="last-name" name="last-name" class="required" type="text">
-                </div>
-                <div class="field email email-address required">
-                    <label for="email-address"><span class="label">Email</span><span
-                            class="required-star">*</span></label>
-                    <input id="email-address" name="email-address" class="email required" type="email"
-                        placeholder="someone@website.com">
-                </div>
-                <div class="field tel phone-number">
-                    <label for="phone-number"><span class="label">Phone</span></label>
-                    <input id="phone-number" name="phone-number" class="phoneUS" type="tel">
-                </div>
-            </div>
-
-            <div class="section address">
-                <h3>Address</h3>
-                <!-- Truncated countries for brevity in preview, user can restore full list or consistent list -->
-                <div class="field country">
-                    <label for="country">Country</label>
-                    <select id="country" name="country">
-                        <option value="US" selected>United States</option>
-                        <option value="CA">Canada</option>
-                        <!-- Add other countries if strictly needed, usually US is primary focus -->
-                    </select>
-                </div>
-
-                <div class="field street-address">
-                    <label for="street-address"><span class="label">Address</span></label>
-                    <textarea id="street-address" name="street-address"></textarea>
-                </div>
-                <div class="field text city">
-                    <label for="city"><span class="label">City</span></label>
-                    <input id="city" name="city" type="text" data-us-label="City" data-bm-label="Parish">
-                </div>
-                <div class="field state">
-                    <label for="state">State</label>
-                    <select id="state" name="state">
-                        <option value=""></option>
-                        <option value="MA">Massachusetts</option>
-                        <option value="NY">New York</option>
-                        <option value="CA">California</option>
-                        <!-- Truncated state list for brevity -->
-                        <option value="AL">Alabama</option>
-                        <option value="AK">Alaska</option>
-                        <option value="AZ">Arizona</option>
-                        <option value="AR">Arkansas</option>
-                        <option value="CO">Colorado</option>
-                        <option value="CT">Connecticut</option>
-                        <option value="DE">Delaware</option>
-                        <option value="FL">Florida</option>
-                        <option value="GA">Georgia</option>
-                        <option value="HI">Hawaii</option>
-                        <option value="ID">Idaho</option>
-                        <option value="IL">Illinois</option>
-                        <option value="IN">Indiana</option>
-                        <option value="IA">Iowa</option>
-                        <option value="KS">Kansas</option>
-                        <option value="KY">Kentucky</option>
-                        <option value="LA">Louisiana</option>
-                        <option value="ME">Maine</option>
-                        <option value="MD">Maryland</option>
-                        <option value="MI">Michigan</option>
-                        <option value="MN">Minnesota</option>
-                        <option value="MS">Mississippi</option>
-                        <option value="MO">Missouri</option>
-                        <option value="MT">Montana</option>
-                        <option value="NE">Nebraska</option>
-                        <option value="NV">Nevada</option>
-                        <option value="NH">New Hampshire</option>
-                        <option value="NJ">New Jersey</option>
-                        <option value="NM">New Mexico</option>
-                        <option value="NC">North Carolina</option>
-                        <option value="ND">North Dakota</option>
-                        <option value="OH">Ohio</option>
-                        <option value="OK">Oklahoma</option>
-                        <option value="OR">Oregon</option>
-                        <option value="PA">Pennsylvania</option>
-                        <option value="RI">Rhode Island</option>
-                        <option value="SC">South Carolina</option>
-                        <option value="SD">South Dakota</option>
-                        <option value="TN">Tennessee</option>
-                        <option value="TX">Texas</option>
-                        <option value="UT">Utah</option>
-                        <option value="VT">Vermont</option>
-                        <option value="VA">Virginia</option>
-                        <option value="WA">Washington</option>
-                        <option value="WV">West Virginia</option>
-                        <option value="WI">Wisconsin</option>
-                        <option value="WY">Wyoming</option>
-                    </select>
-                </div>
-
-                <div class="field number zip-code">
-                    <label for="zip-code"><span class="label">ZIP Code</span></label>
-                    <input id="zip-code" name="zip-code" class="zipcodeUS" type="number" minlength="5" maxlength="10">
-                </div>
-            </div>
-
-            <div class="section custom-fields">
-                <h3>Additional Information</h3>
-                <div class="field text CustomInteractionField_766977 required">
-                    <label for="CustomInteractionField_766977"><span class="label">Event Name</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_766977" name="CustomInteractionField_766977" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_850945 required">
-                    <label for="CustomInteractionField_850945">Event Date<span class="required-star">*</span></label>
-                    <select id="CustomInteractionField_850945" name="CustomInteractionField_850945" class="required">
-                        <option value=""></option>
-                        <option value="851969">Monday</option>
-                        <option value="852993">Wednesday</option>
-                        <option value="854017">Friday</option>
-                        <option value="855041">Saturday</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_836609 required">
-                    <label for="CustomInteractionField_836609">Event Time<span class="required-star">*</span></label>
-                    <select id="CustomInteractionField_836609" name="CustomInteractionField_836609" class="required">
-                        <option value=""></option>
-                        <option value="837633">9:00 to 5:00pm range</option>
-                        <option value="838657">5:00pm to 7pm range</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_787457 required">
-                    <label for="CustomInteractionField_787457"><span class="label">Venue Name</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_787457" name="CustomInteractionField_787457" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_788481 required">
-                    <label for="CustomInteractionField_788481"><span class="label">Venue Address</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_788481" name="CustomInteractionField_788481" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_789505 required">
-                    <label for="CustomInteractionField_789505"><span class="label">Venue Room</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_789505" name="CustomInteractionField_789505" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_839681 required">
-                    <label for="CustomInteractionField_839681">Expected Audience Size<span
-                            class="required-star">*</span></label>
-                    <select id="CustomInteractionField_839681" name="CustomInteractionField_839681" class="required">
-                        <option value=""></option>
-                        <option value="840705">10 - 20</option>
-                        <option value="841729">21 - 50</option>
-                        <option value="842753">51 - 100</option>
-                        <option value="843777">101 - 200</option>
-                        <option value="844801">201+</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_780289 required">
-                    <label for="CustomInteractionField_780289"><span class="label">Length of Presentation</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_780289" name="CustomInteractionField_780289" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_774145 required">
-                    <label for="CustomInteractionField_774145">Event’s Purpose (Fundraiser, Conference, Staff Education,
-                        Class)<span class="required-star">*</span></label>
-                    <select id="CustomInteractionField_774145" name="CustomInteractionField_774145" class="required">
-                        <option value=""></option>
-                        <option value="775169">DV Awareness Keynote Presentation</option>
-                        <option value="776193">DV Awareness Workshop</option>
-                        <option value="777217">Other (please specify)</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_779265">
-                    <label for="CustomInteractionField_779265"><span class="label">Specific Topic Requested (if
-                            any)</span></label>
-                    <input id="CustomInteractionField_779265" name="CustomInteractionField_779265" type="text"
-                        maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_781313 required">
-                    <label for="CustomInteractionField_781313">Will this be in-person or virtual?<span
-                            class="required-star">*</span></label>
-                    <select id="CustomInteractionField_781313" name="CustomInteractionField_781313" class="required">
-                        <option value=""></option>
-                        <option value="782337">In-person</option>
-                        <option value="783361">Virtual</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_784385 required">
-                    <label for="CustomInteractionField_784385">If in-person, does the venue have a projector and
-                        microphone?<span class="required-star">*</span></label>
-                    <select id="CustomInteractionField_784385" name="CustomInteractionField_784385" class="required">
-                        <option value=""></option>
-                        <option value="786433">No</option>
-                        <option value="785409">Yes to both!</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_791553 required">
-                    <label for="CustomInteractionField_791553"><span class="label">Title / Department</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_791553" name="CustomInteractionField_791553" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_792577 required">
-                    <label for="CustomInteractionField_792577"><span class="label">Organization / Company
-                            Name</span><span class="required-star">*</span></label>
-                    <input id="CustomInteractionField_792577" name="CustomInteractionField_792577" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_793601 required">
-                    <label for="CustomInteractionField_793601"><span class="label">Organization Address</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_793601" name="CustomInteractionField_793601" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_797697 required">
-                    <label for="CustomInteractionField_797697"><span class="label">Organization Phone Number</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_797697" name="CustomInteractionField_797697" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_796673 required">
-                    <label for="CustomInteractionField_796673"><span class="label">Email Address</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_796673" name="CustomInteractionField_796673" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_798721 required">
-                    <label for="CustomInteractionField_798721"><span class="label">Organization’s Website</span><span
-                            class="required-star">*</span></label>
-                    <input id="CustomInteractionField_798721" name="CustomInteractionField_798721" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_799745 required">
-                    <label for="CustomInteractionField_799745"><span class="label">Proposed Budget for Workshop /
-                            Keynote</span><span class="required-star">*</span></label>
-                    <input id="CustomInteractionField_799745" name="CustomInteractionField_799745" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_802817 required">
-                    <label for="CustomInteractionField_802817">Will mileage or travel and accommodation be provided (if
-                        applicable)?<span class="required-star">*</span></label>
-                    <select id="CustomInteractionField_802817" name="CustomInteractionField_802817" class="required">
-                        <option value=""></option>
-                        <option value="804865">No</option>
-                        <option value="803841">Yes</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_805889 required">
-                    <label for="CustomInteractionField_805889">Will a W9 Form be required for payment processing?<span
-                            class="required-star">*</span></label>
-                    <select id="CustomInteractionField_805889" name="CustomInteractionField_805889" class="required">
-                        <option value=""></option>
-                        <option value="807937">No</option>
-                        <option value="806913">Yes</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_808961 required">
-                    <label for="CustomInteractionField_808961">Is this event open to the public or
-                        private/invite-only?<span class="required-star">*</span></label>
-                    <select id="CustomInteractionField_808961" name="CustomInteractionField_808961" class="required">
-                        <option value=""></option>
-                        <option value="811009">Private</option>
-                        <option value="809985">Public</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_817153 required">
-                    <label for="CustomInteractionField_817153">Would you like to make The Legacy He Left Me books
-                        available for attendees or VIPs?<span class="required-star">*</span></label>
-                    <select id="CustomInteractionField_817153" name="CustomInteractionField_817153" class="required">
-                        <option value=""></option>
-                        <option value="820225">No</option>
-                        <option value="819201">Yes – for general sale (discounted at $15 each for softcover copies)
-                        </option>
-                        <option value="818177">Yes – for VIP’s/Sponsors (minimum 20 copies at $10 each for softcover
-                            copies)</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_825345 required">
-                    <label for="CustomInteractionField_825345">If yes, will a table (6 ft) be available for book
-                        display?<span class="required-star">*</span></label>
-                    <select id="CustomInteractionField_825345" name="CustomInteractionField_825345" class="required">
-                        <option value=""></option>
-                        <option value="827393">No</option>
-                        <option value="826369">Yes</option>
-                    </select>
-                </div>
-                <div class="field text CustomInteractionField_821249 required">
-                    <label for="CustomInteractionField_821249"><span class="label">Anything else you would like us to
-                            know about your event?</span><span class="required-star">*</span></label>
-                    <input id="CustomInteractionField_821249" name="CustomInteractionField_821249" class="required"
-                        type="text" maxlength="255">
-                </div>
-                <div class="field text CustomInteractionField_822273 required">
-                    <label for="CustomInteractionField_822273"><span class="label">Signature of Authorized Event
-                            Contact</span><span class="required-star">*</span></label>
-                    <input id="CustomInteractionField_822273" name="CustomInteractionField_822273" class="required"
-                        type="text" maxlength="255">
-                </div>
-            </div>
-
-            <div class="section comment">
-                <div class="field text comment">
-                    <label for="comment"><span class="label">Comments</span></label>
-                    <textarea id="comment" name="comment" type="text" value="Comments"></textarea>
-                </div>
-            </div>
-
-            <div class="section consent hidden">
-                <label><input id="consent-all" name="consent-all" type="checkbox"> I would like to receive
-                    updates.</label>
-            </div>
-
-            <div class="btn-group">
-                <input class="btn btn-submit btn-submit-interaction" type="submit" value="Submit Request" />
-            </div>
-        </form>
+    <div class="container">
+        <h1>Book A Speaker</h1>
+        <div id="bloomerang-form-container">
+            <script type="text/javascript" id="bloomerangForm763905"></script>
+        </div>
     </div>
 
+    <!-- Bloomerang Form Template -->
+    <template id="styled-form-content">
+        <div id="interaction-form-container">
+            <form id="interaction-form" class="interaction-form" method="post" action="javascript:void(0)">
+                <div class="errors hidden"></div>
+
+                <div class="section contact">
+                    <h3>Contact Information</h3>
+                    <div class="field text first-name required">
+                        <label for="first-name"><span class="label">First Name</span><span
+                                class="required-star">*</span></label>
+                        <input id="first-name" name="first-name" class="required" type="text">
+                    </div>
+                    <div class="field text last-name required">
+                        <label for="last-name"><span class="label">Last Name</span><span
+                                class="required-star">*</span></label>
+                        <input id="last-name" name="last-name" class="required" type="text">
+                    </div>
+                    <div class="field email email-address required">
+                        <label for="email-address"><span class="label">Email</span><span
+                                class="required-star">*</span></label>
+                        <input id="email-address" name="email-address" class="email required" type="email"
+                            placeholder="someone@website.com">
+                    </div>
+                    <div class="field tel phone-number">
+                        <label for="phone-number"><span class="label">Phone</span></label>
+                        <input id="phone-number" name="phone-number" class="phoneUS" type="tel">
+                    </div>
+                </div>
+
+                <div class="section address">
+                    <h3>Address</h3>
+                    <div class="field country">
+                        <label for="country">Country</label>
+                        <select id="country" name="country">
+                            <option value="" selected></option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="GB">United Kingdom</option>
+                        </select>
+                    </div>
+                    <div class="field street-address">
+                        <label for="street-address"><span class="label">Address</span></label>
+                        <textarea id="street-address" name="street-address"></textarea>
+                    </div>
+                    <div class="field text city">
+                        <label for="city"><span class="label">City</span></label>
+                        <input id="city" name="city" type="text" data-us-label="City" data-bm-label="Parish">
+                    </div>
+                    <div class="field state">
+                        <label for="state">State</label>
+                        <select id="state" name="state">
+                            <option value=""></option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="NY">New York</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                    </div>
+                    <div class="field number zip-code">
+                        <label for="zip-code"><span class="label">ZIP Code</span></label>
+                        <input id="zip-code" name="zip-code" class="zipcodeUS" type="number" minlength="5"
+                            maxlength="10">
+                    </div>
+                </div>
+
+                <div class="section custom-fields">
+                    <h3>Additional Information</h3>
+                    <div class="field text CustomInteractionField_766977 required">
+                        <label for="CustomInteractionField_766977"><span class="label">Event Name</span><span
+                                class="required-star">*</span></label>
+                        <input id="CustomInteractionField_766977" name="CustomInteractionField_766977" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_850945 required">
+                        <label for="CustomInteractionField_850945">Event Date<span
+                                class="required-star">*</span></label>
+                        <select id="CustomInteractionField_850945" name="CustomInteractionField_850945"
+                            class="required">
+                            <option value=""></option>
+                            <option value="851969">Monday</option>
+                            <option value="852993">Wednesday</option>
+                            <option value="854017">Friday</option>
+                            <option value="855041">Saturday</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_836609 required">
+                        <label for="CustomInteractionField_836609">Event Time<span
+                                class="required-star">*</span></label>
+                        <select id="CustomInteractionField_836609" name="CustomInteractionField_836609"
+                            class="required">
+                            <option value=""></option>
+                            <option value="837633">9:00 to 5:00pm range</option>
+                            <option value="838657">5:00pm to 7pm range</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_787457 required">
+                        <label for="CustomInteractionField_787457"><span class="label">Venue Name</span><span
+                                class="required-star">*</span></label>
+                        <input id="CustomInteractionField_787457" name="CustomInteractionField_787457" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_788481 required">
+                        <label for="CustomInteractionField_788481"><span class="label">Venue Address</span><span
+                                class="required-star">*</span></label>
+                        <input id="CustomInteractionField_788481" name="CustomInteractionField_788481" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_789505 required">
+                        <label for="CustomInteractionField_789505"><span class="label">Venue Room</span><span
+                                class="required-star">*</span></label>
+                        <input id="CustomInteractionField_789505" name="CustomInteractionField_789505" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_839681 required">
+                        <label for="CustomInteractionField_839681">Expected Audience Size<span
+                                class="required-star">*</span></label>
+                        <select id="CustomInteractionField_839681" name="CustomInteractionField_839681"
+                            class="required">
+                            <option value=""></option>
+                            <option value="840705">10 - 20</option>
+                            <option value="841729">21 - 50</option>
+                            <option value="842753">51 - 100</option>
+                            <option value="843777">101 - 200</option>
+                            <option value="844801">201+</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_780289 required">
+                        <label for="CustomInteractionField_780289"><span class="label">Length of
+                                Presentation</span><span class="required-star">*</span></label>
+                        <input id="CustomInteractionField_780289" name="CustomInteractionField_780289" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_774145 required">
+                        <label for="CustomInteractionField_774145">Event’s Purpose (Fundraiser, Conference, Staff
+                            Education, Class)<span class="required-star">*</span></label>
+                        <select id="CustomInteractionField_774145" name="CustomInteractionField_774145"
+                            class="required">
+                            <option value=""></option>
+                            <option value="775169">DV Awareness Keynote Presentation</option>
+                            <option value="776193">DV Awareness Workshop</option>
+                            <option value="777217">Other (please specify)</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_779265">
+                        <label for="CustomInteractionField_779265"><span class="label">Specific Topic Requested (if
+                                any)</span></label>
+                        <input id="CustomInteractionField_779265" name="CustomInteractionField_779265" type="text"
+                            maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_781313 required">
+                        <label for="CustomInteractionField_781313">Will this be in-person or virtual?<span
+                                class="required-star">*</span></label>
+                        <select id="CustomInteractionField_781313" name="CustomInteractionField_781313"
+                            class="required">
+                            <option value=""></option>
+                            <option value="782337">In-person</option>
+                            <option value="783361">Virtual</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_784385 required">
+                        <label for="CustomInteractionField_784385">If in-person, does the venue have a projector and
+                            microphone?<span class="required-star">*</span></label>
+                        <select id="CustomInteractionField_784385" name="CustomInteractionField_784385"
+                            class="required">
+                            <option value=""></option>
+                            <option value="786433">No</option>
+                            <option value="785409">Yes to both!</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_791553 required">
+                        <label for="CustomInteractionField_791553"><span class="label">Title / Department</span><span
+                                class="required-star">*</span></label>
+                        <input id="CustomInteractionField_791553" name="CustomInteractionField_791553" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_792577 required">
+                        <label for="CustomInteractionField_792577"><span class="label">Organization / Company
+                                Name</span><span class="required-star">*</span></label>
+                        <input id="CustomInteractionField_792577" name="CustomInteractionField_792577" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_793601 required">
+                        <label for="CustomInteractionField_793601"><span class="label">Organization Address</span><span
+                                class="required-star">*</span></label>
+                        <input id="CustomInteractionField_793601" name="CustomInteractionField_793601" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_797697 required">
+                        <label for="CustomInteractionField_797697"><span class="label">Organization Phone
+                                Number</span><span class="required-star">*</span></label>
+                        <input id="CustomInteractionField_797697" name="CustomInteractionField_797697" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_796673 required">
+                        <label for="CustomInteractionField_796673"><span class="label">Email Address</span><span
+                                class="required-star">*</span></label>
+                        <input id="CustomInteractionField_796673" name="CustomInteractionField_796673" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_798721 required">
+                        <label for="CustomInteractionField_798721"><span class="label">Organization’s
+                                Website</span><span class="required-star">*</span></label>
+                        <input id="CustomInteractionField_798721" name="CustomInteractionField_798721" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_799745 required">
+                        <label for="CustomInteractionField_799745"><span class="label">Proposed Budget for Workshop /
+                                Keynote</span><span class="required-star">*</span></label>
+                        <input id="CustomInteractionField_799745" name="CustomInteractionField_799745" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_802817 required">
+                        <label for="CustomInteractionField_802817">Will mileage or travel and accommodation be provided
+                            (if applicable)?<span class="required-star">*</span></label>
+                        <select id="CustomInteractionField_802817" name="CustomInteractionField_802817"
+                            class="required">
+                            <option value=""></option>
+                            <option value="804865">No</option>
+                            <option value="803841">Yes</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_805889 required">
+                        <label for="CustomInteractionField_805889">Will a W9 Form be required for payment
+                            processing?<span class="required-star">*</span></label>
+                        <select id="CustomInteractionField_805889" name="CustomInteractionField_805889"
+                            class="required">
+                            <option value=""></option>
+                            <option value="807937">No</option>
+                            <option value="806913">Yes</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_808961 required">
+                        <label for="CustomInteractionField_808961">Is this event open to the public or
+                            private/invite-only?<span class="required-star">*</span></label>
+                        <select id="CustomInteractionField_808961" name="CustomInteractionField_808961"
+                            class="required">
+                            <option value=""></option>
+                            <option value="811009">Private</option>
+                            <option value="809985">Public</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_817153 required">
+                        <label for="CustomInteractionField_817153">Would you like to make The Legacy He Left Me books
+                            available for attendees or VIPs?<span class="required-star">*</span></label>
+                        <select id="CustomInteractionField_817153" name="CustomInteractionField_817153"
+                            class="required">
+                            <option value=""></option>
+                            <option value="820225">No</option>
+                            <option value="819201">Yes – for general sale (discounted at $15 each for softcover copies)
+                            </option>
+                            <option value="818177">Yes – for VIP’s/Sponsors (minimum 20 copies at $10 each for softcover
+                                copies)</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_825345 required">
+                        <label for="CustomInteractionField_825345">If yes, will a table (6 ft) be available for book
+                            display?<span class="required-star">*</span></label>
+                        <select id="CustomInteractionField_825345" name="CustomInteractionField_825345"
+                            class="required">
+                            <option value=""></option>
+                            <option value="827393">No</option>
+                            <option value="826369">Yes</option>
+                        </select>
+                    </div>
+                    <div class="field text CustomInteractionField_821249 required">
+                        <label for="CustomInteractionField_821249"><span class="label">Anything else you would like us
+                                to know about your event?</span><span class="required-star">*</span></label>
+                        <input id="CustomInteractionField_821249" name="CustomInteractionField_821249" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field text CustomInteractionField_822273 required">
+                        <label for="CustomInteractionField_822273"><span class="label">Signature of Authorized Event
+                                Contact</span><span class="required-star">*</span></label>
+                        <input id="CustomInteractionField_822273" name="CustomInteractionField_822273" class="required"
+                            type="text" maxlength="255">
+                    </div>
+                    <div class="field date CustomInteractionField_823297 required">
+                        <label for="CustomInteractionField_823297">Submitted Date:<span
+                                class="required-star">*</span></label>
+                        <select id="CustomInteractionField_823297" name="CustomInteractionField_823297"
+                            class="required">
+                            <option value=""></option>
+                        </select>
+                        <!-- Note: The submitted date field in the original Bloomerang form was a select? That seems odd for a date, but copying verbatim structure. 
+                             Wait, looking at the code: <select id="CustomInteractionField_823297" ...>
+                             Ah, Bloomerang sometimes sets date fields as selects or inputs. I will trust the original HTML structure but it might be populate by JS.
+                             Wait, line 601 in source is a select.
+                        -->
+                    </div>
+                </div>
+
+                <div class="section comment">
+                    <div class="field text comment">
+                        <label for="comment"><span class="label">Comments</span></label>
+                        <textarea id="comment" name="comment" value="Comments"></textarea>
+                    </div>
+                </div>
+
+                <div class="section consent hidden">
+                    <div class="field checkbox consent-all">
+                        <label for="consent-all"><input id="consent-all" name="consent-all" type="checkbox"
+                                maxlength="255"><span class="label">I would like to receive or continue receiving
+                                updates from Love Life Now Foundation</span></label>
+                    </div>
+                </div>
+
+                <div class="section captcha">
+                    <label id='noCaptchaResponseError' class='error noCaptchaResponseError' style='display: none'>You
+                        must fill out the CAPTCHA</label>
+                    <div id="captcha763905"></div>
+                </div>
+
+                <div class="btn-group">
+                    <input class="btn btn-submit btn-submit-interaction" type="submit" value="Submit" />
+                </div>
+            </form>
+        </div>
+    </template>
+
+    <script type="text/javascript">
+        var insertForm763905 = function () {
+            var html763905 = document.getElementById('styled-form-content').innerHTML;
+            var successHtml763905 = '<div class=\'donation-success\'>' +
+                '  <h2>Thank you!</h2>' +
+                '  <p>Your request has been submitted successfully.</p>' +
+                '\u003cdiv class=\"social-media-buttons\" style=\"margin-top:10px;\"\u003e\u003cdiv class=\"fb-like\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\" data-show-faces=\"true\" style=\"padding-right: 10px;\" data-action=\"like\" \u003e\u003c/div\u003e\u003cdiv id=\"facebookShareOnly\" class=\"fb-share-button\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\"\u003e\u003c/div\u003e\u003cscript type=\u0027text/javascript\u0027\u003edocument.getElementById(\u0027facebookShareOnly\u0027).setAttribute(\u0027data-href\u0027, window.location.href);\u003c/script\u003e\u003c/div\u003e  \u003cdiv id=\"fb-root\"\u003e\u003c/div\u003e \u003cscript\u003e(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1\u0026version=v2.8\"; fjs.parentNode.insertBefore(js, fjs); }(document, \u0027script\u0027, \u0027facebook-jssdk\u0027));\u003c/script\u003e ' +
+                '</div>';
+
+            (function ($) {
+                if (!Bloomerang.useInteractionId('763905')) {
+                    html763905 = '<p style="color: red">Only one Volunteer Activity or Constituent Information form can be used on each page.</p>';
+                }
+                Bloomerang.Util.requireStripe();
+
+                if (jQuery('#bloomerangForm763905').length) {
+                    jQuery('#bloomerangForm763905').after(html763905);
+                };
+
+                if (Bloomerang.interactionFormLoaded) {
+                    return false;
+                }
+                Bloomerang.interactionFormLoaded = true;
+
+                Bloomerang.reCaptchaV3SiteKey = '';
+                Bloomerang.gRecaptchaV3Threshold = 0.5;
+
+                window.captchaLoadCallback = function () {
+                    Bloomerang.gRecaptchaLoaded = true;
+                };
+
+                window.captchaV3LoadCallback = function () {
+                    Bloomerang.gRecaptchaV3Loaded = true;
+                };
+
+                if (Bloomerang.donationFormReCaptchaV3SelfHostedFlag === undefined) {
+                    function success(result) {
+                        Bloomerang.donationFormReCaptchaV3SelfHostedFlag = result.DonationFormReCaptchaV3SelfHostedFlag;
+                        initializeCaptcha();
+                    }
+                    function failure(result) {
+                        Bloomerang.donationFormReCaptchaV3SelfHostedFlag = false;
+                        initializeCaptcha();
+                    }
+                    Bloomerang.Api._post('v1/ReCaptchaV3SelfHostedFlag', {}, success, failure);
+                } else {
+                    initializeCaptcha();
+                }
+
+                async function getRecaptchaV3Token() {
+                    const token = await new Promise((resolve, reject) => {
+                        grecaptcha.ready(function () {
+                            grecaptcha.execute(Bloomerang.reCaptchaV3SiteKey, { action: 'submit' }).then(function (token) {
+                                resolve(token);
+                            });
+                        });
+                    });
+                    return token;
+                }
+
+                function initializeCaptcha() {
+                    Bloomerang.Util.load('https://www.google.com/recaptcha/api.js?onload=captchaLoadCallback&render=explicit',
+                        function () { return Bloomerang.gRecaptchaLoaded; },
+                        function () {
+                            jQuery('.section.captcha').removeAttr('style');
+                            // jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha763905', { 'sitekey' : '6Lce7zIsAAAAAO3VVwL19lwNDFMitDUhSRKgkfnR' }));
+                            if ((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.reCaptchaV3SiteKey && Bloomerang.isDonationForm)) {
+                                jQuery('.section.captcha').attr('style', 'display: none');
+                            }
+                        }, true, true);
+
+                    if ((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm && Bloomerang.reCaptchaV3SiteKey)) {
+                        Bloomerang.Util.load(`https://www.google.com/recaptcha/api.js?onload=captchaV3LoadCallback&render=${Bloomerang.reCaptchaV3SiteKey}`,
+                            function () { return Bloomerang.gRecaptchaV3Loaded; },
+                            function () {
+                                grecaptcha.ready(function () {
+                                    grecaptcha.execute(Bloomerang.reCaptchaV3SiteKey, { action: 'submit' }).then(function (token) {
+                                        async function success(result) {
+                                            if (parseFloat(result.Score) < Bloomerang.gRecaptchaV3Threshold) {
+                                                Bloomerang.isForcePuzzle = true;
+                                                jQuery('.section.captcha').attr('style', 'display: block');
+                                            } else {
+                                                const initialRecaptchaV3Token = await getRecaptchaV3Token();
+                                                Bloomerang.captchaResponseV3(initialRecaptchaV3Token);
+                                                setInterval(async () => {
+                                                    const recaptchaV3Token = await getRecaptchaV3Token();
+                                                    Bloomerang.captchaResponseV3(recaptchaV3Token);
+                                                }, 80000);
+                                            }
+                                        }
+                                        function failure(result) {
+                                            Bloomerang.isForcePuzzle = true;
+                                            jQuery('.section.captcha').attr('style', 'display: block');
+                                        }
+                                        var data = { token: token, isSelfHosted: !Bloomerang.isBloomerangHostedForm };
+                                        Bloomerang.Api._post('v1/ReCaptchaV3', data, success, failure);
+                                    });
+                                });
+                            }, true, true);
+                    }
+                }
+
+                Bloomerang.useKey('pub_7950352a-2c1c-11f0-abbb-062e8fd2ede7');
+
+                Bloomerang.Widget.Interaction.OnSubmit = function (args) {
+                    jQuery(".btn-submit-interaction").val("Submitting...").prop("disabled", true).addClass("disabled");
+                    var val = function (selector) { return jQuery(selector).val(); };
+
+                    Bloomerang.Account
+                        .individual()
+                        .firstName(val(".interaction-form #first-name"))
+                        .lastName(val(".interaction-form #last-name"))
+                        .homeEmail(val(".interaction-form #email-address"))
+                        .homePhone(val(".interaction-form #phone-number"))
+                        .applyInteractionCustomFields();
+
+                    if (jQuery(".interaction-form #consent-all").prop("checked")) {
+                        Bloomerang.Account.optedInStatus(jQuery(".interaction-form #consent-email").prop("checked"),
+                            jQuery(".interaction-form #consent-mail").prop("checked"),
+                            jQuery(".interaction-form #consent-phone").prop("checked"));
+                    }
+
+                    var country = val(".interaction-form #country");
+                    var state = Bloomerang.Util.getCorrectState(country, val(".interaction-form #state"), val(".interaction-form #province"));
+                    var zipCode = Bloomerang.Util.getCorrectZipCode(country, val(".interaction-form #zip-code"), val(".interaction-form #postal-code"));
+                    Bloomerang.Account.homeAddress(val(".interaction-form #street-address"),
+                        val(".interaction-form #city"),
+                        state,
+                        zipCode,
+                        country);
+
+                    Bloomerang.Interaction.note(val(".interaction-form #comment"));
+                    if (jQuery("#volunteer-date").length) {
+                        Bloomerang.Interaction.date(jQuery("#volunteer-date").val());
+                    }
+                    Bloomerang.Interaction.applyInteractionCustomFields();
+                };
+
+                Bloomerang.ValidateInteractionFormCaptcha = function () {
+                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.Interaction).children().length) {
+                        var captchaResponse = grecaptcha.getResponse(jQuery(".interaction-form").data("captcha-id"));
+                        if (captchaResponse) {
+                            jQuery(".interaction-form .noCaptchaResponseError").hide();
+                            Bloomerang.captchaResponse(captchaResponse);
+                            return true;
+                        } else {
+                            jQuery(".interaction-form .noCaptchaResponseError").show();
+                            return false;
+                        }
+                    } else return true;
+                };
+
+                // Scroll helper
+                Bloomerang.scrollToElement = function (element) {
+                    var distance = 100;
+                    var offset = element.offset().top;
+                    var offsetTop = offset > distance ? offset - distance : offset;
+                    jQuery('html, body').animate({ scrollTop: offsetTop }, 500);
+                };
+
+                Bloomerang.Api.OnSuccess = Bloomerang.Widget.Interaction.OnSuccess = function (response) {
+                    var formContainer = jQuery("#interaction-form-container");
+                    formContainer.html(successHtml763905);
+                    Bloomerang.scrollToElement(formContainer);
+                };
+
+                Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError = function (response) {
+                    jQuery(".btn-submit-interaction").prop("disabled", false).removeClass("disabled").val("Submit");
+                    jQuery("#interaction-form-container .errors").removeClass("hidden").html(response.Message);
+                    Bloomerang.scrollToElement(jQuery("#interaction-form-container .errors"));
+                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.Interaction).children().length) {
+                        grecaptcha.reset(jQuery(".interaction-form").data("captcha-id"));
+                    }
+                };
+
+                // Custom field helpers
+                Bloomerang.Util.applyInteractionCustomFields = function (obj, type) {
+                    obj.clearCustomFields();
+                    // Inputs/Textareas
+                    jQuery(".interaction-form .section.custom-fields :input:not(a > input, select)[id*=" + type + "]").each(function () {
+                        if (jQuery(this).val().hasValue()) {
+                            obj.customFreeformField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
+                        }
+                    });
+                    // Selects
+                    jQuery(".interaction-form .section.custom-fields select[id*=" + type + "]").each(function () {
+                        if (jQuery(this).val().hasValue()) {
+                            obj.customPickField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
+                        }
+                    });
+                };
+
+                // Prototype helpers
+                String.prototype.hasValue = function () { return (this && jQuery.trim(this)); };
+                Bloomerang.Account.applyInteractionCustomFields = function () { Bloomerang.Util.applyInteractionCustomFields(this, "Account"); return this; };
+                Bloomerang.Interaction.applyInteractionCustomFields = function () { Bloomerang.Util.applyInteractionCustomFields(this, "Interaction"); return this; };
+                String.prototype.toUntypedValue = function () { return this.substring(this.indexOf('_') + 1); };
+
+                // Initialize Date fields if any
+                Date.prototype.toDateInputValue = function () {
+                    var local = new Date(this);
+                    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                    return (local.getMonth() + 1) + "/" + local.getDate() + "/" + local.getFullYear();
+                };
+
+                jQuery(document).ready(function () {
+                    jQuery(".interaction-form #CustomInteractionField_823297").append(jQuery('<option>', {
+                        value: new Date().toDateInputValue(),
+                        text: new Date().toDateInputValue(),
+                        selected: true
+                    }));
+                });
+
+            })(jQuery);
+        };
+
+        var startBloomerangLoad = function () {
+            if (window.bloomerangLoadStarted == undefined) {
+                window.bloomerangLoadStarted = true;
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=1765570449';
+                document.getElementsByTagName('head')[0].appendChild(script);
+                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidationAndStripe(function () { insertForm763905(); }) });
+            }
+            else {
+                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidationAndStripe(function () { insertForm763905(); }) });
+            }
+        };
+
+        var waitForBloomerangLoad = function (callback) {
+            if (typeof (Bloomerang) === 'undefined' || !Bloomerang._isReady) {
+                setTimeout(function () { waitForBloomerangLoad(callback) }, 500);
+            }
+            else {
+                if (true) {
+                    callback();
+                } else {
+                    window.bloomerangLoadStarted = undefined;
+                    Bloomerang = undefined;
+                    startBloomerangLoad();
+                }
+            }
+        };
+
+        startBloomerangLoad();
+    </script>
 </body>
 
 </html>
