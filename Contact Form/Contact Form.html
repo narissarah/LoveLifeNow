@@ -5,195 +5,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Love Life Now Foundation</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="../shared/forms.css" rel="stylesheet">
     <style>
-        /* Purple Theme for Love Life Now */
-        :root {
-            --primary-purple: #6a1b9a;
-            --primary-purple-hover: #4a148c;
-            --text-dark: #333;
-            --text-light: #fff;
-            --input-border: #e0e0e0;
-            --bg-light: #f9f9f9;
-            --font-family: 'Poppins', sans-serif;
-        }
-
+        /* Embed-specific styles - no header/footer for Wix */
         body {
-            font-family: var(--font-family);
-            color: var(--text-dark);
-            background-color: var(--bg-light);
-            margin: 0;
-            padding: 20px;
+            background: transparent;
+            min-height: auto;
         }
-
-        .container {
+        .page-wrapper {
+            min-height: auto;
+        }
+        .form-container {
             max-width: 600px;
             margin: 0 auto;
-            background: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
         }
-
-        h1 {
+        .form-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            overflow: hidden;
+        }
+        .form-header {
+            background: linear-gradient(135deg, var(--lln-purple-700) 0%, var(--lln-purple-900) 100%);
+            color: white;
+            padding: 2rem;
             text-align: center;
-            color: var(--primary-purple);
-            margin-bottom: 30px;
         }
-
-        /* Form Specific Styling Overrides */
-        #email-registration-form-container {
-            width: 100%;
+        .form-header h1 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            margin: 0 0 0.5rem;
         }
-
-        .email-registration-form h3 {
-            color: var(--primary-purple);
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-            margin-top: 30px;
+        .form-header p {
+            opacity: 0.9;
+            margin: 0;
+            font-size: 0.95rem;
         }
-
-        .email-registration-form .field {
-            margin-bottom: 20px;
+        .form-body {
+            padding: 2rem;
         }
-
-        .email-registration-form .label {
-            font-weight: 500;
-            color: #555;
+        /* Hide form card until loaded */
+        .form-card {
+            display: none;
+        }
+        .form-card.loaded {
             display: block;
-            margin-bottom: 8px;
         }
-
-        .email-registration-form input[type="text"],
-        .email-registration-form input[type="email"],
+        /* Loading spinner */
+        .form-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+        }
+        .form-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--lln-purple-100);
+            border-top-color: var(--lln-purple-600);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .form-loading.hidden {
+            display: none;
+        }
+        /* Contact form specific: larger message textarea */
         .email-registration-form textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--input-border);
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-            background-color: #fdfdfd;
-        }
-
-        .email-registration-form input:focus,
-        .email-registration-form textarea:focus {
-            border-color: var(--primary-purple);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.1);
-            background-color: #fff;
-        }
-
-        .btn-submit-email {
-            background-color: var(--primary-purple);
-            color: var(--text-light);
-            padding: 16px 32px;
-            border: none;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            display: block;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(106, 27, 154, 0.3);
-        }
-
-        .btn-submit-email:hover {
-            background-color: var(--primary-purple-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(106, 27, 154, 0.4);
-        }
-
-        .btn-submit-email:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .required-star {
-            color: #d32f2f;
-            margin-left: 4px;
-        }
-
-        .email-registration-form .error {
-            color: #d32f2f;
-            font-size: 13px;
-            margin-top: 6px;
-            display: block;
-        }
-
-        .consent {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 10px;
+            min-height: 150px;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
-        <h1>Contact Us</h1>
-        <div id="bloomerang-form-container">
-            <script type="text/javascript" id="bloomerangForm763904"></script>
+    <div class="page-wrapper">
+        <div class="form-container">
+            <!-- Loading spinner shown while form loads -->
+            <div class="form-loading" id="form-loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="form-card" id="form-card">
+                <div class="form-body">
+                    <div id="bloomerang-form-container">
+                        <script type="text/javascript" id="bloomerangForm763904"></script>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Bloomerang Form Template -->
+    <!-- Bloomerang Form Template - CRITICAL: Do not modify IDs or field names -->
     <template id="styled-form-content">
         <div id="email-registration-form-container">
-            <form id="email-registration-form" class="email-registration-form" method="post"
-                action="javascript:void(0)">
+            <form id="email-registration-form" class="email-registration-form" method="post" action="javascript:void(0)">
                 <div class="errors hidden"></div>
 
                 <div class="section contact">
-                    <h3>Contact Information</h3>
-                    <div class="field text first-name required">
-                        <label for="first-name"><span class="label">First Name</span><span
-                                class="required-star">*</span></label>
-                        <input id="first-name" name="first-name" class="required" type="text">
-                    </div>
-                    <div class="field text last-name required">
-                        <label for="last-name"><span class="label">Last Name</span><span
-                                class="required-star">*</span></label>
-                        <input id="last-name" name="last-name" class="required" type="text">
+                    <h3>Your Information</h3>
+                    <div class="form-row">
+                        <div class="field text first-name required">
+                            <label for="first-name">
+                                <span class="label">First Name</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <input id="first-name" name="first-name" class="required" type="text" placeholder="Enter your first name">
+                        </div>
+                        <div class="field text last-name required">
+                            <label for="last-name">
+                                <span class="label">Last Name</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <input id="last-name" name="last-name" class="required" type="text" placeholder="Enter your last name">
+                        </div>
                     </div>
                     <div class="field email email-address required">
-                        <label for="email-address"><span class="label">Email</span><span
-                                class="required-star">*</span></label>
-                        <input id="email-address" name="email-address" class="email required" type="email"
-                            placeholder="someone@website.com">
+                        <label for="email-address">
+                            <span class="label">Email Address</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <input id="email-address" name="email-address" class="email required" type="email" placeholder="you@example.com">
                     </div>
                     <div class="consent">I want to receive emails at this address</div>
                 </div>
 
                 <div class="section custom-fields">
-                    <h3>Additional Information</h3>
+                    <h3>Your Message</h3>
                     <div class="field text CustomAccountField_757761 required">
-                        <label for="CustomAccountField_757761"><span class="label">Message</span><span
-                                class="required-star">*</span></label>
-                        <input id="CustomAccountField_757761" name="CustomAccountField_757761" class="required"
-                            type="text" maxlength="255">
+                        <label for="CustomAccountField_757761">
+                            <span class="label">Message</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <textarea id="CustomAccountField_757761" name="CustomAccountField_757761" class="required" maxlength="1000" placeholder="How can we help you? Tell us about your inquiry..."></textarea>
                     </div>
                 </div>
 
                 <div class="section captcha">
-                    <label id='noCaptchaResponseError' class='error noCaptchaResponseError' style='display: none'>You
-                        must fill out the CAPTCHA</label>
+                    <label id='noCaptchaResponseError' class='error noCaptchaResponseError' style='display: none'>Please complete the CAPTCHA verification</label>
                     <div id="captcha763904"></div>
                 </div>
 
                 <div class="btn-group">
-                    <input class="btn btn-submit btn-submit-email" type="submit" value="Sign up" />
+                    <input class="btn btn-submit btn-submit-email" type="submit" value="Send Message" />
                 </div>
             </form>
         </div>
@@ -203,8 +161,8 @@
         var insertForm763904 = function () {
             var html763904 = document.getElementById('styled-form-content').innerHTML;
             var successHtml763904 = '<div class=\'donation-success\'>' +
-                '  <h2>Thank you for contacting us!</h2>' +
-                '  <p>We have received your message and will get back to you shortly.</p>' +
+                '  <h2>Message Received!</h2>' +
+                '  <p>Thank you for contacting us. We\'ll get back to you as soon as possible.</p>' +
                 '\u003cdiv class=\"social-media-buttons\" style=\"margin-top:10px;\"\u003e\u003cdiv class=\"fb-like\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\" data-show-faces=\"true\" style=\"padding-right: 10px;\" data-action=\"like\" \u003e\u003c/div\u003e\u003cdiv id=\"facebookShareOnly\" class=\"fb-share-button\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\"\u003e\u003c/div\u003e\u003cscript type=\u0027text/javascript\u0027\u003edocument.getElementById(\u0027facebookShareOnly\u0027).setAttribute(\u0027data-href\u0027, window.location.href);\u003c/script\u003e\u003c/div\u003e  \u003cdiv id=\"fb-root\"\u003e\u003c/div\u003e \u003cscript\u003e(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1\u0026version=v2.8\"; fjs.parentNode.insertBefore(js, fjs); }(document, \u0027script\u0027, \u0027facebook-jssdk\u0027));\u003c/script\u003e ' +
                 '</div>';
 
@@ -216,6 +174,9 @@
 
                 if (jQuery('#bloomerangForm763904').length) {
                     jQuery('#bloomerangForm763904').after(html763904);
+                    // Show form and hide loading spinner
+                    document.getElementById('form-loading').classList.add('hidden');
+                    document.getElementById('form-card').classList.add('loaded');
                 };
 
                 if (Bloomerang.emailSignupFormLoaded) {
@@ -264,7 +225,7 @@
                         function () { return Bloomerang.gRecaptchaLoaded; },
                         function () {
                             jQuery('.section.captcha').removeAttr('style');
-                            // jQuery('form.email-registration-form').data('captcha-id', grecaptcha.render('captcha763904', { 'sitekey': '6Lce7zIsAAAAAO3VVwL19lwNDFMitDUhSRKgkfnR' }));
+                            jQuery('form.email-registration-form').data('captcha-id', grecaptcha.render('captcha763904', { 'sitekey': '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
                             if ((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.reCaptchaV3SiteKey && Bloomerang.isDonationForm)) {
                                 jQuery('.section.captcha').attr('style', 'display: none');
                             }
@@ -304,7 +265,7 @@
                 Bloomerang.useKey('pub_7950352a-2c1c-11f0-abbb-062e8fd2ede7');
 
                 Bloomerang.Widget.Email.OnSubmit = function (args) {
-                    jQuery(".btn-submit-email").val("Result...").prop("disabled", true).addClass("disabled");
+                    jQuery(".btn-submit-email").val("Sending...").prop("disabled", true).addClass("disabled");
                     var val = function (selector) { return jQuery(selector).val(); };
 
                     Bloomerang.Account
@@ -341,7 +302,7 @@
                 };
 
                 Bloomerang.Api.OnError = Bloomerang.Widget.Email.OnError = function (response) {
-                    jQuery(".btn-submit-email").prop("disabled", false).removeClass("disabled").val("Sign up");
+                    jQuery(".btn-submit-email").prop("disabled", false).removeClass("disabled").val("Send Message");
                     jQuery("#email-registration-form-container .errors").removeClass("hidden").html(response.Message);
                     var distance = 100;
                     var offset = jQuery("#email-registration-form-container .errors").offset().top;
@@ -356,13 +317,11 @@
                 // Custom field helpers
                 Bloomerang.Util.applyEmailSignupCustomFields = function (obj, type) {
                     obj.clearCustomFields();
-                    // Inputs/selects/textareas
                     jQuery(".email-registration-form .section.custom-fields :input:not(a > input, select)[id*=" + type + "]").each(function () {
                         if (jQuery(this).val().hasValue()) {
                             obj.customFreeformField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
                         }
                     });
-                    // Selects
                     jQuery(".email-registration-form .section.custom-fields select[id*=" + type + "]").each(function () {
                         if (jQuery(this).val().hasValue()) {
                             obj.customPickField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
@@ -383,7 +342,6 @@
                             return false;
                         }
 
-                        // Restore proper callbacks in case there are multiple widgets on the page
                         Bloomerang.Api.OnSubmit = Bloomerang.Widget.Email.OnSubmit;
                         Bloomerang.Api.OnSuccess = Bloomerang.Widget.Email.OnSuccess;
                         Bloomerang.Api.OnError = Bloomerang.Widget.Email.OnError;

@@ -5,169 +5,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Get Safe Fund Application - Love Life Now Foundation</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="../shared/forms.css" rel="stylesheet">
     <style>
-        /* Purple Theme for Love Life Now */
-        :root {
-            --primary-purple: #6a1b9a;
-            --primary-purple-hover: #4a148c;
-            --text-dark: #333;
-            --text-light: #fff;
-            --input-border: #e0e0e0;
-            --bg-light: #f9f9f9;
-            --font-family: 'Poppins', sans-serif;
-        }
-
+        /* Embed-specific styles - no header/footer for Wix */
         body {
-            font-family: var(--font-family);
-            color: var(--text-dark);
-            background-color: var(--bg-light);
-            margin: 0;
-            padding: 20px;
+            background: transparent;
+            min-height: auto;
         }
-
-        .container {
+        .page-wrapper {
+            min-height: auto;
+        }
+        .form-container {
             max-width: 800px;
             margin: 0 auto;
-            background: #fff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
         }
-
-        h1 {
-            text-align: center;
-            color: var(--primary-purple);
-            margin-bottom: 10px;
+        .form-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            overflow: hidden;
         }
-
-        .subtitle {
+        .form-header {
+            background: linear-gradient(135deg, var(--lln-purple-700) 0%, var(--lln-purple-900) 100%);
+            color: white;
+            padding: 2rem;
             text-align: center;
-            color: #666;
-            margin-bottom: 30px;
+        }
+        .form-header h1 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            margin: 0 0 0.5rem;
+        }
+        .form-header p {
+            opacity: 0.9;
+            margin: 0;
             font-size: 0.95rem;
         }
-
-        /* Form Specific Styling Overrides */
-        #interaction-form-container {
-            width: 100%;
+        .form-body {
+            padding: 2rem;
         }
-
-        .interaction-form h3 {
-            color: var(--primary-purple);
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-            margin-top: 30px;
+        .form-intro {
+            background: linear-gradient(135deg, var(--lln-purple-50), white);
+            border-left: 4px solid var(--lln-purple-500);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
         }
-
-        .interaction-form .field {
-            margin-bottom: 20px;
+        .form-intro p {
+            margin: 0;
+            color: var(--lln-gray-600);
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
-
-        .interaction-form .label {
-            font-weight: 500;
-            color: #555;
-            display: block;
-            margin-bottom: 8px;
+        /* Hide form card until loaded */
+        .form-card {
+            display: none;
         }
-
-        .interaction-form input[type="text"],
-        .interaction-form input[type="email"],
-        .interaction-form input[type="tel"],
-        .interaction-form input[type="number"],
-        .interaction-form input[type="date"],
-        .interaction-form select,
-        .interaction-form textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--input-border);
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-            background-color: #fdfdfd;
-        }
-
-        .interaction-form input:focus,
-        .interaction-form select:focus,
-        .interaction-form textarea:focus {
-            border-color: var(--primary-purple);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(106, 27, 154, 0.1);
-            background-color: #fff;
-        }
-
-        .btn-submit-interaction {
-            background-color: var(--primary-purple);
-            color: var(--text-light);
-            padding: 16px 32px;
-            border: none;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            display: block;
-            margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(106, 27, 154, 0.3);
-        }
-
-        .btn-submit-interaction:hover {
-            background-color: var(--primary-purple-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(106, 27, 154, 0.4);
-        }
-
-        .btn-submit-interaction:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .required-star {
-            color: #d32f2f;
-            margin-left: 4px;
-        }
-
-        .interaction-form .error {
-            color: #d32f2f;
-            font-size: 13px;
-            margin-top: 6px;
+        .form-card.loaded {
             display: block;
         }
-
-        /* Two column layout for some sections */
-        .form-row {
+        /* Loading spinner */
+        .form-loading {
             display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
         }
-
-        .form-row .field {
-            flex: 1;
-            min-width: 250px;
+        .form-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--lln-purple-100);
+            border-top-color: var(--lln-purple-600);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .form-loading.hidden {
+            display: none;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
-        <h1>Get Safe Fund Application</h1>
-        <p class="subtitle">Collect information from survivors seeking domestic violence assistance</p>
-        <div id="bloomerang-form-container">
-            <script type="text/javascript" id="bloomerangForm748544"></script>
+    <div class="page-wrapper">
+        <div class="form-container">
+            <div class="form-loading" id="form-loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="form-card" id="form-card">
+                <div class="form-body">
+                    <div class="form-intro">
+                        <p>This application helps us understand your situation and connect you with the support you need. All information is kept strictly confidential.</p>
+                    </div>
+                    <div id="bloomerang-form-container">
+                        <script type="text/javascript" id="bloomerangForm748544"></script>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Bloomerang Form Template -->
+    <!-- Bloomerang Form Template - CRITICAL: Do not modify IDs, names, or option values -->
     <template id="styled-form-content">
         <div id="interaction-form-container">
             <form id="interaction-form" class="interaction-form" method="post" action="javascript:void(0)">
@@ -177,25 +121,32 @@
                     <h3>Contact Information</h3>
                     <div class="form-row">
                         <div class="field text first-name required">
-                            <label for="first-name"><span class="label">First Name</span><span
-                                    class="required-star">*</span></label>
+                            <label for="first-name">
+                                <span class="label">First Name</span>
+                                <span class="required-star">*</span>
+                            </label>
                             <input id="first-name" name="first-name" class="required" type="text">
                         </div>
                         <div class="field text last-name required">
-                            <label for="last-name"><span class="label">Last Name</span><span
-                                    class="required-star">*</span></label>
+                            <label for="last-name">
+                                <span class="label">Last Name</span>
+                                <span class="required-star">*</span>
+                            </label>
                             <input id="last-name" name="last-name" class="required" type="text">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="field email email-address required">
-                            <label for="email-address"><span class="label">Email</span><span
-                                    class="required-star">*</span></label>
-                            <input id="email-address" name="email-address" class="email required" type="email"
-                                placeholder="someone@website.com">
+                            <label for="email-address">
+                                <span class="label">Email</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <input id="email-address" name="email-address" class="email required" type="email" placeholder="someone@website.com">
                         </div>
                         <div class="field tel phone-number">
-                            <label for="phone-number"><span class="label">Phone</span></label>
+                            <label for="phone-number">
+                                <span class="label">Phone</span>
+                            </label>
                             <input id="phone-number" name="phone-number" class="phoneUS" type="tel">
                         </div>
                     </div>
@@ -210,7 +161,6 @@
                             <option value="US" selected>United States</option>
                             <option value="CA">Canada</option>
                             <option value="GB">United Kingdom</option>
-                            <!-- Other countries can be added if needed, kept short for template -->
                         </select>
                     </div>
                     <div class="field street-address">
@@ -233,7 +183,6 @@
                                 <option value="VT">Vermont</option>
                                 <option value="ME">Maine</option>
                                 <option value="NY">New York</option>
-                                <!-- Full list typically injected by Bloomerang or manually added -->
                                 <option value="AL">Alabama</option>
                                 <option value="AK">Alaska</option>
                                 <option value="AZ">Arizona</option>
@@ -286,62 +235,66 @@
                             <label for="zip-code"><span class="label">ZIP Code</span></label>
                             <input id="zip-code" name="zip-code" class="zipcodeUS" type="number">
                         </div>
-                        <!-- Hidden fields for international support -->
-                        <div class="field province" style="display: none"><select id="province"
-                                name="province"></select></div>
-                        <div class="field text postal-code" style="display: none"><input id="postal-code"
-                                name="postal-code" type="text"></div>
+                        <div class="field province" style="display: none"><select id="province" name="province"></select></div>
+                        <div class="field text postal-code" style="display: none"><input id="postal-code" name="postal-code" type="text"></div>
                     </div>
                 </div>
 
                 <div class="section custom-fields">
-                    <h3>Additional Information</h3>
-
+                    <h3>Personal Information</h3>
                     <div class="form-row">
                         <div class="field text CustomAccountField_679937 required">
-                            <label for="CustomAccountField_679937"><span class="label">Age</span><span
-                                    class="required-star">*</span></label>
-                            <input id="CustomAccountField_679937" name="CustomAccountField_679937"
-                                class="number required" type="text">
+                            <label for="CustomAccountField_679937">
+                                <span class="label">Age</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <input id="CustomAccountField_679937" name="CustomAccountField_679937" class="number required" type="text">
                         </div>
                         <div class="field text CustomAccountField_680961 required">
-                            <label for="CustomAccountField_680961"><span class="label">Race</span><span
-                                    class="required-star">*</span></label>
-                            <input id="CustomAccountField_680961" name="CustomAccountField_680961" class="required"
-                                type="text">
+                            <label for="CustomAccountField_680961">
+                                <span class="label">Race</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <input id="CustomAccountField_680961" name="CustomAccountField_680961" class="required" type="text">
                         </div>
                     </div>
-
                     <div class="field text CustomAccountField_681985 required">
-                        <label for="CustomAccountField_681985"><span class="label">Ethnicity (Guatemalan, Caribbean,
-                                Korean, etc.)</span><span class="required-star">*</span></label>
-                        <input id="CustomAccountField_681985" name="CustomAccountField_681985" class="required"
-                            type="text">
+                        <label for="CustomAccountField_681985">
+                            <span class="label">Ethnicity (Guatemalan, Caribbean, Korean, etc.)</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <input id="CustomAccountField_681985" name="CustomAccountField_681985" class="required" type="text">
                     </div>
+                </div>
 
+                <div class="section custom-fields">
+                    <h3>Situation Details</h3>
                     <div class="field text CustomInteractionField_719873 required">
-                        <label for="CustomInteractionField_719873"><span class="label">Please note the DAY and MONTH of
-                                your most recent DV situation?</span><span class="required-star">*</span></label>
-                        <input id="CustomInteractionField_719873" name="CustomInteractionField_719873" class="required"
-                            type="text">
+                        <label for="CustomInteractionField_719873">
+                            <span class="label">Please note the DAY and MONTH of your most recent DV situation?</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <input id="CustomInteractionField_719873" name="CustomInteractionField_719873" class="required" type="text" placeholder="e.g., March 15">
                     </div>
 
                     <div class="form-row">
                         <div class="field text CustomInteractionField_720897 required">
-                            <label for="CustomInteractionField_720897"><span class="label">Do you have
-                                    children?</span><span class="required-star">*</span></label>
-                            <select id="CustomInteractionField_720897" name="CustomInteractionField_720897"
-                                class="required">
+                            <label for="CustomInteractionField_720897">
+                                <span class="label">Do you have children?</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <select id="CustomInteractionField_720897" name="CustomInteractionField_720897" class="required">
                                 <option value=""></option>
                                 <option value="722945">No</option>
                                 <option value="721921">Yes</option>
                             </select>
                         </div>
                         <div class="field text CustomInteractionField_744449 required">
-                            <label for="CustomInteractionField_744449"><span class="label">Do you have pets?</span><span
-                                    class="required-star">*</span></label>
-                            <select id="CustomInteractionField_744449" name="CustomInteractionField_744449"
-                                class="required">
+                            <label for="CustomInteractionField_744449">
+                                <span class="label">Do you have pets?</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <select id="CustomInteractionField_744449" name="CustomInteractionField_744449" class="required">
                                 <option value=""></option>
                                 <option value="746497">No</option>
                                 <option value="747521">Yes</option>
@@ -350,18 +303,19 @@
                     </div>
 
                     <div class="field text CustomInteractionField_723969 required">
-                        <label for="CustomInteractionField_723969"><span class="label">If yes (children), how many?
-                                Please include their ages</span><span class="required-star">*</span></label>
-                        <input id="CustomInteractionField_723969" name="CustomInteractionField_723969" class="required"
-                            type="text">
+                        <label for="CustomInteractionField_723969">
+                            <span class="label">If yes (children), how many? Please include their ages</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <input id="CustomInteractionField_723969" name="CustomInteractionField_723969" class="required" type="text" placeholder="e.g., 2 children - ages 5 and 8">
                     </div>
 
                     <div class="field text CustomInteractionField_724993 required">
-                        <label for="CustomInteractionField_724993"><span class="label">Please select from one of the
-                                following DV-related eligible expenses:</span><span
-                                class="required-star">*</span></label>
-                        <select id="CustomInteractionField_724993" name="CustomInteractionField_724993"
-                            class="required">
+                        <label for="CustomInteractionField_724993">
+                            <span class="label">Please select from one of the following DV-related eligible expenses:</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <select id="CustomInteractionField_724993" name="CustomInteractionField_724993" class="required">
                             <option value=""></option>
                             <option value="726017">Emergency Shelter</option>
                             <option value="727041">Essential Needs</option>
@@ -371,18 +325,22 @@
                     </div>
 
                     <div class="field text CustomInteractionField_731137 required">
-                        <label for="CustomInteractionField_731137"><span class="label">Based on the expense selected
-                                above, please provide further details on the support needed:</span><span
-                                class="required-star">*</span></label>
-                        <input id="CustomInteractionField_731137" name="CustomInteractionField_731137" class="required"
-                            type="text">
+                        <label for="CustomInteractionField_731137">
+                            <span class="label">Based on the expense selected above, please provide further details on the support needed:</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <input id="CustomInteractionField_731137" name="CustomInteractionField_731137" class="required" type="text">
                     </div>
+                </div>
 
+                <div class="section custom-fields">
+                    <h3>DV Advocate Information</h3>
                     <div class="field text CustomInteractionField_732161 required">
-                        <label for="CustomInteractionField_732161"><span class="label">Are you working with a DV
-                                advocate?</span><span class="required-star">*</span></label>
-                        <select id="CustomInteractionField_732161" name="CustomInteractionField_732161"
-                            class="required">
+                        <label for="CustomInteractionField_732161">
+                            <span class="label">Are you working with a DV advocate?</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <select id="CustomInteractionField_732161" name="CustomInteractionField_732161" class="required">
                             <option value=""></option>
                             <option value="734209">No</option>
                             <option value="733185">Yes</option>
@@ -390,37 +348,38 @@
                     </div>
 
                     <div class="field text CustomInteractionField_735233 required">
-                        <label for="CustomInteractionField_735233"><span class="label">If YES, what is name of DV agency
-                                and DV advocate you are currently working with?</span><span
-                                class="required-star">*</span></label>
-                        <input id="CustomInteractionField_735233" name="CustomInteractionField_735233" class="required"
-                            type="text">
+                        <label for="CustomInteractionField_735233">
+                            <span class="label">If YES, what is name of DV agency and DV advocate you are currently working with?</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <input id="CustomInteractionField_735233" name="CustomInteractionField_735233" class="required" type="text">
                     </div>
 
                     <div class="field text CustomInteractionField_736257 required">
-                        <label for="CustomInteractionField_736257"><span class="label">Your DV advocate's contact
-                                information (email and/or phone number):</span><span
-                                class="required-star">*</span></label>
-                        <input id="CustomInteractionField_736257" name="CustomInteractionField_736257" class="required"
-                            type="text">
+                        <label for="CustomInteractionField_736257">
+                            <span class="label">Your DV advocate's contact information (email and/or phone number):</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <input id="CustomInteractionField_736257" name="CustomInteractionField_736257" class="required" type="text">
                     </div>
 
                     <div class="field text CustomInteractionField_737281 required">
-                        <label for="CustomInteractionField_737281"><span class="label">Please specify where you heard
-                                about LLN</span><span class="required-star">*</span></label>
-                        <input id="CustomInteractionField_737281" name="CustomInteractionField_737281" class="required"
-                            type="text">
+                        <label for="CustomInteractionField_737281">
+                            <span class="label">Please specify where you heard about LLN</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <input id="CustomInteractionField_737281" name="CustomInteractionField_737281" class="required" type="text">
                     </div>
                 </div>
 
-                <div class="section consent-agreement">
+                <div class="section custom-fields consent-agreement">
                     <h3>Consent & Signature</h3>
                     <div class="field text CustomInteractionField_738305 required">
-                        <label for="CustomInteractionField_738305"><span class="label">I consent for Love Life Now
-                                Foundation representatives to communicate with my DV advocate about my case,
-                                confidentially.</span><span class="required-star">*</span></label>
-                        <select id="CustomInteractionField_738305" name="CustomInteractionField_738305"
-                            class="required">
+                        <label for="CustomInteractionField_738305">
+                            <span class="label">I consent for Love Life Now Foundation representatives to communicate with my DV advocate about my case, confidentially.</span>
+                            <span class="required-star">*</span>
+                        </label>
+                        <select id="CustomInteractionField_738305" name="CustomInteractionField_738305" class="required">
                             <option value=""></option>
                             <option value="740353">False</option>
                             <option value="739329">True</option>
@@ -429,51 +388,48 @@
 
                     <div class="form-row">
                         <div class="field text CustomInteractionField_741377 required">
-                            <label for="CustomInteractionField_741377"><span class="label">Your Signature</span><span
-                                    class="required-star">*</span></label>
-                            <input id="CustomInteractionField_741377" name="CustomInteractionField_741377"
-                                class="required" type="text">
+                            <label for="CustomInteractionField_741377">
+                                <span class="label">Your Signature</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <input id="CustomInteractionField_741377" name="CustomInteractionField_741377" class="required" type="text" placeholder="Type your full name">
                         </div>
                         <div class="field date CustomInteractionField_743425 required">
-                            <label for="CustomInteractionField_743425"><span class="label">Date</span><span
-                                    class="required-star">*</span></label>
-                            <input id="CustomInteractionField_743425" name="CustomInteractionField_743425"
-                                class="validDate required" type="date" placeholder="mm/dd/yyyy">
+                            <label for="CustomInteractionField_743425">
+                                <span class="label">Date</span>
+                                <span class="required-star">*</span>
+                            </label>
+                            <input id="CustomInteractionField_743425" name="CustomInteractionField_743425" class="validDate required" type="date">
                         </div>
                     </div>
                 </div>
 
                 <div class="section comment">
+                    <h3>Additional Comments</h3>
                     <div class="field text comment">
-                        <label for="comment"><span class="label">Comments</span></label>
-                        <textarea id="comment" name="comment" rows="3"></textarea>
+                        <label for="comment"><span class="label">Comments (optional)</span></label>
+                        <textarea id="comment" name="comment" rows="3" placeholder="Any additional information you'd like to share..."></textarea>
                     </div>
                 </div>
 
-                <!-- Hidden consent fields (required by Bloomerang internal logic usually, but hidden in original) -->
+                <!-- Hidden consent fields (required by Bloomerang) -->
                 <div class="section consent hidden" style="display:none;">
                     <div class="field checkbox consent-all">
-                        <label for="consent-all"><input id="consent-all" name="consent-all" type="checkbox"><span
-                                class="label">I would like to receive or continue receiving updates from Love Life Now
-                                Foundation</span></label>
+                        <label for="consent-all"><input id="consent-all" name="consent-all" type="checkbox"><span class="label">I would like to receive updates</span></label>
                     </div>
                     <div class="field checkbox consent-email" style="display: none">
-                        <label for="consent-email"><input id="consent-email" name="consent-email" type="checkbox"
-                                checked="checked"><span class="label">by email</span></label>
+                        <label for="consent-email"><input id="consent-email" name="consent-email" type="checkbox" checked="checked"><span class="label">by email</span></label>
                     </div>
                     <div class="field checkbox consent-mail" style="display: none">
-                        <label for="consent-mail"><input id="consent-mail" name="consent-mail" type="checkbox"
-                                checked="checked"><span class="label">by postal mail</span></label>
+                        <label for="consent-mail"><input id="consent-mail" name="consent-mail" type="checkbox" checked="checked"><span class="label">by postal mail</span></label>
                     </div>
                     <div class="field checkbox consent-phone" style="display: none">
-                        <label for="consent-phone"><input id="consent-phone" name="consent-phone" type="checkbox"
-                                checked="checked"><span class="label">by phone</span></label>
+                        <label for="consent-phone"><input id="consent-phone" name="consent-phone" type="checkbox" checked="checked"><span class="label">by phone</span></label>
                     </div>
                 </div>
 
                 <div class="section captcha">
-                    <label id='noCaptchaResponseError' class='error noCaptchaResponseError' style='display: none'>You
-                        must fill out the CAPTCHA</label>
+                    <label id='noCaptchaResponseError' class='error noCaptchaResponseError' style='display: none'>Please complete the CAPTCHA verification</label>
                     <div id="captcha748544"></div>
                 </div>
 
@@ -488,8 +444,8 @@
         var insertForm748544 = function () {
             var html748544 = document.getElementById('styled-form-content').innerHTML;
             var successHtml748544 = '<div class=\'donation-success\'>' +
-                '  <h2>Thank you</h2>' +
-                '  <p>Your application has been submitted successfully.</p>' +
+                '  <h2>Application Submitted</h2>' +
+                '  <p>Thank you for reaching out. Your application has been received and our team will review it carefully. We will be in touch soon.</p>' +
                 '</div>';
 
             (function ($) {
@@ -500,6 +456,9 @@
 
                 if (jQuery('#bloomerangForm748544').length) {
                     jQuery('#bloomerangForm748544').after(html748544);
+                    // Show form and hide loading spinner
+                    document.getElementById('form-loading').classList.add('hidden');
+                    document.getElementById('form-card').classList.add('loaded');
                 };
 
                 if (Bloomerang.interactionFormLoaded) {
@@ -548,7 +507,7 @@
                         function () { return Bloomerang.gRecaptchaLoaded; },
                         function () {
                             jQuery('.section.captcha').removeAttr('style');
-                            // jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha748544', { 'sitekey' : '6Lce7zIsAAAAAO3VVwL19lwNDFMitDUhSRKgkfnR' }));
+                            jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha748544', { 'sitekey': '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
                             if ((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.reCaptchaV3SiteKey && Bloomerang.isDonationForm)) {
                                 jQuery('.section.captcha').attr('style', 'display: none');
                             }
@@ -605,7 +564,6 @@
                             jQuery(".interaction-form #consent-phone").prop("checked"));
                     }
 
-                    // Address handling
                     var country = val(".interaction-form #country");
                     var state = Bloomerang.Util.getCorrectState(country, val(".interaction-form #state"), val(".interaction-form #province"));
                     var zipCode = Bloomerang.Util.getCorrectZipCode(country, val(".interaction-form #zip-code"), val(".interaction-form #postal-code"));
@@ -655,16 +613,13 @@
                     }
                 };
 
-                // Custom field helpers
                 Bloomerang.Util.applyInteractionCustomFields = function (obj, type) {
                     obj.clearCustomFields();
-                    // Inputs/selects/textareas
                     jQuery(".interaction-form .section.custom-fields :input:not(a > input, select)[id*=" + type + "]").each(function () {
                         if (jQuery(this).val().hasValue()) {
                             obj.customFreeformField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
                         }
                     });
-                    // Selects
                     jQuery(".interaction-form .section.custom-fields select[id*=" + type + "]").each(function () {
                         if (jQuery(this).val().hasValue()) {
                             obj.customPickField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
@@ -672,13 +627,11 @@
                     });
                 };
 
-                // Prototype helpers
                 String.prototype.hasValue = function () { return (this && jQuery.trim(this)); };
                 Bloomerang.Account.applyInteractionCustomFields = function () { Bloomerang.Util.applyInteractionCustomFields(this, "Account"); return this; };
                 Bloomerang.Interaction.applyInteractionCustomFields = function () { Bloomerang.Util.applyInteractionCustomFields(this, "Interaction"); return this; };
                 String.prototype.toUntypedValue = function () { return this.substring(this.indexOf('_') + 1); };
 
-                // Initialize validation
                 jQuery.validator.addMethod("number", function (value, element, options) {
                     return !value || value.replace(".", "").split(",").join("").match(/^\d+$/g);
                 }, "Not a valid number");
@@ -692,7 +645,7 @@
                         Bloomerang.Api.OnSubmit = Bloomerang.Widget.Interaction.OnSubmit;
                         Bloomerang.Api.OnSuccess = Bloomerang.Widget.Interaction.OnSuccess;
                         Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError;
-                        Bloomerang.Api.createInteraction();
+                        Bloomerang.Api.submitInteraction();
                     }
                 });
 
