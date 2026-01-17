@@ -124,7 +124,7 @@
                                         }
                                         Bloomerang.emailSignupFormLoaded = true;
                       
-                        Bloomerang.reCaptchaV3SiteKey = '';
+                        Bloomerang.reCaptchaV3SiteKey = '6LeyBk4sAAAAAIVtFr2PRuCOEzZR8L94d_lEK436';
                         Bloomerang.gRecaptchaV3Threshold = 0.5;
 
                         window.captchaLoadCallback = function() {
@@ -168,7 +168,7 @@
                                 function() { return Bloomerang.gRecaptchaLoaded; },
                                 function() {
                                     jQuery('.section.captcha').removeAttr('style');
-                                    jQuery('form.email-registration-form').data('captcha-id', grecaptcha.render('captcha763904', { 'sitekey' : '6Lce7zIsAAAAAO3VVwL19lwNDFMitDUhSRKgkfnR' }));
+                                    jQuery('form.email-registration-form').data('captcha-id', grecaptcha.render('captcha763904', { 'sitekey' : '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
                                     
                                     if((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.reCaptchaV3SiteKey && Bloomerang.isDonationForm)) {
                                         jQuery('.section.captcha').attr('style', 'display: none');

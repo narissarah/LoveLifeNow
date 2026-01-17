@@ -453,154 +453,57 @@
 '</div>' + 
 '    <div class="section custom-fields">' + 
 '      <h3>Additional Information</h3>' + 
-'      <div class="field text CustomInteractionField_766977 required" >' + 
-'<label for="CustomInteractionField_766977"><span class="label">Event Name</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_766977" name="CustomInteractionField_766977" class="required" type="text" maxlength="255"></input>' + 
+'      <div class="field text CustomInteractionField_927745 required" >' + 
+'<label for="CustomInteractionField_927745"><span class="label">Speaker Fee Budget</span><span class="required-star">*</span></label>' + 
+'<input id="CustomInteractionField_927745" name="CustomInteractionField_927745" class="number required" type="text" maxlength="255"></input>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_850945 required" >' + 
-'<label for="CustomInteractionField_850945">Event Date<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_850945" name="CustomInteractionField_850945" class="required"><option value=""></option>' + 
-'<option value="851969">Monday</option>' + 
-'<option value="852993">Wednesday</option>' + 
-'<option value="854017">Friday</option>' + 
-'<option value="855041">Saturday</option>' + 
+'<div class="field text CustomInteractionField_928769 required" >' + 
+'<label for="CustomInteractionField_928769">Organization Type<span class="required-star">*</span></label>' + 
+'<select id="CustomInteractionField_928769" name="CustomInteractionField_928769" class="required"><option value=""></option>' + 
+'<option value="929793">School</option>' + 
+'<option value="930817">Company</option>' + 
+'<option value="931841">Church</option>' + 
+'<option value="932865">Other</option>' + 
 '</select>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_836609 required" >' + 
-'<label for="CustomInteractionField_836609">Event Time<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_836609" name="CustomInteractionField_836609" class="required"><option value=""></option>' + 
-'<option value="837633">9:00 to 5:00pm range</option>' + 
-'<option value="838657">5:00pm to 7pm range</option>' + 
+'<div class="field text CustomInteractionField_933889 required" >' + 
+'<label for="CustomInteractionField_933889"><span class="label">If you selected “Other,” please explain.</span><span class="required-star">*</span></label>' + 
+'<input id="CustomInteractionField_933889" name="CustomInteractionField_933889" class="required" type="text" maxlength="255"></input>' + 
+'</div>' + 
+'<div class="field text CustomInteractionField_934913 required" >' + 
+'<label for="CustomInteractionField_934913"><span class="label">Organization name</span><span class="required-star">*</span></label>' + 
+'<input id="CustomInteractionField_934913" name="CustomInteractionField_934913" class="required" type="text" maxlength="255"></input>' + 
+'</div>' + 
+'<div class="field text CustomInteractionField_935937 required" >' + 
+'<label for="CustomInteractionField_935937">Type of Event<span class="required-star">*</span></label>' + 
+'<select id="CustomInteractionField_935937" name="CustomInteractionField_935937" class="required"><option value=""></option>' + 
+'<option value="936961">School / Youth Group / College</option>' + 
+'<option value="937985">Conference</option>' + 
+'<option value="939009">Corporate / Business</option>' + 
+'<option value="940033">Non-profit / Community</option>' + 
+'<option value="941057">Church / Faith Based Event</option>' + 
+'<option value="942081">Other</option>' + 
 '</select>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_787457 required" >' + 
-'<label for="CustomInteractionField_787457"><span class="label">Venue Name</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_787457" name="CustomInteractionField_787457" class="required" type="text" maxlength="255"></input>' + 
+'<div class="field text CustomInteractionField_943105 required" >' + 
+'<label for="CustomInteractionField_943105"><span class="label">If you selected “Other,” please explain.</span><span class="required-star">*</span></label>' + 
+'<input id="CustomInteractionField_943105" name="CustomInteractionField_943105" class="required" type="text" maxlength="255"></input>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_788481 required" >' + 
-'<label for="CustomInteractionField_788481"><span class="label">Venue Address</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_788481" name="CustomInteractionField_788481" class="required" type="text" maxlength="255"></input>' + 
+'<div class="field date CustomInteractionField_945153 required" >' + 
+'<label for="CustomInteractionField_945153"><span class="label">Event Date / Ideal Date</span><span class="required-star">*</span></label>' + 
+'<input id="CustomInteractionField_945153" name="CustomInteractionField_945153" class="validDate required" type="date" maxlength="255" placeholder="mm/dd/yyyy"></input>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_789505 required" >' + 
-'<label for="CustomInteractionField_789505"><span class="label">Venue Room</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_789505" name="CustomInteractionField_789505" class="required" type="text" maxlength="255"></input>' + 
+'<div class="field text CustomInteractionField_946177 required" >' + 
+'<label for="CustomInteractionField_946177"><span class="label">Expected Audience Size Number</span><span class="required-star">*</span></label>' + 
+'<input id="CustomInteractionField_946177" name="CustomInteractionField_946177" class="number required" type="text" maxlength="255"></input>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_839681 required" >' + 
-'<label for="CustomInteractionField_839681">Expected Audience Size<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_839681" name="CustomInteractionField_839681" class="required"><option value=""></option>' + 
-'<option value="840705">10 - 20</option>' + 
-'<option value="841729">21 - 50</option>' + 
-'<option value="842753">51 - 100</option>' + 
-'<option value="843777">101 - 200</option>' + 
-'<option value="844801">201+</option>' + 
-'</select>' + 
+'<div class="field text CustomInteractionField_947201 required" >' + 
+'<label for="CustomInteractionField_947201"><span class="label">Event Location</span><span class="required-star">*</span></label>' + 
+'<input id="CustomInteractionField_947201" name="CustomInteractionField_947201" class="required" type="text" maxlength="255"></input>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_780289 required" >' + 
-'<label for="CustomInteractionField_780289"><span class="label">Length of Presentation</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_780289" name="CustomInteractionField_780289" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_774145 required" >' + 
-'<label for="CustomInteractionField_774145">Event’s Purpose (Fundraiser, Conference, Staff Education, Class)<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_774145" name="CustomInteractionField_774145" class="required"><option value=""></option>' + 
-'<option value="775169">DV Awareness Keynote Presentation</option>' + 
-'<option value="776193">DV Awareness Workshop</option>' + 
-'<option value="777217">Other (please specify)</option>' + 
-'</select>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_779265" >' + 
-'<label for="CustomInteractionField_779265"><span class="label">Specific Topic Requested (if any)</span></label>' + 
-'<input id="CustomInteractionField_779265" name="CustomInteractionField_779265" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_781313 required" >' + 
-'<label for="CustomInteractionField_781313">Will this be in-person or virtual?<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_781313" name="CustomInteractionField_781313" class="required"><option value=""></option>' + 
-'<option value="782337">In-person</option>' + 
-'<option value="783361">Virtual</option>' + 
-'</select>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_784385 required" >' + 
-'<label for="CustomInteractionField_784385">If in-person, does the venue have a projector and microphone?<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_784385" name="CustomInteractionField_784385" class="required"><option value=""></option>' + 
-'<option value="786433">No</option>' + 
-'<option value="785409">Yes to both!</option>' + 
-'</select>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_791553 required" >' + 
-'<label for="CustomInteractionField_791553"><span class="label">Title / Department</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_791553" name="CustomInteractionField_791553" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_792577 required" >' + 
-'<label for="CustomInteractionField_792577"><span class="label">Organization / Company Name</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_792577" name="CustomInteractionField_792577" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_793601 required" >' + 
-'<label for="CustomInteractionField_793601"><span class="label">Organization Address</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_793601" name="CustomInteractionField_793601" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_797697 required" >' + 
-'<label for="CustomInteractionField_797697"><span class="label">Organization Phone Number</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_797697" name="CustomInteractionField_797697" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_796673 required" >' + 
-'<label for="CustomInteractionField_796673"><span class="label">Email Address</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_796673" name="CustomInteractionField_796673" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_798721 required" >' + 
-'<label for="CustomInteractionField_798721"><span class="label">Organization’s Website</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_798721" name="CustomInteractionField_798721" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_799745 required" >' + 
-'<label for="CustomInteractionField_799745"><span class="label">Proposed Budget for Workshop / Keynote</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_799745" name="CustomInteractionField_799745" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_802817 required" >' + 
-'<label for="CustomInteractionField_802817">Will mileage or travel and accommodation be provided (if applicable)?<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_802817" name="CustomInteractionField_802817" class="required"><option value=""></option>' + 
-'<option value="804865">No</option>' + 
-'<option value="803841">Yes</option>' + 
-'</select>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_805889 required" >' + 
-'<label for="CustomInteractionField_805889">Will a W9 Form be required for payment processing?<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_805889" name="CustomInteractionField_805889" class="required"><option value=""></option>' + 
-'<option value="807937">No</option>' + 
-'<option value="806913">Yes</option>' + 
-'</select>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_808961 required" >' + 
-'<label for="CustomInteractionField_808961">Is this event open to the public or private/invite-only?<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_808961" name="CustomInteractionField_808961" class="required"><option value=""></option>' + 
-'<option value="811009">Private</option>' + 
-'<option value="809985">Public</option>' + 
-'</select>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_817153 required" >' + 
-'<label for="CustomInteractionField_817153">Would you like to make The Legacy He Left Me books available for attendees or VIPs?<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_817153" name="CustomInteractionField_817153" class="required"><option value=""></option>' + 
-'<option value="820225">No</option>' + 
-'<option value="819201">Yes – for general sale (discounted at $15 each for softcover copies)</option>' + 
-'<option value="818177">Yes – for VIP’s/Sponsors (minimum 20 copies at $10 each for softcover copies)</option>' + 
-'</select>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_825345 required" >' + 
-'<label for="CustomInteractionField_825345">If yes, will a table (6 ft) be available for book display?<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_825345" name="CustomInteractionField_825345" class="required"><option value=""></option>' + 
-'<option value="827393">No</option>' + 
-'<option value="826369">Yes</option>' + 
-'</select>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_821249 required" >' + 
-'<label for="CustomInteractionField_821249"><span class="label">Anything else you would like us to know about your event?</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_821249" name="CustomInteractionField_821249" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field text CustomInteractionField_822273 required" >' + 
-'<label for="CustomInteractionField_822273"><span class="label">Signature of Authorized Event Contact</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_822273" name="CustomInteractionField_822273" class="required" type="text" maxlength="255"></input>' + 
-'</div>' + 
-'<div class="field date CustomInteractionField_823297 required" >' + 
-'<label for="CustomInteractionField_823297">Submitted Date:<span class="required-star">*</span></label>' + 
-'<select id="CustomInteractionField_823297" name="CustomInteractionField_823297" class="required"><option value=""></option>' + 
-'</select>' + 
+'<div class="field text CustomInteractionField_948225 required" >' + 
+'<label for="CustomInteractionField_948225"><span class="label">Additional Comments</span><span class="required-star">*</span></label>' + 
+'<input id="CustomInteractionField_948225" name="CustomInteractionField_948225" class="required" type="text" maxlength="255"></input>' + 
 '</div>' + 
 '' + 
 '</div>' + 
@@ -657,7 +560,7 @@
                                         }
                                         Bloomerang.interactionFormLoaded = true;
                       
-                        Bloomerang.reCaptchaV3SiteKey = '';
+                        Bloomerang.reCaptchaV3SiteKey = '6LeyBk4sAAAAAIVtFr2PRuCOEzZR8L94d_lEK436';
                         Bloomerang.gRecaptchaV3Threshold = 0.5;
 
                         window.captchaLoadCallback = function() {
@@ -701,7 +604,7 @@
                                 function() { return Bloomerang.gRecaptchaLoaded; },
                                 function() {
                                     jQuery('.section.captcha').removeAttr('style');
-                                    jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha763905', { 'sitekey' : '6Lce7zIsAAAAAO3VVwL19lwNDFMitDUhSRKgkfnR' }));
+                                    jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha763905', { 'sitekey' : '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
                                     
                                     if((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.reCaptchaV3SiteKey && Bloomerang.isDonationForm)) {
                                         jQuery('.section.captcha').attr('style', 'display: none');

@@ -2,168 +2,364 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Love Life Now - Forms Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f9f9f9;
-      margin: 0;
-      padding: 0;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Life Now Foundation - Forms</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --lln-purple-50: #faf5ff;
+            --lln-purple-100: #f3e8ff;
+            --lln-purple-500: #a855f7;
+            --lln-purple-600: #9333ea;
+            --lln-purple-700: #7e22ce;
+            --lln-purple-800: #6b21a8;
+            --lln-purple-900: #581c87;
+            --lln-gray-50: #fafafa;
+            --lln-gray-100: #f4f4f5;
+            --lln-gray-200: #e4e4e7;
+            --lln-gray-500: #71717a;
+            --lln-gray-600: #52525b;
+            --lln-gray-800: #27272a;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-heading: 'Poppins', 'Inter', sans-serif;
+        }
 
-    header {
-      background: linear-gradient(135deg, #9b51e0, #8b348f);
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
-    header h1 {
-      margin: 0;
-      font-size: 2.5rem;
-      font-weight: 700;
-    }
+        body {
+            margin: 0;
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, var(--lln-purple-50) 0%, white 50%, var(--lln-gray-50) 100%);
+            min-height: 100vh;
+            color: var(--lln-gray-800);
+        }
 
-    header p {
-      margin-top: 10px;
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    main {
-      flex: 1;
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-      width: 100%;
-      box-sizing: border-box;
-    }
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--lln-purple-700) 0%, var(--lln-purple-900) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-    }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
 
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s, box-shadow 0.3s;
-      text-decoration: none;
-      color: inherit;
-      border: 1px solid #eee;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(139, 52, 143, 0.15);
-      border-color: #d4a5d9;
-    }
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            margin: 0 0 1rem;
+            letter-spacing: -0.025em;
+        }
 
-    .card h2 {
-      color: #8b348f;
-      margin-top: 0;
-      margin-bottom: 15px;
-      font-size: 1.5rem;
-    }
+        .hero p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin: 0;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
 
-    .card p {
-      color: #666;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      flex: 1;
-    }
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 3rem 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-    .card .btn {
-      margin-top: 20px;
-      background-color: #9b51e0;
-      color: white;
-      padding: 10px 25px;
-      border-radius: 25px;
-      font-weight: 500;
-      transition: background-color 0.2s;
-    }
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--lln-purple-800);
+            text-align: center;
+            margin: 0 0 2.5rem;
+        }
 
-    .card:hover .btn {
-      background-color: #7a3caf;
-    }
+        /* Form Cards Grid */
+        .forms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #fff;
-      color: #888;
-      font-size: 0.9rem;
-      border-top: 1px solid #eee;
-    }
-  </style>
+        .form-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 2rem;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--lln-purple-500), var(--lln-purple-700));
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .form-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            border-color: var(--lln-purple-100);
+        }
+
+        .form-card:hover::before {
+            opacity: 1;
+        }
+
+        .form-card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--lln-purple-100), var(--lln-purple-50));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .form-card-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--lln-purple-700);
+        }
+
+        .form-card h2 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem;
+            color: var(--lln-gray-800);
+        }
+
+        .form-card p {
+            font-size: 0.9375rem;
+            color: var(--lln-gray-500);
+            margin: 0;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .form-card .arrow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--lln-purple-600);
+        }
+
+        .form-card .arrow svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .form-card:hover .arrow svg {
+            transform: translateX(4px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            color: var(--lln-gray-500);
+            font-size: 0.875rem;
+            background: white;
+            border-top: 1px solid var(--lln-gray-100);
+        }
+
+        footer a {
+            color: var(--lln-purple-600);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .hero {
+                padding: 3rem 1.5rem;
+            }
+
+            main {
+                padding: 2rem 1rem;
+            }
+
+            .forms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <div class="page-wrapper">
+        <header class="hero">
+            <div class="hero-content">
+                <h1>Love Life Now Foundation</h1>
+                <p>Supporting domestic violence survivors with resources, advocacy, and hope. Access our forms below to get involved or request assistance.</p>
+            </div>
+        </header>
 
-  <header>
-    <h1>Love Life Now Foundation</h1>
-    <p>Self-Hosted Forms & Applications</p>
-  </header>
+        <main>
+            <h2 class="section-title">How Can We Help You?</h2>
+            <div class="forms-grid">
+                <a href="Newsletter Subscription/NewsletterSubscription.html" class="form-card">
+                    <div class="form-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <h2>Newsletter</h2>
+                    <p>Stay connected with updates, stories of hope, and ways you can help survivors in our community.</p>
+                    <span class="arrow">
+                        Subscribe
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                </a>
 
-  <main>
-    <div class="grid">
-      <a href="Get%20Safe%20Fund%20Application/GetSafeApplicationForm.html" class="card">
-        <h2>Get Safe Fund Application</h2>
-        <p>Application form for survivors seeking domestic violence assistance and financial support.</p>
-        <span class="btn">View Application</span>
-      </a>
+                <a href="Contact Form/Contact Form.html" class="form-card">
+                    <div class="form-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h2>Contact Us</h2>
+                    <p>Have questions or want to learn more? Reach out and we'll respond as soon as possible.</p>
+                    <span class="arrow">
+                        Send Message
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                </a>
 
-      <a href="Book%20A%20Speaker/bookaspeaker.html" class="card">
-        <h2>Book A Speaker</h2>
-        <p>Request a speaker from Love Life Now for your upcoming event or organization.</p>
-        <span class="btn">Book Now</span>
-      </a>
+                <a href="Volunteer/VolunteerForm.html" class="form-card">
+                    <div class="form-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </div>
+                    <h2>Volunteer</h2>
+                    <p>Join our team of dedicated volunteers and make a difference in the lives of survivors.</p>
+                    <span class="arrow">
+                        Sign Up
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                </a>
 
-      <a href="Contact%20Form/Contact%20Form.html" class="card">
-        <h2>Contact Us</h2>
-        <p>General inquiries and communication with the Love Life Now team.</p>
-        <span class="btn">Get in Touch</span>
-      </a>
+                <a href="Get Safe Fund Application/GetSafeApplicationForm.html" class="form-card">
+                    <div class="form-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h2>Get Safe Fund</h2>
+                    <p>Apply for financial assistance if you're a domestic violence survivor in need of support.</p>
+                    <span class="arrow">
+                        Apply Now
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                </a>
 
-      <a href="Donate/donateform.html" class="card">
-        <h2>Donate</h2>
-        <p>Support our mission by making a contribution to the foundation.</p>
-        <span class="btn">Make a Donation</span>
-      </a>
+                <a href="Book A Speaker/bookaspeaker.html" class="form-card">
+                    <div class="form-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
+                    </div>
+                    <h2>Book A Speaker</h2>
+                    <p>Request a DV awareness presentation for your organization, school, or community event.</p>
+                    <span class="arrow">
+                        Request Speaker
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                </a>
 
-      <a href="Newsletter%20Subscription/NewsletterSubscription.html" class="card">
-        <h2>Newsletter</h2>
-        <p>Subscribe to stay updated with our latest news, events, and stories.</p>
-        <span class="btn">Subscribe</span>
-      </a>
+                <a href="Donate/donateform.html" class="form-card">
+                    <div class="form-card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="1" x2="12" y2="23"/>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <h2>Donate</h2>
+                    <p>Support our mission with a donation. Every contribution helps survivors rebuild their lives.</p>
+                    <span class="arrow">
+                        Make a Gift
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+        </main>
 
-      <a href="Volunteer/VolunteerForm.html" class="card">
-        <h2>Volunteer</h2>
-        <p>Join us in making a difference by becoming a volunteer.</p>
-        <span class="btn">Join Us</span>
-      </a>
+        <footer>
+            &copy; 2025 Love Life Now Foundation. All rights reserved.<br>
+            <a href="https://lovelifenowfoundation.org" target="_blank">lovelifenowfoundation.org</a>
+        </footer>
     </div>
-  </main>
-
-  <footer>
-    &copy; Love Life Now Foundation. All rights reserved.
-  </footer>
-
 </body>
 
 </html>

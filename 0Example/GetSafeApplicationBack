@@ -1,21 +1,3 @@
-Bloomerang Logo
-All
-
-​
-
-Search for constituents
-
-B IconLine
-Notifications
-
-
-Publish Form GetSafeApplicationBack to list Edit
-Self-Hosted Form
-The code below is generated from the options saved in Bloomerang. Paste it into your website and make any changes there.
-
-Bloomerang Support does not cover your changes when you host the form. If you need help, contact us to purchase API consulting time. To return to using the standard Bloomerang form instead, click the button below.
-
-Stop Self-Hosting
 <script type="text/javascript" id="bloomerangForm748544"></script>
 <pre><script type="text/javascript">
     var insertForm748544 = function() {
@@ -607,7 +589,7 @@ Stop Self-Hosting
                                         }
                                         Bloomerang.interactionFormLoaded = true;
                       
-                        Bloomerang.reCaptchaV3SiteKey = '';
+                        Bloomerang.reCaptchaV3SiteKey = '6LeyBk4sAAAAAIVtFr2PRuCOEzZR8L94d_lEK436';
                         Bloomerang.gRecaptchaV3Threshold = 0.5;
 
                         window.captchaLoadCallback = function() {
@@ -651,7 +633,7 @@ Stop Self-Hosting
                                 function() { return Bloomerang.gRecaptchaLoaded; },
                                 function() {
                                     jQuery('.section.captcha').removeAttr('style');
-                                    jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha748544', { 'sitekey' : '6Lce7zIsAAAAAO3VVwL19lwNDFMitDUhSRKgkfnR' }));
+                                    jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha748544', { 'sitekey' : '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
                                     
                                     if((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.reCaptchaV3SiteKey && Bloomerang.isDonationForm)) {
                                         jQuery('.section.captcha').attr('style', 'display: none');
@@ -1014,4 +996,3 @@ Stop Self-Hosting
 
                 startBloomerangLoad();
 </script></pre>
-
