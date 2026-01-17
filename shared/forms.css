@@ -321,11 +321,11 @@ body {
     color: var(--lln-gray-400);
 }
 
-/* Form Row (Two Column Layout) */
+/* Form Row (Two Column Layout - Always Side by Side) */
 .form-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
 }
 
 /* Checkbox and Radio */
@@ -498,7 +498,8 @@ body {
     }
 
     .form-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-sm);
     }
 }
 
