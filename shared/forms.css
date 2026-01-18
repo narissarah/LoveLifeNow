@@ -86,23 +86,36 @@
 html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+/* Iframe Embed Fix - prevents unnecessary scrollbars */
+html, body {
+    height: auto !important;
+    min-height: auto !important;
 }
 
 body {
     margin: 0;
+    padding: 0;
     font-family: var(--font-sans);
     font-size: 16px;
     line-height: 1.6;
     color: var(--lln-gray-800);
-    background: linear-gradient(135deg, var(--lln-purple-50) 0%, white 50%, var(--lln-gray-50) 100%);
-    min-height: 100vh;
+    background: transparent;
+    min-height: auto;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 /* Page Layout */
 .page-wrapper {
-    min-height: 100vh;
+    min-height: auto;
+    height: auto;
     display: flex;
     flex-direction: column;
+    overflow: visible;
 }
 
 .page-header {
