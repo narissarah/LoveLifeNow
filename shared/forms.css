@@ -328,6 +328,11 @@ body {
     gap: var(--space-md);
 }
 
+/* Form Row (Three Column Layout - For Newsletter) */
+.form-row-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
 /* Checkbox and Radio */
 .field.checkbox label,
 .field.radio label {
