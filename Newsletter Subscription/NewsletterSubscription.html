@@ -135,7 +135,7 @@
                 </div>
 
                 <div class="btn-group">
-                    <input class="btn btn-submit btn-submit-email" type="submit" value="Subscribe to Newsletter" />
+                    <input class="btn btn-submit btn-submit-email" type="submit" value="Subscribe" />
                 </div>
             </form>
         </div>
@@ -286,7 +286,7 @@
                 };
 
                 Bloomerang.Api.OnError = Bloomerang.Widget.Email.OnError = function (response) {
-                    jQuery(".btn-submit-email").prop("disabled", false).removeClass("disabled").val("Subscribe to Newsletter");
+                    jQuery(".btn-submit-email").prop("disabled", false).removeClass("disabled").val("Subscribe");
                     jQuery("#email-registration-form-container .errors").removeClass("hidden").html(response.Message);
                     var distance = 100;
                     var offset = jQuery("#email-registration-form-container .errors").offset().top;

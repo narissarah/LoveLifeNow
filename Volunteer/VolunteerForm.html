@@ -309,26 +309,50 @@
                     }
                 };
 
-                // Custom field helpers
+                // Custom field helpers - matches original Bloomerang embed code
                 Bloomerang.Util.applyEmailSignupCustomFields = function (obj, type) {
+                    // Clear any fields from a previous failed submission
                     obj.clearCustomFields();
-                    jQuery(".email-registration-form .section.custom-fields :input:not(a > input, select)[id*=" + type + "]").each(function () {
+
+                    // Apply all <input> (not multiselect), <select> and <textarea> fields
+                    jQuery(".email-registration-form .section.custom-fields :input:not(a > input, select)[id*=" + type + "]").each(function() {
                         if (jQuery(this).val().hasValue()) {
                             obj.customFreeformField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
                         }
                     });
-                    jQuery(".email-registration-form .section.custom-fields select[id*=" + type + "]").each(function () {
+
+                    // Apply all <select> fields
+                    jQuery(".email-registration-form .section.custom-fields select[id*=" + type + "]").each(function() {
                         if (jQuery(this).val().hasValue()) {
                             obj.customPickField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
                         }
                     });
+
+                    // Apply all multiselect fields
+                    jQuery(".email-registration-form .section.custom-fields .checkboxes[id*=" + type + "]").each(function() {
+                        obj.customPickField(jQuery(this).attr("id").toUntypedValue(),
+                        jQuery.map(jQuery(this).children(".checkbox.selected"), function(v) { return jQuery(v).attr("data-id"); }));
+                    });
                 };
 
                 // Prototype helpers
-                String.prototype.hasValue = function () { return (this && jQuery.trim(this)); };
-                Bloomerang.Account.applyEmailSignupCustomFields = function () { Bloomerang.Util.applyEmailSignupCustomFields(this, "Account"); return this; };
-                Bloomerang.Interaction.applyEmailSignupCustomFields = function () { Bloomerang.Util.applyEmailSignupCustomFields(this, "Interaction"); return this; };
-                String.prototype.toUntypedValue = function () { return this.substring(this.indexOf('_') + 1); };
+                String.prototype.hasValue = function() {
+                    return (this && jQuery.trim(this));
+                };
+
+                Bloomerang.Account.applyEmailSignupCustomFields = function () {
+                    Bloomerang.Util.applyEmailSignupCustomFields(this, "Account");
+                    return this;
+                };
+
+                Bloomerang.Interaction.applyEmailSignupCustomFields = function () {
+                    Bloomerang.Util.applyEmailSignupCustomFields(this, "Interaction");
+                    return this;
+                };
+
+                String.prototype.toUntypedValue = function() {
+                    return this.substring(this.indexOf('_') + 1);
+                };
 
                 // Initialize validation
                 jQuery("#email-registration-form-container form").validate({
