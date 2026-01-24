@@ -1,6 +1,15 @@
 const axios = require('axios');
 const { verifyAuth, unauthorizedResponse } = require('./utils/auth');
 
+// Form type to Subject pattern mapping
+const FORM_SUBJECTS = {
+  contact: 'Contact Form',
+  volunteer: 'Volunteer',
+  speaker: 'Book A Speaker',
+  getsafe: 'GetSafeApplication',
+  donate: 'Donation'
+};
+
 // Create axios instance for Bloomerang API
 const bloomerangApi = axios.create({
   baseURL: 'https://api.bloomerang.co/v2',
@@ -19,11 +28,15 @@ exports.handler = async (event) => {
   const params = event.queryStringParameters || {};
   const formType = params.type;
 
-  if (!formType) {
+  const subjectPattern = FORM_SUBJECTS[formType];
+  if (!subjectPattern) {
     return {
       statusCode: 400,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Form type required' })
+      body: JSON.stringify({
+        error: 'Invalid form type',
+        validTypes: Object.keys(FORM_SUBJECTS)
+      })
     };
   }
 
@@ -44,9 +57,14 @@ exports.handler = async (event) => {
 
     const allInteractions = response.data.Results || [];
 
+    // Filter by subject pattern
+    const filteredInteractions = allInteractions.filter(i =>
+      i.Subject && i.Subject.includes(subjectPattern)
+    );
+
     // Enrich with constituent details
     const enrichedSubmissions = await Promise.all(
-      allInteractions.map(async (interaction) => {
+      filteredInteractions.map(async (interaction) => {
         let constituent = null;
         if (interaction.AccountId) {
           try {
@@ -62,22 +80,13 @@ exports.handler = async (event) => {
           date: interaction.Date,
           subject: interaction.Subject || 'No Subject',
           note: interaction.Note || '',
-          channel: interaction.Channel,
-          purpose: interaction.Purpose,
-          isInbound: interaction.IsInbound,
           constituent: constituent ? {
             id: constituent.Id,
             name: `${constituent.FirstName || ''} ${constituent.LastName || ''}`.trim(),
             email: constituent.PrimaryEmail?.Value || null,
             phone: constituent.PrimaryPhone?.Number || null
           } : null,
-          customFields: interaction.CustomFields || [],
-          // Include raw data for debugging
-          raw: {
-            Purpose: interaction.Purpose,
-            Subject: interaction.Subject,
-            CustomFieldsCount: (interaction.CustomFields || []).length
-          }
+          customFields: interaction.CustomFields || []
         };
       })
     );
