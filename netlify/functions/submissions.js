@@ -62,16 +62,32 @@ exports.handler = async (event) => {
       i.Subject && i.Subject.includes(subjectPattern)
     );
 
+    // Debug: Return first raw interaction to see structure
+    if (params.debug === 'true' && filteredInteractions.length > 0) {
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          debug: true,
+          rawInteraction: filteredInteractions[0],
+          allKeys: Object.keys(filteredInteractions[0])
+        })
+      };
+    }
+
     // Enrich with constituent details
     const enrichedSubmissions = await Promise.all(
       filteredInteractions.map(async (interaction) => {
         let constituent = null;
-        if (interaction.AccountId) {
+        // Try AccountId first, then fall back to other ID fields
+        const constituentId = interaction.AccountId || interaction.ConstituentId;
+
+        if (constituentId) {
           try {
-            const constResponse = await bloomerangApi.get(`/constituents/${interaction.AccountId}`);
+            const constResponse = await bloomerangApi.get(`/constituents/${constituentId}`);
             constituent = constResponse.data;
           } catch (err) {
-            // Silently skip constituent fetch errors
+            console.log('Constituent fetch error:', err.message);
           }
         }
 
@@ -86,7 +102,13 @@ exports.handler = async (event) => {
             email: constituent.PrimaryEmail?.Value || null,
             phone: constituent.PrimaryPhone?.Number || null
           } : null,
-          customFields: interaction.CustomFields || []
+          customFields: interaction.CustomFields || [],
+          // Include raw data for debugging
+          _raw: {
+            accountId: interaction.AccountId,
+            constituentId: interaction.ConstituentId,
+            hasCustomFields: (interaction.CustomFields || []).length
+          }
         };
       })
     );
