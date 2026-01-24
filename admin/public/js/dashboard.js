@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (e) {
         console.error('Logout error:', e);
       }
-      window.location.href = '/';
+      window.location.href = '/admin/';
     });
   }
 
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (response.status === 401) {
-        window.location.href = '/';
+        window.location.href = '/admin/';
         return;
       }
 

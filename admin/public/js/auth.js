@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (response.ok && data.success) {
         // Redirect to dashboard on success
-        window.location.href = '/dashboard';
+        window.location.href = '/admin/dashboard';
       } else {
         showError(data.error || 'Login failed. Please try again.');
         passwordInput.value = '';

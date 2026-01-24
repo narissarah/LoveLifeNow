@@ -1,0 +1,42 @@
+[build]
+  # Publish the root directory (main site)
+  publish = "."
+  # Functions are in admin/netlify/functions
+  functions = "admin/netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Redirect /api/* to Netlify functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Serve admin dashboard
+[[redirects]]
+  from = "/admin/dashboard"
+  to = "/admin/public/dashboard.html"
+  status = 200
+
+# Serve admin login (default admin page)
+[[redirects]]
+  from = "/admin"
+  to = "/admin/public/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/"
+  to = "/admin/public/index.html"
+  status = 200
+
+# Serve admin static assets
+[[redirects]]
+  from = "/admin/css/*"
+  to = "/admin/public/css/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/admin/js/*"
+  to = "/admin/public/js/:splat"
+  status = 200
