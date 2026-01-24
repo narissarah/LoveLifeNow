@@ -662,7 +662,26 @@ body {
 .tab-body {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-lg);
+}
+
+/* Details tab styling */
+.tab-body .detail-section {
+  margin-bottom: var(--space-lg);
+}
+
+.tab-body .detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.tab-body .detail-section h3 {
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--lln-purple-700);
+  margin: 0 0 var(--space-sm);
+  padding-bottom: var(--space-xs);
+  border-bottom: 2px solid var(--lln-purple-100);
 }
 
 /* Compact detail grid for tabs */

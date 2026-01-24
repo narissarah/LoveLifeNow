@@ -112,13 +112,7 @@ Love Life Now Foundation Team`
   const contentBody = document.querySelector('.content-body');
   const detailPanel = document.getElementById('detailPanel');
   const closePanel = document.getElementById('closePanel');
-  const replyBtn = document.getElementById('replyBtn');
-  const backToView = document.getElementById('backToView');
   const sendReplyBtn = document.getElementById('sendReplyBtn');
-
-  // Panel modes
-  const viewMode = document.getElementById('viewMode');
-  const replyMode = document.getElementById('replyMode');
   const replyForm = document.getElementById('replyForm');
 
   // Sidebar elements
@@ -133,19 +127,17 @@ Love Life Now Foundation Team`
     setupNavigation();
     setupLogout();
     setupRefresh();
-    setupModals();
+    setupPanel();
     loadSubmissions(currentFormType);
   }
 
   // Sidebar collapse/expand
   function setupSidebar() {
-    // Restore saved state
     const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
     if (isCollapsed) {
       sidebar.classList.add('collapsed');
     }
 
-    // Toggle button
     sidebarToggle.addEventListener('click', () => {
       sidebar.classList.toggle('collapsed');
       localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
@@ -161,7 +153,7 @@ Love Life Now Foundation Team`
         if (formType !== currentFormType) {
           currentFormType = formType;
           updateActiveNav(item);
-          hideDetailPanel(); // Close panel when switching form types
+          hideDetailPanel();
           loadSubmissions(formType);
         }
       });
@@ -229,27 +221,23 @@ Love Life Now Foundation Team`
     }
   }
 
-  // Render submissions table using safe DOM manipulation
+  // Render submissions table
   function renderSubmissions(submissionsList) {
-    // Clear existing content
     submissionsBody.textContent = '';
 
     submissionsList.forEach((sub, index) => {
       const tr = document.createElement('tr');
       tr.dataset.index = index;
 
-      // Click on row to show detail in side panel
       tr.addEventListener('click', () => {
         selectSubmission(sub, tr);
       });
 
-      // Date cell
       const dateCell = document.createElement('td');
       dateCell.className = 'date-cell';
       dateCell.textContent = formatDate(sub.date);
       tr.appendChild(dateCell);
 
-      // Name cell
       const nameCell = document.createElement('td');
       nameCell.textContent = sub.constituent?.name || 'Unknown';
       tr.appendChild(nameCell);
@@ -260,12 +248,10 @@ Love Life Now Foundation Team`
 
   // Select a submission and show in side panel
   function selectSubmission(sub, rowElement) {
-    // Update selected row styling
     const allRows = submissionsBody.querySelectorAll('tr');
     allRows.forEach(r => r.classList.remove('selected'));
     rowElement.classList.add('selected');
 
-    // Show detail in side panel
     showDetailPanel(sub);
   }
 
@@ -299,31 +285,18 @@ Love Life Now Foundation Team`
     submissionsTable.style.display = 'none';
   }
 
-  // Panel and Modal handling
-  function setupModals() {
-    // Detail panel close
+  // Panel handling
+  function setupPanel() {
     closePanel.addEventListener('click', hideDetailPanel);
 
-    // Reply button - switch to reply mode
-    replyBtn.addEventListener('click', () => {
-      if (currentSubmission?.constituent?.email) {
-        showReplyMode();
-      }
-    });
-
-    // Back button - return to view mode
-    backToView.addEventListener('click', showViewMode);
-
-    // Tab switching in reply mode
+    // Tab switching
     document.querySelectorAll('.stack-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         const tabName = tab.dataset.tab;
 
-        // Update active tab
         document.querySelectorAll('.stack-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
 
-        // Show corresponding content
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         document.getElementById(tabName === 'details' ? 'tabDetails' : 'tabHistory').classList.add('active');
       });
@@ -354,108 +327,18 @@ Love Life Now Foundation Team`
       }
     });
 
-    // Escape key closes panel or goes back to view
+    // Escape key closes panel
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (replyMode.style.display !== 'none') {
-          showViewMode();
-        } else {
-          hideDetailPanel();
-        }
+        hideDetailPanel();
       }
     });
-  }
-
-  // Switch to reply mode in panel (split view)
-  function showReplyMode() {
-    if (!currentSubmission?.constituent?.email) return;
-
-    // Populate Details tab
-    document.getElementById('replyDetailName').textContent = currentSubmission.constituent?.name || 'Unknown';
-    document.getElementById('replyDetailEmail').textContent = currentSubmission.constituent?.email || '-';
-    document.getElementById('replyDetailPhone').textContent = currentSubmission.constituent?.phone || '-';
-    document.getElementById('replyDetailDate').textContent = formatDate(currentSubmission.date);
-
-    // Address in details tab
-    const replyAddressSection = document.getElementById('replyAddressSection');
-    const addr = currentSubmission.constituent?.address;
-    if (addr && (addr.street || addr.city)) {
-      let addressParts = [];
-      if (addr.street) addressParts.push(addr.street);
-      if (addr.city) addressParts.push(addr.city);
-      if (addr.state) addressParts.push(addr.state);
-      if (addr.zip) addressParts.push(addr.zip);
-      document.getElementById('replyDetailAddress').textContent = addressParts.join(', ');
-      replyAddressSection.style.display = 'block';
-    } else {
-      replyAddressSection.style.display = 'none';
-    }
-
-    // Custom fields in details tab
-    const replyCustomFieldsSection = document.getElementById('replyCustomFieldsSection');
-    const replyCustomFieldsGrid = document.getElementById('replyCustomFieldsGrid');
-    replyCustomFieldsGrid.textContent = '';
-    if (currentSubmission.customFields && currentSubmission.customFields.length > 0) {
-      currentSubmission.customFields.forEach(field => {
-        const item = document.createElement('div');
-        item.className = 'detail-item-compact';
-        const label = document.createElement('label');
-        label.textContent = (field.name || 'Field') + ':';
-        const span = document.createElement('span');
-        span.textContent = field.value || '-';
-        item.appendChild(label);
-        item.appendChild(span);
-        replyCustomFieldsGrid.appendChild(item);
-      });
-      replyCustomFieldsSection.style.display = 'block';
-    } else {
-      replyCustomFieldsSection.style.display = 'none';
-    }
-
-    // Populate History tab
-    document.getElementById('historyName').textContent = currentSubmission.constituent?.name || 'Unknown';
-    document.getElementById('historyDate').textContent = formatDate(currentSubmission.date);
-    document.getElementById('historyMessage').textContent = currentSubmission.note || 'No message content';
-
-    // Reset tabs to show Details first
-    document.querySelectorAll('.stack-tab').forEach(t => t.classList.remove('active'));
-    document.querySelector('.stack-tab[data-tab="details"]').classList.add('active');
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    document.getElementById('tabDetails').classList.add('active');
-
-    // Reset reply form
-    document.getElementById('templateSelect').value = '';
-    document.getElementById('replyTo').value = currentSubmission.constituent.email;
-    document.getElementById('replySubject').value = `Re: ${currentSubmission.subject}`;
-    document.getElementById('replyMessage').value = '';
-    document.getElementById('replyError').style.display = 'none';
-    document.getElementById('replySuccess').style.display = 'none';
-
-    // Switch modes and update header buttons
-    viewMode.style.display = 'none';
-    replyMode.style.display = 'flex';
-    replyBtn.style.display = 'none';
-    backToView.style.display = 'inline-flex';
-    sendReplyBtn.style.display = 'inline-flex';
-    detailPanel.classList.add('reply-mode');
-    document.getElementById('panelTitle').textContent = 'Reply to Submission';
-  }
-
-  // Switch back to view mode
-  function showViewMode() {
-    replyMode.style.display = 'none';
-    viewMode.style.display = 'block';
-    replyBtn.style.display = 'inline-flex';
-    backToView.style.display = 'none';
-    sendReplyBtn.style.display = 'none';
-    detailPanel.classList.remove('reply-mode');
-    document.getElementById('panelTitle').textContent = 'Submission Details';
   }
 
   function showDetailPanel(submission) {
     currentSubmission = submission;
 
-    // Populate detail fields using textContent (safe from XSS)
+    // Populate Details tab
     document.getElementById('detailName').textContent = submission.constituent?.name || 'Unknown';
     document.getElementById('detailEmail').textContent = submission.constituent?.email || '-';
     document.getElementById('detailPhone').textContent = submission.constituent?.phone || '-';
@@ -480,7 +363,7 @@ Love Life Now Foundation Team`
       addressSection.style.display = 'none';
     }
 
-    // Constituent demographics (age, race, ethnicity, etc.)
+    // Constituent demographics
     const constituentFieldsSection = document.getElementById('constituentFieldsSection');
     const constituentFieldsGrid = document.getElementById('constituentFieldsGrid');
     constituentFieldsGrid.textContent = '';
@@ -491,7 +374,6 @@ Love Life Now Foundation Team`
         detailItem.className = 'detail-item';
 
         const label = document.createElement('label');
-        // Capitalize first letter of field name
         const fieldName = field.name || 'Field';
         label.textContent = fieldName.charAt(0).toUpperCase() + fieldName.slice(1) + ':';
         detailItem.appendChild(label);
@@ -507,7 +389,7 @@ Love Life Now Foundation Team`
       constituentFieldsSection.style.display = 'none';
     }
 
-    // Custom fields from the interaction (form submission data)
+    // Custom fields (form data)
     const customFieldsSection = document.getElementById('customFieldsSection');
     const customFieldsGrid = document.getElementById('customFieldsGrid');
     customFieldsGrid.textContent = '';
@@ -533,17 +415,26 @@ Love Life Now Foundation Team`
       customFieldsSection.style.display = 'none';
     }
 
-    // Enable/disable reply button based on email availability
-    replyBtn.disabled = !submission.constituent?.email;
+    // Populate History tab
+    document.getElementById('historyName').textContent = submission.constituent?.name || 'Unknown';
+    document.getElementById('historyDate').textContent = formatDate(submission.date);
+    document.getElementById('historyMessage').textContent = submission.note || 'No message content';
 
-    // Ensure view mode is shown (not reply mode)
-    viewMode.style.display = 'block';
-    replyMode.style.display = 'none';
-    replyBtn.style.display = 'inline-flex';
-    backToView.style.display = 'none';
-    sendReplyBtn.style.display = 'none';
-    detailPanel.classList.remove('reply-mode');
-    document.getElementById('panelTitle').textContent = 'Submission Details';
+    // Reset tabs to show Details first
+    document.querySelectorAll('.stack-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.stack-tab[data-tab="details"]').classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tabDetails').classList.add('active');
+
+    // Setup reply form
+    const hasEmail = !!submission.constituent?.email;
+    document.getElementById('templateSelect').value = '';
+    document.getElementById('replyTo').value = submission.constituent?.email || '';
+    document.getElementById('replySubject').value = `Re: ${submission.subject}`;
+    document.getElementById('replyMessage').value = '';
+    document.getElementById('replyError').style.display = 'none';
+    document.getElementById('replySuccess').style.display = 'none';
+    sendReplyBtn.disabled = !hasEmail;
 
     // Show panel
     detailPanel.style.display = 'flex';
@@ -553,24 +444,15 @@ Love Life Now Foundation Team`
 
   function hideDetailPanel() {
     detailPanel.classList.remove('open');
-    detailPanel.classList.remove('reply-mode');
     contentBody.classList.remove('panel-open');
 
-    // Clear row selection
     const allRows = submissionsBody.querySelectorAll('tr');
     allRows.forEach(r => r.classList.remove('selected'));
 
-    // Hide after animation
     setTimeout(() => {
       if (!detailPanel.classList.contains('open')) {
         detailPanel.style.display = 'none';
         currentSubmission = null;
-        // Reset to view mode
-        viewMode.style.display = 'block';
-        replyMode.style.display = 'none';
-        replyBtn.style.display = 'inline-flex';
-        backToView.style.display = 'none';
-        sendReplyBtn.style.display = 'none';
       }
     }, 300);
   }
@@ -578,7 +460,6 @@ Love Life Now Foundation Team`
   async function handleReplySubmit(e) {
     e.preventDefault();
 
-    const sendBtn = document.getElementById('sendReplyBtn');
     const errorDiv = document.getElementById('replyError');
     const successDiv = document.getElementById('replySuccess');
 
@@ -592,10 +473,9 @@ Love Life Now Foundation Team`
       return;
     }
 
-    // Set loading state
-    sendBtn.disabled = true;
-    sendBtn.querySelector('.btn-text').style.display = 'none';
-    sendBtn.querySelector('.btn-loading').style.display = 'inline';
+    sendReplyBtn.disabled = true;
+    sendReplyBtn.querySelector('.btn-text').style.display = 'none';
+    sendReplyBtn.querySelector('.btn-loading').style.display = 'inline';
     errorDiv.style.display = 'none';
     successDiv.style.display = 'none';
 
@@ -620,10 +500,9 @@ Love Life Now Foundation Team`
         successDiv.textContent = 'Email sent successfully!';
         successDiv.style.display = 'block';
 
-        // Go back to view mode after a short delay
-        setTimeout(() => {
-          showViewMode();
-        }, 1500);
+        // Clear the form after success
+        document.getElementById('replyMessage').value = '';
+        document.getElementById('templateSelect').value = '';
       } else {
         errorDiv.textContent = data.error || 'Failed to send email';
         errorDiv.style.display = 'block';
@@ -633,13 +512,12 @@ Love Life Now Foundation Team`
       errorDiv.textContent = 'Unable to send email. Please try again.';
       errorDiv.style.display = 'block';
     } finally {
-      sendBtn.disabled = false;
-      sendBtn.querySelector('.btn-text').style.display = 'inline';
-      sendBtn.querySelector('.btn-loading').style.display = 'none';
+      sendReplyBtn.disabled = false;
+      sendReplyBtn.querySelector('.btn-text').style.display = 'inline';
+      sendReplyBtn.querySelector('.btn-loading').style.display = 'none';
     }
   }
 
-  // Utility functions
   function formatDate(dateString) {
     if (!dateString) return '-';
     const date = new Date(dateString);
