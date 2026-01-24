@@ -167,63 +167,56 @@
               </div>
             </div>
 
-            <!-- Reply Mode: Split View (Details Left + Form Right) -->
-            <div id="replyMode" class="panel-split" style="display: none;">
-              <!-- Left: Submission Details (Read-only) -->
-              <div class="split-left">
-                <div class="split-header">
+            <!-- Reply Mode: Stacked View (Original Top + Reply Bottom) -->
+            <div id="replyMode" class="panel-stacked" style="display: none;">
+              <!-- Top: Original Submission -->
+              <div class="stack-top">
+                <div class="stack-header">
                   <h3>Original Submission</h3>
+                  <span class="stack-meta" id="replyDetailDate">-</span>
                 </div>
-                <div class="split-body">
-                  <div class="detail-item-compact">
-                    <label>From:</label>
-                    <span id="replyDetailName">-</span>
-                  </div>
-                  <div class="detail-item-compact">
-                    <label>Email:</label>
+                <div class="stack-body">
+                  <div class="original-from">
+                    <strong id="replyDetailName">-</strong>
                     <span id="replyDetailEmail">-</span>
                   </div>
-                  <div class="detail-item-compact">
-                    <label>Date:</label>
-                    <span id="replyDetailDate">-</span>
-                  </div>
-                  <div class="detail-message-box">
-                    <label>Message:</label>
-                    <div id="replyDetailMessage" class="detail-message"></div>
-                  </div>
+                  <div id="replyDetailMessage" class="original-message"></div>
                 </div>
               </div>
 
-              <!-- Right: Reply Form -->
-              <div class="split-right">
+              <!-- Bottom: Reply Form -->
+              <div class="stack-bottom">
                 <form id="replyForm" class="reply-form">
-                  <div class="split-header">
+                  <div class="stack-header">
                     <h3>Your Reply</h3>
                   </div>
-                  <div class="split-body">
+                  <div class="stack-body">
                     <div id="replyError" class="error-message" style="display: none;"></div>
                     <div id="replySuccess" class="success-message" style="display: none;"></div>
 
-                    <div class="form-group">
-                      <label for="replyTo">To:</label>
-                      <input type="email" id="replyTo" readonly>
-                    </div>
+                    <div class="reply-fields">
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label for="replyTo">To:</label>
+                          <input type="email" id="replyTo" readonly>
+                        </div>
+                        <div class="form-group">
+                          <label for="replySubject">Subject:</label>
+                          <input type="text" id="replySubject" required>
+                        </div>
+                      </div>
 
-                    <div class="form-group">
-                      <label for="replySubject">Subject:</label>
-                      <input type="text" id="replySubject" required>
-                    </div>
+                      <div class="template-selector">
+                        <label for="templateSelect">Use Saved Template:</label>
+                        <select id="templateSelect">
+                          <option value="">-- Select a template --</option>
+                        </select>
+                      </div>
 
-                    <div class="template-selector">
-                      <label for="templateSelect">Use Saved Template:</label>
-                      <select id="templateSelect">
-                        <option value="">-- Select a template --</option>
-                      </select>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="replyMessage">Message:</label>
-                      <textarea id="replyMessage" rows="8" required placeholder="Type your reply..."></textarea>
+                      <div class="form-group message-group">
+                        <label for="replyMessage">Message:</label>
+                        <textarea id="replyMessage" required placeholder="Type your reply..."></textarea>
+                      </div>
                     </div>
                   </div>
                 </form>
