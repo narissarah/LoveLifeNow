@@ -480,6 +480,12 @@ body {
   color: var(--lln-gray-800);
 }
 
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
 .modal-close {
   background: none;
   border: none;

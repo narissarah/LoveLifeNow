@@ -102,7 +102,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <h2 id="modalTitle">Submission Details</h2>
-        <button class="modal-close" id="closeModal">&times;</button>
+        <div class="modal-header-actions">
+          <button id="replyBtn" class="btn btn-primary btn-small" disabled>
+            Reply via Email
+          </button>
+          <button class="modal-close" id="closeModal">&times;</button>
+        </div>
       </div>
 
       <div class="modal-body">
@@ -150,11 +155,6 @@
         </div>
       </div>
 
-      <div class="modal-footer">
-        <button id="replyBtn" class="btn btn-primary" disabled>
-          Reply via Email
-        </button>
-      </div>
     </div>
   </div>
 
