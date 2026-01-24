@@ -66,12 +66,21 @@ exports.handler = async (event) => {
     if (params.debug === 'true' && filteredInteractions.length > 0) {
       const firstInteraction = filteredInteractions[0];
       let rawConstituent = null;
+      let rawAccount = null;
       if (firstInteraction.AccountId) {
+        // Try constituents endpoint
         try {
           const constResp = await bloomerangApi.get(`/constituents/${firstInteraction.AccountId}`);
           rawConstituent = constResp.data;
         } catch (e) {
           rawConstituent = { error: e.message };
+        }
+        // Try accounts endpoint
+        try {
+          const acctResp = await bloomerangApi.get(`/accounts/${firstInteraction.AccountId}`);
+          rawAccount = acctResp.data;
+        } catch (e) {
+          rawAccount = { error: e.message };
         }
       }
       return {
@@ -81,8 +90,10 @@ exports.handler = async (event) => {
           debug: true,
           rawInteraction: firstInteraction,
           rawConstituent: rawConstituent,
+          rawAccount: rawAccount,
           allInteractionKeys: Object.keys(firstInteraction),
-          allConstituentKeys: rawConstituent ? Object.keys(rawConstituent) : []
+          allConstituentKeys: rawConstituent && !rawConstituent.error ? Object.keys(rawConstituent) : [],
+          allAccountKeys: rawAccount && !rawAccount.error ? Object.keys(rawAccount) : []
         })
       };
     }
