@@ -62,27 +62,30 @@ exports.handler = async (event) => {
       i.Subject && i.Subject.includes(subjectPattern)
     );
 
-    // Debug: Return first raw interaction and constituent to see structure
-    if (params.debug === 'true' && filteredInteractions.length > 0) {
-      const firstInteraction = filteredInteractions[0];
+    // Debug: Return first raw interaction and test constituent access
+    if (params.debug === 'true') {
+      const firstInteraction = filteredInteractions.length > 0 ? filteredInteractions[0] : null;
       let rawConstituent = null;
-      let rawAccount = null;
-      if (firstInteraction.AccountId) {
-        // Try constituents endpoint
+      let constituentsList = null;
+
+      // Try to list some constituents to verify API access
+      try {
+        const listResp = await bloomerangApi.get('/constituents', { params: { take: 3 } });
+        constituentsList = listResp.data;
+      } catch (e) {
+        constituentsList = { error: e.message };
+      }
+
+      // If we have an interaction, try to fetch its constituent
+      if (firstInteraction && firstInteraction.AccountId) {
         try {
           const constResp = await bloomerangApi.get(`/constituents/${firstInteraction.AccountId}`);
           rawConstituent = constResp.data;
         } catch (e) {
-          rawConstituent = { error: e.message };
-        }
-        // Try accounts endpoint
-        try {
-          const acctResp = await bloomerangApi.get(`/accounts/${firstInteraction.AccountId}`);
-          rawAccount = acctResp.data;
-        } catch (e) {
-          rawAccount = { error: e.message };
+          rawConstituent = { error: e.message, accountId: firstInteraction.AccountId };
         }
       }
+
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
@@ -90,10 +93,8 @@ exports.handler = async (event) => {
           debug: true,
           rawInteraction: firstInteraction,
           rawConstituent: rawConstituent,
-          rawAccount: rawAccount,
-          allInteractionKeys: Object.keys(firstInteraction),
-          allConstituentKeys: rawConstituent && !rawConstituent.error ? Object.keys(rawConstituent) : [],
-          allAccountKeys: rawAccount && !rawAccount.error ? Object.keys(rawAccount) : []
+          constituentsList: constituentsList,
+          allInteractionKeys: firstInteraction ? Object.keys(firstInteraction) : []
         })
       };
     }
