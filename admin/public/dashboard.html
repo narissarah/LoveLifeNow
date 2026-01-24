@@ -62,10 +62,28 @@
     <main class="main-content">
       <header class="content-header">
         <h1 id="pageTitle">Contact Form Submissions</h1>
-        <button id="refreshBtn" class="btn btn-secondary btn-small">
-          <span class="refresh-icon">↻</span> Refresh
-        </button>
+        <div class="header-actions">
+          <button id="archiveToggle" class="btn btn-secondary btn-small">Show Archived</button>
+          <button id="refreshBtn" class="btn btn-secondary btn-small">
+            <span class="refresh-icon">↻</span> Refresh
+          </button>
+        </div>
       </header>
+
+      <!-- Bulk Actions Toolbar -->
+      <div id="bulkToolbar" class="bulk-toolbar">
+        <span id="selectedCount">0 selected</span>
+        <div class="bulk-actions">
+          <button id="selectAllBtn" class="btn btn-secondary btn-small">Select All</button>
+          <button id="deselectAllBtn" class="btn btn-secondary btn-small">Deselect</button>
+          <span class="divider"></span>
+          <button id="markReadBtn" class="btn btn-secondary btn-small">Mark Read</button>
+          <button id="markUnreadBtn" class="btn btn-secondary btn-small">Mark Unread</button>
+          <span class="divider"></span>
+          <button id="archiveBtn" class="btn btn-secondary btn-small">Archive</button>
+          <button id="unarchiveBtn" class="btn btn-secondary btn-small">Unarchive</button>
+        </div>
+      </div>
 
       <div class="content-body">
         <!-- Left: Submissions List -->

@@ -14,13 +14,39 @@ function getTransporter() {
   });
 }
 
-// Format plain text message as simple HTML
-function formatEmailHtml(message) {
+// Format plain text message as simple HTML with quoted original
+function formatEmailHtml(message, originalMessage, originalDate, originalName) {
   const escapedMessage = message
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/\n/g, '<br>');
+
+  // Format quoted original message if provided
+  let quotedSection = '';
+  if (originalMessage) {
+    const escapedOriginal = originalMessage
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\n/g, '<br>');
+
+    const dateStr = originalDate ? new Date(originalDate).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit'
+    }) : '';
+
+    quotedSection = `
+      <div class="quoted">
+        <p class="quoted-header">On ${dateStr}, ${originalName || 'Unknown'} wrote:</p>
+        <blockquote>${escapedOriginal}</blockquote>
+      </div>
+    `;
+  }
 
   return `
     <!DOCTYPE html>
@@ -43,10 +69,27 @@ function formatEmailHtml(message) {
           font-size: 12px;
           color: #666;
         }
+        .quoted {
+          margin-top: 30px;
+          padding-top: 20px;
+          border-top: 1px solid #eee;
+        }
+        .quoted-header {
+          color: #666;
+          font-size: 12px;
+          margin-bottom: 10px;
+        }
+        blockquote {
+          margin: 0;
+          padding-left: 15px;
+          border-left: 3px solid #ccc;
+          color: #555;
+        }
       </style>
     </head>
     <body>
       <div>${escapedMessage}</div>
+      ${quotedSection}
       <div class="footer">
         <p>Love Life Now<br>
         Helping survivors of domestic violence</p>
@@ -54,6 +97,27 @@ function formatEmailHtml(message) {
     </body>
     </html>
   `;
+}
+
+// Format plain text with quoted original
+function formatPlainText(message, originalMessage, originalDate, originalName) {
+  let text = message;
+
+  if (originalMessage) {
+    const dateStr = originalDate ? new Date(originalDate).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit'
+    }) : '';
+
+    const quotedOriginal = originalMessage.split('\n').map(line => `> ${line}`).join('\n');
+    text += `\n\n---\nOn ${dateStr}, ${originalName || 'Unknown'} wrote:\n${quotedOriginal}`;
+  }
+
+  return text;
 }
 
 exports.handler = async (event) => {
@@ -68,7 +132,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    const { to, subject, message, submissionId } = JSON.parse(event.body || '{}');
+    const { to, subject, message, submissionId, originalMessage, originalDate, originalName } = JSON.parse(event.body || '{}');
 
     // Validate required fields
     if (!to || !subject || !message) {
@@ -96,10 +160,11 @@ exports.handler = async (event) => {
 
     const mailOptions = {
       from: `"Love Life Now" <${process.env.FROM_EMAIL}>`,
+      replyTo: process.env.FROM_EMAIL,
       to: to,
       subject: subject,
-      text: message,
-      html: formatEmailHtml(message)
+      text: formatPlainText(message, originalMessage, originalDate, originalName),
+      html: formatEmailHtml(message, originalMessage, originalDate, originalName)
     };
 
     const info = await transporter.sendMail(mailOptions);

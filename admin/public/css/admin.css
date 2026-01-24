@@ -484,6 +484,11 @@ body {
   margin: 0;
 }
 
+.header-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
 .refresh-icon {
   display: inline-block;
   transition: transform 0.3s;
@@ -491,6 +496,50 @@ body {
 
 #refreshBtn:hover .refresh-icon {
   transform: rotate(180deg);
+}
+
+#archiveToggle.active {
+  background: var(--lln-purple-600);
+  color: white;
+  border-color: var(--lln-purple-600);
+}
+
+/* ===================
+   Bulk Actions Toolbar
+   =================== */
+.bulk-toolbar {
+  display: none;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--lln-purple-100);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  flex-shrink: 0;
+}
+
+.bulk-toolbar.visible {
+  display: flex;
+}
+
+.bulk-toolbar #selectedCount {
+  font-weight: 600;
+  color: var(--lln-purple-700);
+  font-size: 0.875rem;
+}
+
+.bulk-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-left: auto;
+}
+
+.bulk-actions .divider {
+  width: 1px;
+  height: 20px;
+  background: var(--lln-purple-300);
+  margin: 0 var(--space-xs);
 }
 
 /* ===================
@@ -512,7 +561,7 @@ body {
 
 /* When panel is open, shrink list area */
 .content-body.panel-open .submissions-list-area {
-  flex: 0 0 45%;
+  flex: 0 0 25%;
 }
 
 /* ===================
@@ -532,8 +581,8 @@ body {
 }
 
 .detail-panel.open {
-  width: 55%;
-  min-width: 400px;
+  width: 75%;
+  min-width: 500px;
   opacity: 1;
 }
 
@@ -831,7 +880,7 @@ body {
 
 /* Panel size in reply mode */
 .detail-panel.reply-mode {
-  width: 55%;
+  width: 75%;
   min-width: 500px;
 }
 
@@ -876,6 +925,9 @@ body {
 }
 
 .submission-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
   padding: var(--space-md) var(--space-lg);
   border-bottom: 1px solid var(--lln-gray-100);
   cursor: pointer;
@@ -890,13 +942,62 @@ body {
   background: var(--lln-purple-50);
 }
 
+/* Unread state - purple left border and bold text */
+.submission-item.unread {
+  background: white;
+  border-left: 4px solid var(--lln-purple-600);
+}
+
+.submission-item.unread .submission-name {
+  font-weight: 700;
+}
+
+.submission-item.unread .submission-date {
+  color: var(--lln-purple-600);
+  font-weight: 500;
+}
+
+/* Selected state (checkbox selected for bulk actions) */
 .submission-item.selected {
   background: var(--lln-purple-100);
-  border-left: 3px solid var(--lln-purple-600);
+}
+
+.submission-item.selected .submission-checkbox {
+  color: var(--lln-purple-600);
 }
 
 .submission-item.selected:hover {
   background: var(--lln-purple-100);
+}
+
+/* Currently viewing state (when panel is open) */
+.submission-item.viewing {
+  background: var(--lln-purple-50);
+  border-right: 4px solid var(--lln-purple-600);
+}
+
+/* Checkbox */
+.submission-checkbox {
+  font-size: 1.25rem;
+  color: var(--lln-gray-400);
+  cursor: pointer;
+  transition: color 0.15s;
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+}
+
+.submission-checkbox:hover {
+  color: var(--lln-purple-600);
+}
+
+.submission-item.selected .submission-checkbox {
+  color: var(--lln-purple-600);
+}
+
+.submission-content {
+  flex: 1;
+  min-width: 0;
 }
 
 .submission-date {
@@ -909,6 +1010,13 @@ body {
   font-size: 0.9375rem;
   font-weight: 500;
   color: var(--lln-gray-800);
+}
+
+.empty-list-message {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--lln-gray-500);
+  font-size: 0.9375rem;
 }
 
 .action-buttons {
@@ -1173,12 +1281,12 @@ body {
    =================== */
 @media (max-width: 1024px) {
   .content-body.panel-open .submissions-list-area {
-    flex: 0 0 40%;
+    flex: 0 0 30%;
   }
 
   .detail-panel.open {
-    width: 60%;
-    min-width: 350px;
+    width: 70%;
+    min-width: 400px;
   }
 }
 

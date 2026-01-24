@@ -6,6 +6,47 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentFormType = 'contact';
   let currentSubmission = null;
   let submissions = [];
+  let selectedIds = new Set();
+  let showArchived = false;
+
+  // Local storage keys
+  const STORAGE_KEY = 'lln_submission_status';
+
+  // Get submission statuses from localStorage
+  function getSubmissionStatuses() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch {
+      return {};
+    }
+  }
+
+  // Save submission statuses to localStorage
+  function saveSubmissionStatuses(statuses) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(statuses));
+  }
+
+  // Get status for a specific submission
+  function getStatus(submissionId) {
+    const statuses = getSubmissionStatuses();
+    return statuses[submissionId] || { read: false, archived: false };
+  }
+
+  // Update status for a submission
+  function updateStatus(submissionId, updates) {
+    const statuses = getSubmissionStatuses();
+    statuses[submissionId] = { ...getStatus(submissionId), ...updates };
+    saveSubmissionStatuses(statuses);
+  }
+
+  // Update status for multiple submissions
+  function updateMultipleStatuses(ids, updates) {
+    const statuses = getSubmissionStatuses();
+    ids.forEach(id => {
+      statuses[id] = { ...statuses[id] || { read: false, archived: false }, ...updates };
+    });
+    saveSubmissionStatuses(statuses);
+  }
 
   // Form type labels
   const formLabels = {
@@ -106,6 +147,9 @@ Love Life Now Foundation Team`
   const submissionsBody = document.getElementById('submissionsBody');
   const navItems = document.querySelectorAll('.nav-item');
   const refreshBtn = document.getElementById('refreshBtn');
+  const bulkToolbar = document.getElementById('bulkToolbar');
+  const selectedCount = document.getElementById('selectedCount');
+  const archiveToggle = document.getElementById('archiveToggle');
   const logoutBtn = document.getElementById('logoutBtn');
 
   // Panel elements
@@ -128,7 +172,96 @@ Love Life Now Foundation Team`
     setupLogout();
     setupRefresh();
     setupPanel();
+    setupBulkActions();
     loadSubmissions(currentFormType);
+  }
+
+  // Bulk actions toolbar
+  function setupBulkActions() {
+    // Archive toggle
+    if (archiveToggle) {
+      archiveToggle.addEventListener('click', () => {
+        showArchived = !showArchived;
+        archiveToggle.classList.toggle('active', showArchived);
+        archiveToggle.textContent = showArchived ? 'Hide Archived' : 'Show Archived';
+        renderSubmissions(submissions);
+      });
+    }
+
+    // Mark as read
+    document.getElementById('markReadBtn')?.addEventListener('click', () => {
+      if (selectedIds.size > 0) {
+        updateMultipleStatuses([...selectedIds], { read: true });
+        clearSelection();
+        renderSubmissions(submissions);
+      }
+    });
+
+    // Mark as unread
+    document.getElementById('markUnreadBtn')?.addEventListener('click', () => {
+      if (selectedIds.size > 0) {
+        updateMultipleStatuses([...selectedIds], { read: false });
+        clearSelection();
+        renderSubmissions(submissions);
+      }
+    });
+
+    // Archive
+    document.getElementById('archiveBtn')?.addEventListener('click', () => {
+      if (selectedIds.size > 0) {
+        updateMultipleStatuses([...selectedIds], { archived: true });
+        clearSelection();
+        renderSubmissions(submissions);
+      }
+    });
+
+    // Unarchive
+    document.getElementById('unarchiveBtn')?.addEventListener('click', () => {
+      if (selectedIds.size > 0) {
+        updateMultipleStatuses([...selectedIds], { archived: false });
+        clearSelection();
+        renderSubmissions(submissions);
+      }
+    });
+
+    // Select all
+    document.getElementById('selectAllBtn')?.addEventListener('click', () => {
+      const visibleSubmissions = getVisibleSubmissions();
+      visibleSubmissions.forEach(sub => selectedIds.add(String(sub.id)));
+      updateBulkToolbar();
+      renderSubmissions(submissions);
+    });
+
+    // Deselect all
+    document.getElementById('deselectAllBtn')?.addEventListener('click', () => {
+      clearSelection();
+      renderSubmissions(submissions);
+    });
+  }
+
+  function clearSelection() {
+    selectedIds.clear();
+    updateBulkToolbar();
+  }
+
+  function updateBulkToolbar() {
+    if (bulkToolbar) {
+      if (selectedIds.size > 0) {
+        bulkToolbar.classList.add('visible');
+        if (selectedCount) {
+          selectedCount.textContent = `${selectedIds.size} selected`;
+        }
+      } else {
+        bulkToolbar.classList.remove('visible');
+      }
+    }
+  }
+
+  function getVisibleSubmissions() {
+    return submissions.filter(sub => {
+      const status = getStatus(String(sub.id));
+      return showArchived ? status.archived : !status.archived;
+    });
   }
 
   // Sidebar collapse/expand
@@ -154,6 +287,7 @@ Love Life Now Foundation Team`
           currentFormType = formType;
           updateActiveNav(item);
           hideDetailPanel();
+          clearSelection();
           loadSubmissions(formType);
         }
       });
@@ -225,34 +359,90 @@ Love Life Now Foundation Team`
   function renderSubmissions(submissionsList) {
     submissionsBody.textContent = '';
 
-    submissionsList.forEach((sub, index) => {
+    // Filter based on archived status
+    const visibleSubmissions = submissionsList.filter(sub => {
+      const status = getStatus(String(sub.id));
+      return showArchived ? status.archived : !status.archived;
+    });
+
+    if (visibleSubmissions.length === 0) {
+      const emptyMsg = document.createElement('div');
+      emptyMsg.className = 'empty-list-message';
+      emptyMsg.textContent = showArchived ? 'No archived submissions' : 'No submissions found';
+      submissionsBody.appendChild(emptyMsg);
+      return;
+    }
+
+    visibleSubmissions.forEach((sub, index) => {
+      const subId = String(sub.id);
+      const status = getStatus(subId);
+      const isSelected = selectedIds.has(subId);
+      const isViewing = currentSubmission && String(currentSubmission.id) === subId;
+
       const item = document.createElement('div');
       item.className = 'submission-item';
+      if (!status.read) item.classList.add('unread');
+      if (isSelected) item.classList.add('selected');
+      if (isViewing) item.classList.add('viewing');
       item.dataset.index = index;
+      item.dataset.id = subId;
 
-      item.addEventListener('click', () => {
-        selectSubmission(sub, item);
+      // Checkbox
+      const checkbox = document.createElement('div');
+      checkbox.className = 'submission-checkbox';
+      checkbox.innerHTML = isSelected ? '☑' : '☐';
+      checkbox.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleSelection(subId);
+        renderSubmissions(submissions);
       });
+      item.appendChild(checkbox);
+
+      // Content wrapper
+      const content = document.createElement('div');
+      content.className = 'submission-content';
 
       const dateEl = document.createElement('div');
       dateEl.className = 'submission-date';
       dateEl.textContent = formatDate(sub.date);
-      item.appendChild(dateEl);
+      content.appendChild(dateEl);
 
       const nameEl = document.createElement('div');
       nameEl.className = 'submission-name';
       nameEl.textContent = sub.constituent?.name || 'Unknown';
-      item.appendChild(nameEl);
+      content.appendChild(nameEl);
+
+      item.appendChild(content);
+
+      // Click on content opens the submission and marks as read
+      content.addEventListener('click', () => {
+        // Mark as read
+        updateStatus(subId, { read: true });
+        selectSubmission(sub, item);
+        renderSubmissions(submissions);
+      });
 
       submissionsBody.appendChild(item);
     });
+
+    updateBulkToolbar();
+  }
+
+  function toggleSelection(subId) {
+    if (selectedIds.has(subId)) {
+      selectedIds.delete(subId);
+    } else {
+      selectedIds.add(subId);
+    }
+    updateBulkToolbar();
   }
 
   // Select a submission and show in side panel
   function selectSubmission(sub, rowElement) {
-    const allRows = submissionsBody.querySelectorAll('tr');
-    allRows.forEach(r => r.classList.remove('selected'));
-    rowElement.classList.add('selected');
+    // Highlight the currently viewed item
+    const allRows = submissionsBody.querySelectorAll('.submission-item');
+    allRows.forEach(r => r.classList.remove('viewing'));
+    rowElement.classList.add('viewing');
 
     showDetailPanel(sub);
   }
@@ -448,8 +638,8 @@ Love Life Now Foundation Team`
     detailPanel.classList.remove('open');
     contentBody.classList.remove('panel-open');
 
-    const allRows = submissionsBody.querySelectorAll('tr');
-    allRows.forEach(r => r.classList.remove('selected'));
+    const allItems = submissionsBody.querySelectorAll('.submission-item');
+    allItems.forEach(item => item.classList.remove('viewing'));
 
     setTimeout(() => {
       if (!detailPanel.classList.contains('open')) {
@@ -492,7 +682,10 @@ Love Life Now Foundation Team`
           to,
           subject,
           message,
-          submissionId: currentSubmission?.id
+          submissionId: currentSubmission?.id,
+          originalMessage: currentSubmission?.note || '',
+          originalDate: currentSubmission?.date,
+          originalName: currentSubmission?.constituent?.name || 'Unknown'
         })
       });
 
