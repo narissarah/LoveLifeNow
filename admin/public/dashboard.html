@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Love Life Now Admin</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="dashboard-page">
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h2>Love Life Now</h2>
+        <span class="subtitle">Admin Panel</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <ul>
+          <li>
+            <a href="#" data-form="contact" class="nav-item active">
+              <span class="nav-icon">📧</span>
+              Contact Form
+            </a>
+          </li>
+          <li>
+            <a href="#" data-form="volunteer" class="nav-item">
+              <span class="nav-icon">🤝</span>
+              Volunteer
+            </a>
+          </li>
+          <li>
+            <a href="#" data-form="speaker" class="nav-item">
+              <span class="nav-icon">🎤</span>
+              Book A Speaker
+            </a>
+          </li>
+          <li>
+            <a href="#" data-form="getsafe" class="nav-item">
+              <span class="nav-icon">🛡️</span>
+              Get Safe Fund
+            </a>
+          </li>
+          <li>
+            <a href="#" data-form="donate" class="nav-item">
+              <span class="nav-icon">💜</span>
+              Donations
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button id="logoutBtn" class="btn btn-secondary btn-small">Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="content-header">
+        <h1 id="pageTitle">Contact Form Submissions</h1>
+        <button id="refreshBtn" class="btn btn-secondary btn-small">
+          <span class="refresh-icon">↻</span> Refresh
+        </button>
+      </header>
+
+      <div id="loadingState" class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading submissions...</p>
+      </div>
+
+      <div id="errorState" class="error-state" style="display: none;">
+        <p class="error-message"></p>
+        <button class="btn btn-secondary btn-small" onclick="location.reload()">Try Again</button>
+      </div>
+
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <p>No submissions found for this form type.</p>
+      </div>
+
+      <div id="submissionsTable" class="submissions-table-container" style="display: none;">
+        <table class="submissions-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Subject</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="submissionsBody">
+            <!-- Submissions will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Submission Detail Modal -->
+  <div id="detailModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Submission Details</h2>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="detail-section">
+          <h3>Contact Information</h3>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>Name:</label>
+              <span id="detailName">-</span>
+            </div>
+            <div class="detail-item">
+              <label>Email:</label>
+              <span id="detailEmail">-</span>
+            </div>
+            <div class="detail-item">
+              <label>Phone:</label>
+              <span id="detailPhone">-</span>
+            </div>
+            <div class="detail-item">
+              <label>Date:</label>
+              <span id="detailDate">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h3>Message</h3>
+          <div id="detailSubject" class="detail-subject"></div>
+          <div id="detailMessage" class="detail-message"></div>
+        </div>
+
+        <div id="customFieldsSection" class="detail-section" style="display: none;">
+          <h3>Additional Information</h3>
+          <div id="customFieldsGrid" class="detail-grid"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="replyBtn" class="btn btn-primary" disabled>
+          Reply via Email
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reply Modal -->
+  <div id="replyModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Send Reply</h2>
+        <button class="modal-close" id="closeReplyModal">&times;</button>
+      </div>
+
+      <form id="replyForm" class="reply-form">
+        <div class="form-group">
+          <label for="replyTo">To:</label>
+          <input type="email" id="replyTo" readonly>
+        </div>
+
+        <div class="form-group">
+          <label for="replySubject">Subject:</label>
+          <input type="text" id="replySubject" required>
+        </div>
+
+        <div class="form-group">
+          <label for="replyMessage">Message:</label>
+          <textarea id="replyMessage" rows="8" required placeholder="Type your reply..."></textarea>
+        </div>
+
+        <div id="replyError" class="error-message" style="display: none;"></div>
+        <div id="replySuccess" class="success-message" style="display: none;"></div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancelReply">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="sendReplyBtn">
+            <span class="btn-text">Send Reply</span>
+            <span class="btn-loading" style="display: none;">Sending...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

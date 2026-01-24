@@ -90,6 +90,25 @@
             line-height: 1.6;
         }
 
+        .hero-login-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.625rem 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            text-decoration: none;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .hero-login-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
         /* Main Content */
         main {
             flex: 1;
@@ -246,6 +265,7 @@
             <div class="hero-content">
                 <h1>Love Life Now Foundation</h1>
                 <p>Supporting domestic violence survivors with resources, advocacy, and hope. Access our forms below to get involved or request assistance.</p>
+                <a href="admin/public/index.html" class="hero-login-btn">Admin Login</a>
             </div>
         </header>
 
