@@ -221,28 +221,30 @@ Love Life Now Foundation Team`
     }
   }
 
-  // Render submissions table
+  // Render submissions list
   function renderSubmissions(submissionsList) {
     submissionsBody.textContent = '';
 
     submissionsList.forEach((sub, index) => {
-      const tr = document.createElement('tr');
-      tr.dataset.index = index;
+      const item = document.createElement('div');
+      item.className = 'submission-item';
+      item.dataset.index = index;
 
-      tr.addEventListener('click', () => {
-        selectSubmission(sub, tr);
+      item.addEventListener('click', () => {
+        selectSubmission(sub, item);
       });
 
-      const dateCell = document.createElement('td');
-      dateCell.className = 'date-cell';
-      dateCell.textContent = formatDate(sub.date);
-      tr.appendChild(dateCell);
+      const dateEl = document.createElement('div');
+      dateEl.className = 'submission-date';
+      dateEl.textContent = formatDate(sub.date);
+      item.appendChild(dateEl);
 
-      const nameCell = document.createElement('td');
-      nameCell.textContent = sub.constituent?.name || 'Unknown';
-      tr.appendChild(nameCell);
+      const nameEl = document.createElement('div');
+      nameEl.className = 'submission-name';
+      nameEl.textContent = sub.constituent?.name || 'Unknown';
+      item.appendChild(nameEl);
 
-      submissionsBody.appendChild(tr);
+      submissionsBody.appendChild(item);
     });
   }
 

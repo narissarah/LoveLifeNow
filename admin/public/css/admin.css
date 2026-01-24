@@ -861,69 +861,54 @@ body {
 }
 
 /* ===================
-   Submissions Table
+   Submissions List
    =================== */
-.submissions-table-container {
+.submissions-list-container {
   background: white;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
 
-.submissions-table {
-  width: 100%;
-  border-collapse: collapse;
+.submissions-list {
+  display: flex;
+  flex-direction: column;
 }
 
-.submissions-table th,
-.submissions-table td {
-  padding: var(--space-md);
-  text-align: left;
+.submission-item {
+  padding: var(--space-md) var(--space-lg);
   border-bottom: 1px solid var(--lln-gray-100);
-}
-
-.submissions-table th {
-  background: var(--lln-gray-50);
-  font-weight: 600;
-  font-size: 0.8125rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--lln-gray-600);
-}
-
-.submissions-table tbody tr {
   cursor: pointer;
   transition: background 0.15s;
 }
 
-.submissions-table tbody tr:hover {
+.submission-item:last-child {
+  border-bottom: none;
+}
+
+.submission-item:hover {
   background: var(--lln-purple-50);
 }
 
-.submissions-table tbody tr.selected {
+.submission-item.selected {
   background: var(--lln-purple-100);
   border-left: 3px solid var(--lln-purple-600);
 }
 
-.submissions-table tbody tr.selected:hover {
+.submission-item.selected:hover {
   background: var(--lln-purple-100);
 }
 
-.submissions-table td {
-  font-size: 0.9375rem;
-}
-
-.submissions-table .date-cell {
-  white-space: nowrap;
+.submission-date {
+  font-size: 0.75rem;
   color: var(--lln-gray-500);
-  font-size: 0.875rem;
+  margin-bottom: var(--space-xs);
 }
 
-.submissions-table .subject-cell {
-  max-width: 250px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.submission-name {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--lln-gray-800);
 }
 
 .action-buttons {
