@@ -87,9 +87,9 @@
 '</div>' + 
 '    <div class="section custom-fields">' + 
 '      <h3>Additional Information</h3>' + 
-'      <div class="field text CustomAccountField_757761 required" >' + 
-'<label for="CustomAccountField_757761"><span class="label">Message</span><span class="required-star">*</span></label>' + 
-'<input id="CustomAccountField_757761" name="CustomAccountField_757761" class="required" type="text" maxlength="255"></input>' + 
+'      <div class="field text CustomInteractionField_1040385 required" >' + 
+'<label for="CustomInteractionField_1040385"><span class="label">message</span><span class="required-star">*</span></label>' + 
+'<input id="CustomInteractionField_1040385" name="CustomInteractionField_1040385" class="required" type="text" maxlength="255"></input>' + 
 '</div>' + 
 '' + 
 '</div>' + 
@@ -104,8 +104,8 @@
 '</div>' + 
 '' + 
 '' +  '';var successHtml763904 = '<div class=\'donation-success\'>' +
-                                                       '  <h2>Thank you for Registering!</h2>' +
-                                                       '  <p>Your email address has been added to our mailing list.</p>' + 
+                                                       '  <h2>Message Received!</h2>' +
+                                                       '  <p>Someone will get back to you within 24 to 48 hours.\r\u003cbr /\u003ePlease note, if you are looking for assistance from \r\u003cbr /\u003ethe Get Safe Fund, please fill out the application at www.lovelifenow.org/getsafe</p>' + 
                                                         '\u003cdiv class=\"social-media-buttons\" style=\"margin-top:10px;\"\u003e\u003cdiv class=\"fb-like\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\" data-show-faces=\"true\" style=\"padding-right: 10px;\" data-action=\"like\" \u003e\u003c/div\u003e\u003cdiv id=\"facebookShareOnly\" class=\"fb-share-button\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\"\u003e\u003c/div\u003e\u003cscript type=\u0027text/javascript\u0027\u003edocument.getElementById(\u0027facebookShareOnly\u0027).setAttribute(\u0027data-href\u0027, window.location.href);\u003c/script\u003e\u003c/div\u003e  \u003cdiv id=\"fb-root\"\u003e\u003c/div\u003e \u003cscript\u003e(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1\u0026version=v2.8\"; fjs.parentNode.insertBefore(js, fjs); }(document, \u0027script\u0027, \u0027facebook-jssdk\u0027));\u003c/script\u003e ' + 
                                                         '</div>';( function($) {if (!Bloomerang.useEmailId('763904')) { 
                                     html763904 = '<p style="color: red">Only one email sign-up form can be used on each page.</p>';
@@ -369,7 +369,7 @@
                         window.bloomerangLoadStarted = true;
                         var script = document.createElement('script');
                         script.type = 'text/javascript';
-                        script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=1765570449';
+                        script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=1768604272';
                         document.getElementsByTagName('head')[0].appendChild(script);
                         waitForBloomerangLoad(function() { Bloomerang.Util.requireJQueryValidation(function() { insertForm763904(); })});
                     }
