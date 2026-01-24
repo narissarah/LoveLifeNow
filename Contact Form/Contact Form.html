@@ -77,7 +77,7 @@
             display: none;
         }
         /* Contact form specific: larger message textarea */
-        .email-registration-form textarea {
+        .interaction-form textarea {
             min-height: 150px;
         }
     </style>
@@ -93,17 +93,17 @@
             <div class="form-card" id="form-card">
                 <div class="form-body">
                     <div id="bloomerang-form-container">
-                        <script type="text/javascript" id="bloomerangForm763904"></script>
+                        <script type="text/javascript" id="bloomerangForm1050624"></script>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bloomerang Form Template - CRITICAL: Do not modify IDs or field names -->
+    <!-- Bloomerang Interaction Form Template - CRITICAL: Do not modify IDs or field names -->
     <template id="styled-form-content">
-        <div id="email-registration-form-container">
-            <form id="email-registration-form" class="email-registration-form" method="post" action="javascript:void(0)">
+        <div id="interaction-form-container">
+            <form id="interaction-form" class="interaction-form" method="post" action="javascript:void(0)">
                 <div class="errors hidden"></div>
 
                 <div class="section contact">
@@ -131,6 +131,12 @@
                         </label>
                         <input id="email-address" name="email-address" class="email required" type="email" placeholder="you@example.com">
                     </div>
+                    <div class="field tel phone-number">
+                        <label for="phone-number">
+                            <span class="label">Phone</span>
+                        </label>
+                        <input id="phone-number" name="phone-number" class="phoneUS" type="tel" placeholder="(555) 123-4567">
+                    </div>
                 </div>
 
                 <div class="section custom-fields">
@@ -146,44 +152,44 @@
 
                 <div class="section captcha">
                     <label id="noCaptchaResponseError" class="error noCaptchaResponseError" style="display: none">Please complete the CAPTCHA verification</label>
-                    <div id="captcha763904"></div>
+                    <div id="captcha1050624"></div>
                 </div>
 
                 <div class="btn-group">
-                    <input class="btn btn-submit btn-submit-email" type="submit" value="Send Message" />
+                    <input class="btn btn-submit btn-submit-interaction" type="submit" value="Send Message" />
                 </div>
             </form>
         </div>
     </template>
 
     <script type="text/javascript">
-        var insertForm763904 = function () {
-            var html763904 = document.getElementById('styled-form-content').innerHTML;
-            var successHtml763904 = '<div class=\'donation-success\'>' +
+        var insertForm1050624 = function () {
+            var html1050624 = document.getElementById('styled-form-content').innerHTML;
+            var successHtml1050624 = '<div class=\'donation-success\'>' +
                 '  <h2>Message Received!</h2>' +
                 '  <p>Someone will get back to you within 24 to 48 hours.</p>' +
-                '  <p>Please note, if you are looking for assistance from the Get Safe Fund, please fill out the application at <a href=\"https://www.lovelifenow.org/getsafe\" target=\"_blank\">www.lovelifenow.org/getsafe</a></p>' +
+                '  <p>Please note, if you are looking for assistance from the Get Safe Fund, please fill out the application at <a href="https://www.lovelifenow.org/getsafe" target="_blank">www.lovelifenow.org/getsafe</a></p>' +
                 '</div>';
 
             (function ($) {
-                if (!Bloomerang.useEmailId('763904')) {
-                    html763904 = '<p style="color: red">Only one email sign-up form can be used on each page.</p>';
+                if (!Bloomerang.useInteractionId('1050624')) {
+                    html1050624 = '<p style="color: red">Only one Volunteer Activity or Constituent Information form can be used on each page.</p>';
                 }
                 Bloomerang.Util.requireStripe();
 
-                if (jQuery('#bloomerangForm763904').length) {
-                    jQuery('#bloomerangForm763904').after(html763904);
+                if (jQuery('#bloomerangForm1050624').length) {
+                    jQuery('#bloomerangForm1050624').after(html1050624);
                     // Show form and hide loading spinner
                     document.getElementById('form-loading').classList.add('hidden');
                     document.getElementById('form-card').classList.add('loaded');
                 };
 
-                if (Bloomerang.emailSignupFormLoaded) {
+                if (Bloomerang.interactionFormLoaded) {
                     return false;
                 }
-                Bloomerang.emailSignupFormLoaded = true;
+                Bloomerang.interactionFormLoaded = true;
 
-                Bloomerang.reCaptchaV3SiteKey = '';
+                Bloomerang.reCaptchaV3SiteKey = '6LeyBk4sAAAAAIVtFr2PRuCOEzZR8L94d_lEK436';
                 Bloomerang.gRecaptchaV3Threshold = 0.5;
 
                 window.captchaLoadCallback = function () {
@@ -224,7 +230,7 @@
                         function () { return Bloomerang.gRecaptchaLoaded; },
                         function () {
                             jQuery('.section.captcha').removeAttr('style');
-                            jQuery('form.email-registration-form').data('captcha-id', grecaptcha.render('captcha763904', { 'sitekey': '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
+                            jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha1050624', { 'sitekey': '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
                             if ((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.reCaptchaV3SiteKey && Bloomerang.isDonationForm)) {
                                 jQuery('.section.captcha').attr('style', 'display: none');
                             }
@@ -263,88 +269,134 @@
 
                 Bloomerang.useKey('pub_7950352a-2c1c-11f0-abbb-062e8fd2ede7');
 
-                Bloomerang.Widget.Email.OnSubmit = function (args) {
-                    jQuery(".btn-submit-email").val("Sending...").prop("disabled", true).addClass("disabled");
+                // Register proper callbacks for Interaction form submission
+                Bloomerang.Widget.Interaction.OnSubmit = function (args) {
+                    jQuery(".btn-submit-interaction").val("Sending...").prop("disabled", true).addClass("disabled");
                     var val = function (selector) { return jQuery(selector).val(); };
 
                     Bloomerang.Account
                         .individual()
-                        .firstName(val(".email-registration-form #first-name"))
-                        .lastName(val(".email-registration-form #last-name"))
-                        .homeEmail(val(".email-registration-form #email-address"))
-                        .applyEmailSignupCustomFields();
+                        .firstName(val(".interaction-form #first-name"))
+                        .lastName(val(".interaction-form #last-name"))
+                        .homeEmail(val(".interaction-form #email-address"))
+                        .homePhone(val(".interaction-form #phone-number"))
+                        .applyInteractionCustomFields();
 
-                    Bloomerang.Interaction.applyEmailSignupCustomFields();
+                    Bloomerang.Interaction.applyInteractionCustomFields();
                 };
 
-                Bloomerang.ValidateEmailSignupFormCaptcha = function () {
-                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.EmailSignup).children().length) {
-                        var captchaResponse = grecaptcha.getResponse(jQuery(".email-registration-form").data("captcha-id"));
+                Bloomerang.ValidateInteractionFormCaptcha = function () {
+                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.Interaction).children().length) {
+                        var captchaResponse = grecaptcha.getResponse(jQuery(".interaction-form").data("captcha-id"));
                         if (captchaResponse) {
-                            jQuery(".email-registration-form .noCaptchaResponseError").hide();
+                            jQuery(".interaction-form .noCaptchaResponseError").hide();
                             Bloomerang.captchaResponse(captchaResponse);
                             return true;
                         } else {
-                            jQuery(".email-registration-form .noCaptchaResponseError").show();
+                            jQuery(".interaction-form .noCaptchaResponseError").show();
                             return false;
                         }
                     } else return true;
                 };
 
-                Bloomerang.Api.OnSuccess = Bloomerang.Widget.Email.OnSuccess = function (response) {
-                    var formContainer = jQuery("#email-registration-form-container");
-                    formContainer.html(successHtml763904);
+                Bloomerang.Api.OnSuccess = Bloomerang.Widget.Interaction.OnSuccess = function (response) {
+                    var formContainer = jQuery("#interaction-form-container");
+                    formContainer.html(successHtml1050624);
                     var distance = 100;
                     var offset = formContainer.offset().top;
                     var offsetTop = offset > distance ? offset - distance : offset;
                     jQuery('html, body').animate({ scrollTop: offsetTop }, 500);
                 };
 
-                Bloomerang.Api.OnError = Bloomerang.Widget.Email.OnError = function (response) {
-                    jQuery(".btn-submit-email").prop("disabled", false).removeClass("disabled").val("Send Message");
-                    jQuery("#email-registration-form-container .errors").removeClass("hidden").html(response.Message);
+                Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError = function (response) {
+                    jQuery(".btn-submit-interaction").val("Send Message").prop("disabled", false).removeClass("disabled");
+                    jQuery("#interaction-form-container .errors").removeClass("hidden").html(response.Message);
                     var distance = 100;
-                    var offset = jQuery("#email-registration-form-container .errors").offset().top;
+                    var offset = jQuery("#interaction-form-container .errors").offset().top;
                     var offsetTop = offset > distance ? offset - distance : offset;
                     jQuery('html, body').animate({ scrollTop: offsetTop }, 500);
 
-                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.EmailSignup).children().length) {
-                        grecaptcha.reset(jQuery(".email-registration-form").data("captcha-id"));
+                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.Interaction).children().length) {
+                        grecaptcha.reset(jQuery(".interaction-form").data("captcha-id"));
                     }
                 };
 
-                // Custom field helpers
-                Bloomerang.Util.applyEmailSignupCustomFields = function (obj, type) {
+                // Custom field helpers for Interaction form
+                Bloomerang.Util.applyInteractionCustomFields = function (obj, type) {
+                    // Clear any fields from a previous failed submission
                     obj.clearCustomFields();
-                    jQuery(".email-registration-form .section.custom-fields :input:not(a > input, select)[id*=" + type + "]").each(function () {
+
+                    // Apply all <input> (not multiselect), <select> and <textarea> fields
+                    jQuery(".interaction-form .section.custom-fields :input:not(a > input, select)[id*=" + type + "]").each(function () {
                         if (jQuery(this).val().hasValue()) {
                             obj.customFreeformField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
                         }
                     });
-                    jQuery(".email-registration-form .section.custom-fields select[id*=" + type + "]").each(function () {
+
+                    // Apply all <select> fields
+                    jQuery(".interaction-form .section.custom-fields select[id*=" + type + "]").each(function () {
                         if (jQuery(this).val().hasValue()) {
                             obj.customPickField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
                         }
                     });
+
+                    // Apply all multiselect fields
+                    jQuery(".interaction-form .section.custom-fields .checkboxes[id*=" + type + "]").each(function () {
+                        obj.customPickField(jQuery(this).attr("id").toUntypedValue(),
+                            jQuery.map(jQuery(this).children(".checkbox.selected"), function (v) { return jQuery(v).attr("data-id"); }));
+                    });
                 };
 
                 // Prototype helpers
-                String.prototype.hasValue = function () { return (this && jQuery.trim(this)); };
-                Bloomerang.Account.applyEmailSignupCustomFields = function () { Bloomerang.Util.applyEmailSignupCustomFields(this, "Account"); return this; };
-                Bloomerang.Interaction.applyEmailSignupCustomFields = function () { Bloomerang.Util.applyEmailSignupCustomFields(this, "Interaction"); return this; };
-                String.prototype.toUntypedValue = function () { return this.substring(this.indexOf('_') + 1); };
+                String.prototype.hasValue = function () {
+                    return (this && jQuery.trim(this));
+                };
 
-                // Initialize validation
-                jQuery("#email-registration-form-container form").validate({
+                Bloomerang.Account.applyInteractionCustomFields = function () {
+                    Bloomerang.Util.applyInteractionCustomFields(this, "Account");
+                    return this;
+                };
+
+                Bloomerang.Interaction.applyInteractionCustomFields = function () {
+                    Bloomerang.Util.applyInteractionCustomFields(this, "Interaction");
+                    return this;
+                };
+
+                String.prototype.toUntypedValue = function () {
+                    return this.substring(this.indexOf('_') + 1);
+                };
+
+                // Phone number validation
+                jQuery.validator.addMethod("phoneUS", function (phone_number, element) {
+                    var digits = phone_number.replace(/\D/g, "");
+                    return this.optional(element) || digits.length == 7 || digits.length == 10 || digits.length == 11;
+                }, "Please specify a valid phone number or use '+' for international.");
+
+                jQuery.validator.addMethod("phoneInternational", function (phone_number, element) {
+                    return this.optional(element) || /^\+[0-9\-\(\)\s.]+$/i.test(phone_number);
+                }, "Please specify a valid phone number.");
+                jQuery.validator.classRuleSettings.phoneInternational = { phoneInternational: true };
+
+                // Phone field toggle for international numbers
+                jQuery(".interaction-form #phone-number").change(function () {
+                    var phoneField = jQuery(".interaction-form #phone-number");
+                    var internationalNumber = phoneField.val().substring(0, 1) === '+';
+                    phoneField.toggleClass("phoneUS", !internationalNumber);
+                    phoneField.toggleClass("phoneInternational", internationalNumber);
+                });
+
+                // Initialize validation and form submission
+                jQuery("#interaction-form-container form").validate({
                     submitHandler: function () {
-                        if (!Bloomerang.ValidateEmailSignupFormCaptcha()) {
+                        if (!Bloomerang.ValidateInteractionFormCaptcha()) {
                             return false;
                         }
 
-                        Bloomerang.Api.OnSubmit = Bloomerang.Widget.Email.OnSubmit;
-                        Bloomerang.Api.OnSuccess = Bloomerang.Widget.Email.OnSuccess;
-                        Bloomerang.Api.OnError = Bloomerang.Widget.Email.OnError;
-                        Bloomerang.Api.joinMailingList();
+                        // Restore proper callbacks in case there are multiple widgets on the page
+                        Bloomerang.Api.OnSubmit = Bloomerang.Widget.Interaction.OnSubmit;
+                        Bloomerang.Api.OnSuccess = Bloomerang.Widget.Interaction.OnSuccess;
+                        Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError;
+                        Bloomerang.Api.submitInteraction();
                     }
                 });
 
@@ -356,12 +408,12 @@
                 window.bloomerangLoadStarted = true;
                 var script = document.createElement('script');
                 script.type = 'text/javascript';
-                script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=1765570449';
+                script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=' + Date.now();
                 document.getElementsByTagName('head')[0].appendChild(script);
-                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm763904(); }) });
+                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm1050624(); }) });
             }
             else {
-                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm763904(); }) });
+                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm1050624(); }) });
             }
         };
 
