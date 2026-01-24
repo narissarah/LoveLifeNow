@@ -167,20 +167,58 @@
               </div>
             </div>
 
-            <!-- Reply Mode: Stacked View (Original Top + Reply Bottom) -->
+            <!-- Reply Mode: Stacked View (Tabbed Top + Reply Bottom) -->
             <div id="replyMode" class="panel-stacked" style="display: none;">
-              <!-- Top: Original Submission -->
+              <!-- Top: Tabbed Content (Details or History) -->
               <div class="stack-top">
-                <div class="stack-header">
-                  <h3>Original Submission</h3>
-                  <span class="stack-meta" id="replyDetailDate">-</span>
+                <div class="stack-tabs">
+                  <button class="stack-tab active" data-tab="details">Submission Details</button>
+                  <button class="stack-tab" data-tab="history">Submission History</button>
                 </div>
-                <div class="stack-body">
-                  <div class="original-from">
-                    <strong id="replyDetailName">-</strong>
-                    <span id="replyDetailEmail">-</span>
+
+                <!-- Tab: Submission Details -->
+                <div class="tab-content active" id="tabDetails">
+                  <div class="tab-body">
+                    <div class="detail-grid-compact">
+                      <div class="detail-item-compact">
+                        <label>Name:</label>
+                        <span id="replyDetailName">-</span>
+                      </div>
+                      <div class="detail-item-compact">
+                        <label>Email:</label>
+                        <span id="replyDetailEmail">-</span>
+                      </div>
+                      <div class="detail-item-compact">
+                        <label>Phone:</label>
+                        <span id="replyDetailPhone">-</span>
+                      </div>
+                      <div class="detail-item-compact">
+                        <label>Date:</label>
+                        <span id="replyDetailDate">-</span>
+                      </div>
+                    </div>
+                    <div id="replyAddressSection" class="detail-compact-section" style="display: none;">
+                      <label>Address:</label>
+                      <span id="replyDetailAddress">-</span>
+                    </div>
+                    <div id="replyCustomFieldsSection" class="detail-compact-section" style="display: none;">
+                      <label>Additional Info:</label>
+                      <div id="replyCustomFieldsGrid" class="detail-grid-compact"></div>
+                    </div>
                   </div>
-                  <div id="replyDetailMessage" class="original-message"></div>
+                </div>
+
+                <!-- Tab: Submission History -->
+                <div class="tab-content" id="tabHistory">
+                  <div class="tab-body">
+                    <div class="history-item">
+                      <div class="history-header">
+                        <strong id="historyName">-</strong>
+                        <span id="historyDate">-</span>
+                      </div>
+                      <div id="historyMessage" class="original-message"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -188,7 +226,7 @@
               <div class="stack-bottom">
                 <form id="replyForm" class="reply-form">
                   <div class="stack-header">
-                    <h3>Your Reply</h3>
+                    <h3>Reply to Submission</h3>
                   </div>
                   <div class="stack-body">
                     <div id="replyError" class="error-message" style="display: none;"></div>

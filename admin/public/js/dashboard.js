@@ -314,6 +314,21 @@ Love Life Now Foundation Team`
     // Back button - return to view mode
     backToView.addEventListener('click', showViewMode);
 
+    // Tab switching in reply mode
+    document.querySelectorAll('.stack-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.dataset.tab;
+
+        // Update active tab
+        document.querySelectorAll('.stack-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        // Show corresponding content
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById(tabName === 'details' ? 'tabDetails' : 'tabHistory').classList.add('active');
+      });
+    });
+
     // Reply form submit
     replyForm.addEventListener('submit', handleReplySubmit);
 
@@ -355,11 +370,58 @@ Love Life Now Foundation Team`
   function showReplyMode() {
     if (!currentSubmission?.constituent?.email) return;
 
-    // Populate left side (original submission details)
+    // Populate Details tab
     document.getElementById('replyDetailName').textContent = currentSubmission.constituent?.name || 'Unknown';
     document.getElementById('replyDetailEmail').textContent = currentSubmission.constituent?.email || '-';
+    document.getElementById('replyDetailPhone').textContent = currentSubmission.constituent?.phone || '-';
     document.getElementById('replyDetailDate').textContent = formatDate(currentSubmission.date);
-    document.getElementById('replyDetailMessage').textContent = currentSubmission.note || 'No message content';
+
+    // Address in details tab
+    const replyAddressSection = document.getElementById('replyAddressSection');
+    const addr = currentSubmission.constituent?.address;
+    if (addr && (addr.street || addr.city)) {
+      let addressParts = [];
+      if (addr.street) addressParts.push(addr.street);
+      if (addr.city) addressParts.push(addr.city);
+      if (addr.state) addressParts.push(addr.state);
+      if (addr.zip) addressParts.push(addr.zip);
+      document.getElementById('replyDetailAddress').textContent = addressParts.join(', ');
+      replyAddressSection.style.display = 'block';
+    } else {
+      replyAddressSection.style.display = 'none';
+    }
+
+    // Custom fields in details tab
+    const replyCustomFieldsSection = document.getElementById('replyCustomFieldsSection');
+    const replyCustomFieldsGrid = document.getElementById('replyCustomFieldsGrid');
+    replyCustomFieldsGrid.textContent = '';
+    if (currentSubmission.customFields && currentSubmission.customFields.length > 0) {
+      currentSubmission.customFields.forEach(field => {
+        const item = document.createElement('div');
+        item.className = 'detail-item-compact';
+        const label = document.createElement('label');
+        label.textContent = (field.name || 'Field') + ':';
+        const span = document.createElement('span');
+        span.textContent = field.value || '-';
+        item.appendChild(label);
+        item.appendChild(span);
+        replyCustomFieldsGrid.appendChild(item);
+      });
+      replyCustomFieldsSection.style.display = 'block';
+    } else {
+      replyCustomFieldsSection.style.display = 'none';
+    }
+
+    // Populate History tab
+    document.getElementById('historyName').textContent = currentSubmission.constituent?.name || 'Unknown';
+    document.getElementById('historyDate').textContent = formatDate(currentSubmission.date);
+    document.getElementById('historyMessage').textContent = currentSubmission.note || 'No message content';
+
+    // Reset tabs to show Details first
+    document.querySelectorAll('.stack-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.stack-tab[data-tab="details"]').classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tabDetails').classList.add('active');
 
     // Reset reply form
     document.getElementById('templateSelect').value = '';
