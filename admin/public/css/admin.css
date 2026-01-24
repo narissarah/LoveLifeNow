@@ -245,11 +245,13 @@ body {
   left: 0;
   height: 100vh;
   z-index: 100;
+  transition: width 0.3s ease;
 }
 
 .sidebar-header {
   padding: var(--space-xl) var(--space-lg);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
 }
 
 .sidebar-header h2 {
@@ -257,12 +259,85 @@ body {
   font-size: 1.25rem;
   margin: 0;
   font-weight: 600;
+  transition: opacity 0.2s;
 }
 
 .sidebar-header .subtitle {
   font-size: 0.8125rem;
   opacity: 0.7;
   margin-top: var(--space-xs);
+  transition: opacity 0.2s;
+}
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  position: absolute;
+  right: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.toggle-icon {
+  font-size: 0.75rem;
+  transition: transform 0.3s;
+}
+
+/* Collapsed sidebar state */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar.collapsed .sidebar-header h2,
+.sidebar.collapsed .sidebar-header .subtitle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar.collapsed .sidebar-toggle {
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+
+.sidebar.collapsed .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 0.875rem var(--space-md);
+}
+
+.sidebar.collapsed .nav-item span:not(.nav-icon) {
+  display: none;
+}
+
+.sidebar.collapsed .nav-icon {
+  font-size: 1.25rem;
+}
+
+.sidebar.collapsed .sidebar-footer .btn {
+  padding: 0.5rem;
+  font-size: 0;
+}
+
+.sidebar.collapsed .sidebar-footer .btn::before {
+  content: "↪";
+  font-size: 1rem;
 }
 
 .sidebar-nav {
@@ -325,6 +400,12 @@ body {
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  transition: margin-left 0.3s ease;
+}
+
+/* When sidebar is collapsed */
+.sidebar.collapsed ~ .main-content {
+  margin-left: 70px;
 }
 
 .content-header {

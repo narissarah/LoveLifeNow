@@ -121,15 +121,35 @@ Love Life Now Foundation Team`
   const backToView = document.getElementById('backToView');
   const replyForm = document.getElementById('replyForm');
 
+  // Sidebar elements
+  const sidebar = document.getElementById('sidebar');
+  const sidebarToggle = document.getElementById('sidebarToggle');
+
   // Initialize
   init();
 
   function init() {
+    setupSidebar();
     setupNavigation();
     setupLogout();
     setupRefresh();
     setupModals();
     loadSubmissions(currentFormType);
+  }
+
+  // Sidebar collapse/expand
+  function setupSidebar() {
+    // Restore saved state
+    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (isCollapsed) {
+      sidebar.classList.add('collapsed');
+    }
+
+    // Toggle button
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+    });
   }
 
   // Navigation
