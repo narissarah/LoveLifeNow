@@ -161,13 +161,23 @@
   <!-- Reply Modal -->
   <div id="replyModal" class="modal" style="display: none;">
     <div class="modal-content">
-      <div class="modal-header">
-        <h2>Send Reply</h2>
-        <button class="modal-close" id="closeReplyModal">&times;</button>
-      </div>
-
       <form id="replyForm" class="reply-form">
+        <div class="modal-header">
+          <h2>Send Reply</h2>
+          <div class="modal-header-actions">
+            <button type="button" class="btn btn-secondary btn-small" id="cancelReply">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-small" id="sendReplyBtn">
+              <span class="btn-text">Send Reply</span>
+              <span class="btn-loading" style="display: none;">Sending...</span>
+            </button>
+            <button type="button" class="modal-close" id="closeReplyModal">&times;</button>
+          </div>
+        </div>
+
         <div class="modal-body">
+          <div id="replyError" class="error-message" style="display: none;"></div>
+          <div id="replySuccess" class="success-message" style="display: none;"></div>
+
           <div class="template-selector">
             <label for="templateSelect">Use Saved Template:</label>
             <select id="templateSelect">
@@ -189,17 +199,6 @@
             <label for="replyMessage">Message:</label>
             <textarea id="replyMessage" rows="8" required placeholder="Type your reply..."></textarea>
           </div>
-        </div>
-
-        <div id="replyError" class="error-message" style="display: none;"></div>
-        <div id="replySuccess" class="success-message" style="display: none;"></div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" id="cancelReply">Cancel</button>
-          <button type="submit" class="btn btn-primary" id="sendReplyBtn">
-            <span class="btn-text">Send Reply</span>
-            <span class="btn-loading" style="display: none;">Sending...</span>
-          </button>
         </div>
       </form>
     </div>
