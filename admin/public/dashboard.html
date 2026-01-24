@@ -167,19 +167,28 @@
       </div>
 
       <form id="replyForm" class="reply-form">
-        <div class="form-group">
-          <label for="replyTo">To:</label>
-          <input type="email" id="replyTo" readonly>
-        </div>
+        <div class="modal-body">
+          <div class="template-selector">
+            <label for="templateSelect">Use Saved Template:</label>
+            <select id="templateSelect">
+              <option value="">-- Select a template --</option>
+            </select>
+          </div>
 
-        <div class="form-group">
-          <label for="replySubject">Subject:</label>
-          <input type="text" id="replySubject" required>
-        </div>
+          <div class="form-group">
+            <label for="replyTo">To:</label>
+            <input type="email" id="replyTo" readonly>
+          </div>
 
-        <div class="form-group">
-          <label for="replyMessage">Message:</label>
-          <textarea id="replyMessage" rows="8" required placeholder="Type your reply..."></textarea>
+          <div class="form-group">
+            <label for="replySubject">Subject:</label>
+            <input type="text" id="replySubject" required>
+          </div>
+
+          <div class="form-group">
+            <label for="replyMessage">Message:</label>
+            <textarea id="replyMessage" rows="8" required placeholder="Type your reply..."></textarea>
+          </div>
         </div>
 
         <div id="replyError" class="error-message" style="display: none;"></div>

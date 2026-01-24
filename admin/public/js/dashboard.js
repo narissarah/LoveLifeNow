@@ -16,6 +16,87 @@ document.addEventListener('DOMContentLoaded', () => {
     donate: 'Donations'
   };
 
+  // Saved reply templates
+  const replyTemplates = [
+    {
+      id: 'thank-you',
+      title: 'Thank You for Contacting Us',
+      subject: 'Thank You for Reaching Out - Love Life Now Foundation',
+      message: `Dear {{name}},
+
+Thank you for contacting Love Life Now Foundation. We have received your message and appreciate you taking the time to reach out to us.
+
+Our team will review your inquiry and get back to you as soon as possible, typically within 1-2 business days.
+
+If you need immediate assistance, please call our office at [phone number].
+
+With gratitude,
+Love Life Now Foundation Team`
+    },
+    {
+      id: 'volunteer-welcome',
+      title: 'Volunteer Application Received',
+      subject: 'Welcome! Your Volunteer Application - Love Life Now Foundation',
+      message: `Dear {{name}},
+
+Thank you for your interest in volunteering with Love Life Now Foundation! We are thrilled that you want to join our mission to support domestic violence survivors.
+
+We have received your volunteer application and will be in touch soon with next steps, including our volunteer orientation schedule.
+
+Your compassion and willingness to help makes a real difference in the lives of survivors.
+
+Warmly,
+Love Life Now Foundation Team`
+    },
+    {
+      id: 'speaker-confirm',
+      title: 'Speaker Request Received',
+      subject: 'Your Speaker Request - Love Life Now Foundation',
+      message: `Dear {{name}},
+
+Thank you for requesting a speaker from Love Life Now Foundation for your event. We are honored by your interest in raising awareness about domestic violence.
+
+We have received your request and our team will review the details. We will contact you within 3-5 business days to discuss availability, logistics, and any specific topics you'd like us to cover.
+
+Thank you for helping us spread awareness and education.
+
+Best regards,
+Love Life Now Foundation Team`
+    },
+    {
+      id: 'getsafe-received',
+      title: 'Get Safe Application Received',
+      subject: 'Your Application Has Been Received - Love Life Now Foundation',
+      message: `Dear {{name}},
+
+We have received your Get Safe Fund application. Please know that reaching out takes courage, and we are here to support you.
+
+Our team will review your application carefully and confidentially. We will contact you within 5-7 business days regarding the status of your application.
+
+If you are in immediate danger, please call 911 or the National Domestic Violence Hotline at 1-800-799-7233.
+
+You are not alone.
+
+With care and support,
+Love Life Now Foundation Team`
+    },
+    {
+      id: 'donation-thanks',
+      title: 'Thank You for Your Donation',
+      subject: 'Thank You for Your Generous Gift - Love Life Now Foundation',
+      message: `Dear {{name}},
+
+Thank you so much for your generous donation to Love Life Now Foundation. Your support directly helps domestic violence survivors rebuild their lives with dignity and hope.
+
+Your contribution will be used to provide essential services including emergency assistance, advocacy, and educational programs.
+
+A tax receipt will be sent to you separately for your records.
+
+With heartfelt gratitude,
+Love Life Now Foundation Team`
+    }
+  ];
+
   // DOM Elements
   const pageTitle = document.getElementById('pageTitle');
   const loadingState = document.getElementById('loadingState');
@@ -155,11 +236,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Actions cell
       const actionsCell = document.createElement('td');
+      const actionButtons = document.createElement('div');
+      actionButtons.className = 'action-buttons';
+
       const viewBtn = document.createElement('button');
       viewBtn.className = 'view-btn';
       viewBtn.textContent = 'View';
       viewBtn.addEventListener('click', () => showDetail(sub));
-      actionsCell.appendChild(viewBtn);
+      actionButtons.appendChild(viewBtn);
+
+      const replyBtnTable = document.createElement('button');
+      replyBtnTable.className = 'reply-btn-table';
+      replyBtnTable.textContent = 'Reply';
+      replyBtnTable.disabled = !sub.constituent?.email;
+      replyBtnTable.addEventListener('click', () => {
+        currentSubmission = sub;
+        showReplyModal();
+      });
+      actionButtons.appendChild(replyBtnTable);
+
+      actionsCell.appendChild(actionButtons);
       tr.appendChild(actionsCell);
 
       submissionsBody.appendChild(tr);
@@ -220,6 +316,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reply form submit
     replyForm.addEventListener('submit', handleReplySubmit);
+
+    // Template selector - populate options
+    const templateSelect = document.getElementById('templateSelect');
+    replyTemplates.forEach(template => {
+      const option = document.createElement('option');
+      option.value = template.id;
+      option.textContent = template.title;
+      templateSelect.appendChild(option);
+    });
+
+    // Template selector - handle change
+    templateSelect.addEventListener('change', (e) => {
+      const selectedId = e.target.value;
+      if (!selectedId) return;
+
+      const template = replyTemplates.find(t => t.id === selectedId);
+      if (template) {
+        const name = currentSubmission?.constituent?.name || 'Valued Friend';
+        document.getElementById('replySubject').value = template.subject;
+        document.getElementById('replyMessage').value = template.message.replace(/\{\{name\}\}/g, name);
+      }
+    });
 
     // Escape key closes modals
     document.addEventListener('keydown', (e) => {
@@ -324,6 +442,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function showReplyModal() {
     if (!currentSubmission?.constituent?.email) return;
+
+    // Reset template selector
+    document.getElementById('templateSelect').value = '';
 
     document.getElementById('replyTo').value = currentSubmission.constituent.email;
     document.getElementById('replySubject').value = `Re: ${currentSubmission.subject}`;

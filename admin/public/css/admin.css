@@ -423,10 +423,15 @@ body {
   white-space: nowrap;
 }
 
-.view-btn {
+.action-buttons {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.view-btn,
+.reply-btn-table {
   padding: 0.375rem 0.75rem;
   font-size: 0.8125rem;
-  background: var(--lln-purple-600);
   color: white;
   border: none;
   border-radius: var(--radius-sm);
@@ -434,8 +439,25 @@ body {
   transition: background 0.2s;
 }
 
+.view-btn {
+  background: var(--lln-purple-600);
+}
+
 .view-btn:hover {
   background: var(--lln-purple-700);
+}
+
+.reply-btn-table {
+  background: var(--lln-purple-500);
+}
+
+.reply-btn-table:hover {
+  background: var(--lln-purple-600);
+}
+
+.reply-btn-table:disabled {
+  background: var(--lln-gray-300);
+  cursor: not-allowed;
 }
 
 /* ===================
@@ -461,7 +483,8 @@ body {
   width: 100%;
   max-width: 600px;
   max-height: 90vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   box-shadow: var(--shadow-lg);
 }
 
@@ -471,6 +494,17 @@ body {
   justify-content: space-between;
   padding: var(--space-lg);
   border-bottom: 1px solid var(--lln-gray-100);
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.modal-body {
+  padding: var(--space-lg);
+  overflow-y: auto;
+  flex: 1;
 }
 
 .modal-header h2 {
@@ -498,10 +532,6 @@ body {
 
 .modal-close:hover {
   color: var(--lln-gray-600);
-}
-
-.modal-body {
-  padding: var(--space-lg);
 }
 
 .modal-footer {
@@ -615,6 +645,40 @@ body {
 .reply-form textarea {
   resize: vertical;
   min-height: 150px;
+}
+
+/* Saved Reply Templates */
+.template-selector {
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--lln-gray-200);
+}
+
+.template-selector label {
+  display: block;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--lln-gray-700);
+  margin-bottom: var(--space-sm);
+}
+
+.template-selector select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 1.5px solid var(--lln-gray-200);
+  border-radius: var(--radius-md);
+  background: var(--lln-gray-50);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.template-selector select:focus {
+  outline: none;
+  border-color: var(--lln-purple-500);
+  background: white;
+  box-shadow: 0 0 0 3px var(--lln-purple-100);
 }
 
 /* ===================
