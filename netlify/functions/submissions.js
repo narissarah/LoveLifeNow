@@ -56,7 +56,7 @@ exports.handler = async (event) => {
     // Bloomerang API channel filter counts but doesn't return results properly
     const response = await bloomerangApi.get('/interactions', {
       params: {
-        take: 100,
+        take: 50,
         skip: 0,
         orderBy: 'Date',
         orderDirection: 'Desc'
