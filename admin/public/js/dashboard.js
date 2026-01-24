@@ -241,10 +241,54 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('detailSubject').textContent = submission.subject;
     document.getElementById('detailMessage').textContent = submission.note || 'No message content';
 
-    // Custom fields - use safe DOM manipulation
+    // Address section
+    const addressSection = document.getElementById('addressSection');
+    const detailAddress = document.getElementById('detailAddress');
+    const addr = submission.constituent?.address;
+    if (addr && (addr.street || addr.city)) {
+      let addressParts = [];
+      if (addr.street) addressParts.push(addr.street);
+      if (addr.city) addressParts.push(addr.city);
+      if (addr.state) addressParts.push(addr.state);
+      if (addr.zip) addressParts.push(addr.zip);
+      if (addr.country) addressParts.push(addr.country);
+      detailAddress.textContent = addressParts.join(', ');
+      addressSection.style.display = 'block';
+    } else {
+      addressSection.style.display = 'none';
+    }
+
+    // Constituent demographics (age, race, ethnicity, etc.)
+    const constituentFieldsSection = document.getElementById('constituentFieldsSection');
+    const constituentFieldsGrid = document.getElementById('constituentFieldsGrid');
+    constituentFieldsGrid.textContent = '';
+
+    if (submission.constituentCustomFields && submission.constituentCustomFields.length > 0) {
+      submission.constituentCustomFields.forEach(field => {
+        const detailItem = document.createElement('div');
+        detailItem.className = 'detail-item';
+
+        const label = document.createElement('label');
+        // Capitalize first letter of field name
+        const fieldName = field.name || 'Field';
+        label.textContent = fieldName.charAt(0).toUpperCase() + fieldName.slice(1) + ':';
+        detailItem.appendChild(label);
+
+        const span = document.createElement('span');
+        span.textContent = field.value || '-';
+        detailItem.appendChild(span);
+
+        constituentFieldsGrid.appendChild(detailItem);
+      });
+      constituentFieldsSection.style.display = 'block';
+    } else {
+      constituentFieldsSection.style.display = 'none';
+    }
+
+    // Custom fields from the interaction (form submission data)
     const customFieldsSection = document.getElementById('customFieldsSection');
     const customFieldsGrid = document.getElementById('customFieldsGrid');
-    customFieldsGrid.textContent = ''; // Clear existing content
+    customFieldsGrid.textContent = '';
 
     if (submission.customFields && submission.customFields.length > 0) {
       submission.customFields.forEach(field => {
@@ -252,11 +296,12 @@ document.addEventListener('DOMContentLoaded', () => {
         detailItem.className = 'detail-item';
 
         const label = document.createElement('label');
-        label.textContent = field.Name || 'Field';
+        const fieldName = field.name || 'Field';
+        label.textContent = fieldName.charAt(0).toUpperCase() + fieldName.slice(1) + ':';
         detailItem.appendChild(label);
 
         const span = document.createElement('span');
-        span.textContent = field.Value || '-';
+        span.textContent = field.value || '-';
         detailItem.appendChild(span);
 
         customFieldsGrid.appendChild(detailItem);
