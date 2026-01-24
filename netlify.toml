@@ -1,8 +1,8 @@
 [build]
   # Publish the root directory (main site)
   publish = "."
-  # Functions are in admin/netlify/functions
-  functions = "admin/netlify/functions"
+  # Functions are in netlify/functions (standard location)
+  functions = "netlify/functions"
 
 [functions]
   node_bundler = "esbuild"
