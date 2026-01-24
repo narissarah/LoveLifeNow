@@ -714,21 +714,21 @@ body {
   margin-bottom: var(--space-md);
 }
 
-.history-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-sm);
+.history-meta {
+  margin-bottom: var(--space-md);
 }
 
-.history-header strong {
-  color: var(--lln-gray-800);
-  font-size: 0.875rem;
-}
-
-.history-header span {
+.history-date {
+  display: block;
   color: var(--lln-gray-500);
   font-size: 0.75rem;
+  margin-bottom: var(--space-xs);
+}
+
+.history-name {
+  display: block;
+  color: var(--lln-gray-800);
+  font-size: 0.9375rem;
 }
 
 .stack-header {
