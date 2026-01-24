@@ -1019,6 +1019,7 @@
                               jQuery(".registration-form #express-submit").val("Register Now");
                               jQuery(".membership-form #express-submit").val("Start Membership • $0.00");
                               jQuery("#express-submit").attr("disabled", false);
+                              jQuery("#form-loading").addClass("hidden"); // Hide loading spinner
                               Bloomerang.donationFormStripeOnBehalfOfFlag = true; 
                               Bloomerang.StripeAccountId = 'acct_1SSjRKH0Bc6gCg0T';
                             });
