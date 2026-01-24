@@ -62,43 +62,6 @@ exports.handler = async (event) => {
       i.Subject && i.Subject.includes(subjectPattern)
     );
 
-    // Debug: Return first raw interaction and test constituent access
-    if (params.debug === 'true') {
-      const firstInteraction = filteredInteractions.length > 0 ? filteredInteractions[0] : null;
-      let rawConstituent = null;
-      let constituentsList = null;
-
-      // Try to list some constituents to verify API access
-      try {
-        const listResp = await bloomerangApi.get('/constituents', { params: { take: 3 } });
-        constituentsList = listResp.data;
-      } catch (e) {
-        constituentsList = { error: e.message };
-      }
-
-      // If we have an interaction, try to fetch its constituent
-      if (firstInteraction && firstInteraction.AccountId) {
-        try {
-          const constResp = await bloomerangApi.get(`/constituents/${firstInteraction.AccountId}`);
-          rawConstituent = constResp.data;
-        } catch (e) {
-          rawConstituent = { error: e.message, accountId: firstInteraction.AccountId };
-        }
-      }
-
-      return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          debug: true,
-          rawInteraction: firstInteraction,
-          rawConstituent: rawConstituent,
-          constituentsList: constituentsList,
-          allInteractionKeys: firstInteraction ? Object.keys(firstInteraction) : []
-        })
-      };
-    }
-
     // Fetch all constituents we need in one request to avoid multiple API calls
     // (Direct constituent lookup by ID returns 404, so we use list with IDs)
     const constituentIds = [...new Set(
