@@ -438,6 +438,18 @@ body {
   flex: 1;
 }
 
+/* Panel modes (view/reply) */
+.panel-mode {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.panel-mode .panel-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
 /* ===================
    Loading & States
    =================== */
@@ -751,6 +763,23 @@ body {
 .reply-form textarea {
   resize: vertical;
   min-height: 150px;
+}
+
+/* Reply form in panel */
+.panel-mode .reply-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.panel-mode .reply-form .panel-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.panel-mode .reply-form textarea {
+  flex: 1;
+  min-height: 200px;
 }
 
 /* Saved Reply Templates */

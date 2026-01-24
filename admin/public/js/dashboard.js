@@ -112,12 +112,13 @@ Love Life Now Foundation Team`
   const contentBody = document.querySelector('.content-body');
   const detailPanel = document.getElementById('detailPanel');
   const closePanel = document.getElementById('closePanel');
+  const closePanelReply = document.getElementById('closePanelReply');
   const replyBtn = document.getElementById('replyBtn');
 
-  // Reply modal elements
-  const replyModal = document.getElementById('replyModal');
-  const closeReplyModal = document.getElementById('closeReplyModal');
-  const cancelReply = document.getElementById('cancelReply');
+  // Panel modes
+  const viewMode = document.getElementById('viewMode');
+  const replyMode = document.getElementById('replyMode');
+  const backToView = document.getElementById('backToView');
   const replyForm = document.getElementById('replyForm');
 
   // Initialize
@@ -280,22 +281,19 @@ Love Life Now Foundation Team`
 
   // Panel and Modal handling
   function setupModals() {
-    // Detail panel close
+    // Detail panel close buttons
     closePanel.addEventListener('click', hideDetailPanel);
+    closePanelReply.addEventListener('click', hideDetailPanel);
 
-    // Reply button in panel
+    // Reply button - switch to reply mode
     replyBtn.addEventListener('click', () => {
       if (currentSubmission?.constituent?.email) {
-        showReplyModal();
+        showReplyMode();
       }
     });
 
-    // Reply modal
-    closeReplyModal.addEventListener('click', hideReplyModal);
-    cancelReply.addEventListener('click', hideReplyModal);
-    replyModal.addEventListener('click', (e) => {
-      if (e.target === replyModal) hideReplyModal();
-    });
+    // Back button - return to view mode
+    backToView.addEventListener('click', showViewMode);
 
     // Reply form submit
     replyForm.addEventListener('submit', handleReplySubmit);
@@ -322,16 +320,39 @@ Love Life Now Foundation Team`
       }
     });
 
-    // Escape key closes panel and modals
+    // Escape key closes panel or goes back to view
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (replyModal.style.display !== 'none') {
-          hideReplyModal();
+        if (replyMode.style.display !== 'none') {
+          showViewMode();
         } else {
           hideDetailPanel();
         }
       }
     });
+  }
+
+  // Switch to reply mode in panel
+  function showReplyMode() {
+    if (!currentSubmission?.constituent?.email) return;
+
+    // Reset form
+    document.getElementById('templateSelect').value = '';
+    document.getElementById('replyTo').value = currentSubmission.constituent.email;
+    document.getElementById('replySubject').value = `Re: ${currentSubmission.subject}`;
+    document.getElementById('replyMessage').value = '';
+    document.getElementById('replyError').style.display = 'none';
+    document.getElementById('replySuccess').style.display = 'none';
+
+    // Switch modes
+    viewMode.style.display = 'none';
+    replyMode.style.display = 'flex';
+  }
+
+  // Switch back to view mode
+  function showViewMode() {
+    replyMode.style.display = 'none';
+    viewMode.style.display = 'flex';
   }
 
   function showDetailPanel(submission) {
@@ -418,6 +439,10 @@ Love Life Now Foundation Team`
     // Enable/disable reply button based on email availability
     replyBtn.disabled = !submission.constituent?.email;
 
+    // Ensure view mode is shown (not reply mode)
+    viewMode.style.display = 'flex';
+    replyMode.style.display = 'none';
+
     // Show panel
     detailPanel.style.display = 'flex';
     detailPanel.classList.add('open');
@@ -439,25 +464,6 @@ Love Life Now Foundation Team`
         currentSubmission = null;
       }
     }, 300);
-  }
-
-  function showReplyModal() {
-    if (!currentSubmission?.constituent?.email) return;
-
-    // Reset template selector
-    document.getElementById('templateSelect').value = '';
-
-    document.getElementById('replyTo').value = currentSubmission.constituent.email;
-    document.getElementById('replySubject').value = `Re: ${currentSubmission.subject}`;
-    document.getElementById('replyMessage').value = '';
-    document.getElementById('replyError').style.display = 'none';
-    document.getElementById('replySuccess').style.display = 'none';
-
-    replyModal.style.display = 'flex';
-  }
-
-  function hideReplyModal() {
-    replyModal.style.display = 'none';
   }
 
   async function handleReplySubmit(e) {
@@ -505,9 +511,9 @@ Love Life Now Foundation Team`
         successDiv.textContent = 'Email sent successfully!';
         successDiv.style.display = 'block';
 
-        // Close modal after a short delay
+        // Go back to view mode after a short delay
         setTimeout(() => {
-          hideReplyModal();
+          showViewMode();
         }, 1500);
       } else {
         errorDiv.textContent = data.error || 'Failed to send email';
