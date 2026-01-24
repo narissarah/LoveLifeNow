@@ -62,15 +62,27 @@ exports.handler = async (event) => {
       i.Subject && i.Subject.includes(subjectPattern)
     );
 
-    // Debug: Return first raw interaction to see structure
+    // Debug: Return first raw interaction and constituent to see structure
     if (params.debug === 'true' && filteredInteractions.length > 0) {
+      const firstInteraction = filteredInteractions[0];
+      let rawConstituent = null;
+      if (firstInteraction.AccountId) {
+        try {
+          const constResp = await bloomerangApi.get(`/constituents/${firstInteraction.AccountId}`);
+          rawConstituent = constResp.data;
+        } catch (e) {
+          rawConstituent = { error: e.message };
+        }
+      }
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           debug: true,
-          rawInteraction: filteredInteractions[0],
-          allKeys: Object.keys(filteredInteractions[0])
+          rawInteraction: firstInteraction,
+          rawConstituent: rawConstituent,
+          allInteractionKeys: Object.keys(firstInteraction),
+          allConstituentKeys: rawConstituent ? Object.keys(rawConstituent) : []
         })
       };
     }
@@ -79,8 +91,7 @@ exports.handler = async (event) => {
     const enrichedSubmissions = await Promise.all(
       filteredInteractions.map(async (interaction) => {
         let constituent = null;
-        // Try AccountId first, then fall back to other ID fields
-        const constituentId = interaction.AccountId || interaction.ConstituentId;
+        const constituentId = interaction.AccountId;
 
         if (constituentId) {
           try {
@@ -91,24 +102,43 @@ exports.handler = async (event) => {
           }
         }
 
+        // Extract custom field values from CustomValues array
+        // Bloomerang stores form fields as CustomValues, not CustomFields
+        const customFields = (interaction.CustomValues || []).map(cv => ({
+          name: cv.FieldText || cv.FieldId,
+          value: cv.Value?.Value || cv.Value || ''
+        }));
+
+        // Find message/note from custom values if not in Note field
+        let message = interaction.Note || '';
+        const messageField = customFields.find(f =>
+          f.name?.toLowerCase().includes('message') ||
+          f.name?.toLowerCase().includes('comment') ||
+          f.name?.toLowerCase().includes('note')
+        );
+        if (!message && messageField) {
+          message = messageField.value;
+        }
+
         return {
           id: interaction.Id,
           date: interaction.Date,
           subject: interaction.Subject || 'No Subject',
-          note: interaction.Note || '',
+          note: message,
           constituent: constituent ? {
             id: constituent.Id,
             name: `${constituent.FirstName || ''} ${constituent.LastName || ''}`.trim(),
             email: constituent.PrimaryEmail?.Value || null,
-            phone: constituent.PrimaryPhone?.Number || null
+            phone: constituent.PrimaryPhone?.Number || null,
+            // Include additional constituent fields
+            address: constituent.PrimaryAddress ? {
+              street: constituent.PrimaryAddress.Street || '',
+              city: constituent.PrimaryAddress.City || '',
+              state: constituent.PrimaryAddress.State || '',
+              zip: constituent.PrimaryAddress.PostalCode || ''
+            } : null
           } : null,
-          customFields: interaction.CustomFields || [],
-          // Include raw data for debugging
-          _raw: {
-            accountId: interaction.AccountId,
-            constituentId: interaction.ConstituentId,
-            hasCustomFields: (interaction.CustomFields || []).length
-          }
+          customFields: customFields
         };
       })
     );
