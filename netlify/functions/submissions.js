@@ -52,18 +52,21 @@ exports.handler = async (event) => {
     // Set API key from environment
     bloomerangApi.defaults.headers['X-API-Key'] = process.env.BLOOMERANG_API_KEY;
 
-    // Fetch interactions filtered by channel
+    // Fetch all interactions (without channel filter - filter client-side)
+    // Bloomerang API channel filter counts but doesn't return results properly
     const response = await bloomerangApi.get('/interactions', {
       params: {
-        take: 50,
+        take: 100,
         skip: 0,
-        channel: channelId,
         orderBy: 'Date',
         orderDirection: 'Desc'
       }
     });
 
-    const interactions = response.data.Results || [];
+    const allInteractions = response.data.Results || [];
+
+    // Filter by channel client-side
+    const interactions = allInteractions.filter(i => i.Channel === channelId);
 
     // Enrich with constituent details
     const enrichedSubmissions = await Promise.all(
@@ -100,8 +103,13 @@ exports.handler = async (event) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         formType,
-        total: response.data.Total || enrichedSubmissions.length,
-        submissions: enrichedSubmissions
+        total: enrichedSubmissions.length,
+        submissions: enrichedSubmissions,
+        // Debug: include available channels in response
+        debug: {
+          totalFetched: allInteractions.length,
+          uniqueChannels: [...new Set(allInteractions.map(i => i.Channel))]
+        }
       })
     };
 
