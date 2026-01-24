@@ -927,8 +927,6 @@ body {
 /* Saved Reply Templates */
 .template-selector {
   margin-bottom: var(--space-lg);
-  padding-bottom: var(--space-lg);
-  border-bottom: 1px solid var(--lln-gray-200);
 }
 
 .template-selector label {
