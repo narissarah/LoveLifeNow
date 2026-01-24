@@ -714,19 +714,19 @@ body {
   margin-bottom: var(--space-md);
 }
 
-.history-meta {
+.history-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
   margin-bottom: var(--space-md);
 }
 
 .history-date {
-  display: block;
   color: var(--lln-gray-500);
-  font-size: 0.75rem;
-  margin-bottom: var(--space-xs);
+  font-size: 0.8125rem;
 }
 
 .history-name {
-  display: block;
   color: var(--lln-gray-800);
   font-size: 0.9375rem;
 }
