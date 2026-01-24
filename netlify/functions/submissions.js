@@ -99,20 +99,33 @@ exports.handler = async (event) => {
       };
     }
 
-    // Enrich with constituent details
-    const enrichedSubmissions = await Promise.all(
-      filteredInteractions.map(async (interaction) => {
-        let constituent = null;
-        const constituentId = interaction.AccountId;
+    // Fetch all constituents we need in one request to avoid multiple API calls
+    // (Direct constituent lookup by ID returns 404, so we use list with IDs)
+    const constituentIds = [...new Set(
+      filteredInteractions
+        .map(i => i.AccountId)
+        .filter(Boolean)
+    )];
 
-        if (constituentId) {
-          try {
-            const constResponse = await bloomerangApi.get(`/constituents/${constituentId}`);
-            constituent = constResponse.data;
-          } catch (err) {
-            console.log('Constituent fetch error:', err.message);
-          }
-        }
+    let constituentsMap = {};
+    if (constituentIds.length > 0) {
+      try {
+        // Fetch constituents - the list endpoint works when direct lookup doesn't
+        const constResponse = await bloomerangApi.get('/constituents', {
+          params: { take: 50, id: constituentIds }
+        });
+        const results = constResponse.data.Results || [];
+        results.forEach(c => {
+          constituentsMap[c.Id] = c;
+        });
+      } catch (err) {
+        console.log('Constituents fetch error:', err.message);
+      }
+    }
+
+    // Enrich with constituent details
+    const enrichedSubmissions = filteredInteractions.map(interaction => {
+      const constituent = constituentsMap[interaction.AccountId] || null;
 
         // Extract custom field values from CustomValues array
         // Bloomerang stores form fields as CustomValues, not CustomFields
@@ -132,28 +145,32 @@ exports.handler = async (event) => {
           message = messageField.value;
         }
 
-        return {
-          id: interaction.Id,
-          date: interaction.Date,
-          subject: interaction.Subject || 'No Subject',
-          note: message,
-          constituent: constituent ? {
-            id: constituent.Id,
-            name: `${constituent.FirstName || ''} ${constituent.LastName || ''}`.trim(),
-            email: constituent.PrimaryEmail?.Value || null,
-            phone: constituent.PrimaryPhone?.Number || null,
-            // Include additional constituent fields
-            address: constituent.PrimaryAddress ? {
-              street: constituent.PrimaryAddress.Street || '',
-              city: constituent.PrimaryAddress.City || '',
-              state: constituent.PrimaryAddress.State || '',
-              zip: constituent.PrimaryAddress.PostalCode || ''
-            } : null
-          } : null,
-          customFields: customFields
-        };
-      })
-    );
+      return {
+        id: interaction.Id,
+        date: interaction.Date,
+        subject: interaction.Subject || 'No Subject',
+        note: message,
+        constituent: constituent ? {
+          id: constituent.Id,
+          name: `${constituent.FirstName || ''} ${constituent.LastName || ''}`.trim(),
+          email: constituent.PrimaryEmail?.Value || null,
+          phone: constituent.PrimaryPhone?.Number || null,
+          address: constituent.PrimaryAddress ? {
+            street: constituent.PrimaryAddress.Street || '',
+            city: constituent.PrimaryAddress.City || '',
+            state: constituent.PrimaryAddress.State || '',
+            country: constituent.PrimaryAddress.Country || '',
+            zip: constituent.PrimaryAddress.PostalCode || ''
+          } : null
+        } : null,
+        customFields: customFields,
+        // Also include constituent custom values (age, race, ethnicity, etc.)
+        constituentCustomFields: constituent?.CustomValues?.map(cv => ({
+          name: cv.FieldText || cv.FieldId,
+          value: cv.Value?.Value || cv.Value || ''
+        })) || []
+      };
+    });
 
     return {
       statusCode: 200,
