@@ -64,98 +64,98 @@
         </button>
       </header>
 
-      <div id="loadingState" class="loading-state">
-        <div class="spinner"></div>
-        <p>Loading submissions...</p>
-      </div>
+      <div class="content-body">
+        <!-- Left: Submissions List -->
+        <div class="submissions-list-area">
+          <div id="loadingState" class="loading-state">
+            <div class="spinner"></div>
+            <p>Loading submissions...</p>
+          </div>
 
-      <div id="errorState" class="error-state" style="display: none;">
-        <p class="error-message"></p>
-        <button class="btn btn-secondary btn-small" onclick="location.reload()">Try Again</button>
-      </div>
+          <div id="errorState" class="error-state" style="display: none;">
+            <p class="error-message"></p>
+            <button class="btn btn-secondary btn-small" onclick="location.reload()">Try Again</button>
+          </div>
 
-      <div id="emptyState" class="empty-state" style="display: none;">
-        <p>No submissions found for this form type.</p>
-      </div>
+          <div id="emptyState" class="empty-state" style="display: none;">
+            <p>No submissions found for this form type.</p>
+          </div>
 
-      <div id="submissionsTable" class="submissions-table-container" style="display: none;">
-        <table class="submissions-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Subject</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="submissionsBody">
-            <!-- Submissions will be inserted here -->
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </div>
-
-  <!-- Submission Detail Modal -->
-  <div id="detailModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modalTitle">Submission Details</h2>
-        <div class="modal-header-actions">
-          <button id="replyBtn" class="btn btn-primary btn-small" disabled>
-            Reply via Email
-          </button>
-          <button class="modal-close" id="closeModal">&times;</button>
-        </div>
-      </div>
-
-      <div class="modal-body">
-        <div class="detail-section">
-          <h3>Contact Information</h3>
-          <div class="detail-grid">
-            <div class="detail-item">
-              <label>Name:</label>
-              <span id="detailName">-</span>
-            </div>
-            <div class="detail-item">
-              <label>Email:</label>
-              <span id="detailEmail">-</span>
-            </div>
-            <div class="detail-item">
-              <label>Phone:</label>
-              <span id="detailPhone">-</span>
-            </div>
-            <div class="detail-item">
-              <label>Date:</label>
-              <span id="detailDate">-</span>
-            </div>
+          <div id="submissionsTable" class="submissions-table-container" style="display: none;">
+            <table class="submissions-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Subject</th>
+                </tr>
+              </thead>
+              <tbody id="submissionsBody">
+                <!-- Submissions will be inserted here -->
+              </tbody>
+            </table>
           </div>
         </div>
 
-        <div id="addressSection" class="detail-section" style="display: none;">
-          <h3>Address</h3>
-          <div id="detailAddress" class="detail-address"></div>
-        </div>
+        <!-- Right: Detail Panel -->
+        <aside id="detailPanel" class="detail-panel" style="display: none;">
+          <div class="panel-header">
+            <h2 id="panelTitle">Submission Details</h2>
+            <div class="panel-header-actions">
+              <button id="replyBtn" class="btn btn-primary btn-small" disabled>
+                Reply
+              </button>
+              <button class="panel-close" id="closePanel">&times;</button>
+            </div>
+          </div>
 
-        <div id="constituentFieldsSection" class="detail-section" style="display: none;">
-          <h3>Demographics</h3>
-          <div id="constituentFieldsGrid" class="detail-grid"></div>
-        </div>
+          <div class="panel-body">
+            <div class="detail-section">
+              <h3>Contact Information</h3>
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <label>Name:</label>
+                  <span id="detailName">-</span>
+                </div>
+                <div class="detail-item">
+                  <label>Email:</label>
+                  <span id="detailEmail">-</span>
+                </div>
+                <div class="detail-item">
+                  <label>Phone:</label>
+                  <span id="detailPhone">-</span>
+                </div>
+                <div class="detail-item">
+                  <label>Date:</label>
+                  <span id="detailDate">-</span>
+                </div>
+              </div>
+            </div>
 
-        <div class="detail-section">
-          <h3>Message</h3>
-          <div id="detailSubject" class="detail-subject"></div>
-          <div id="detailMessage" class="detail-message"></div>
-        </div>
+            <div id="addressSection" class="detail-section" style="display: none;">
+              <h3>Address</h3>
+              <div id="detailAddress" class="detail-address"></div>
+            </div>
 
-        <div id="customFieldsSection" class="detail-section" style="display: none;">
-          <h3>Additional Information</h3>
-          <div id="customFieldsGrid" class="detail-grid"></div>
-        </div>
+            <div id="constituentFieldsSection" class="detail-section" style="display: none;">
+              <h3>Demographics</h3>
+              <div id="constituentFieldsGrid" class="detail-grid"></div>
+            </div>
+
+            <div class="detail-section">
+              <h3>Message</h3>
+              <div id="detailSubject" class="detail-subject"></div>
+              <div id="detailMessage" class="detail-message"></div>
+            </div>
+
+            <div id="customFieldsSection" class="detail-section" style="display: none;">
+              <h3>Additional Information</h3>
+              <div id="customFieldsGrid" class="detail-grid"></div>
+            </div>
+          </div>
+        </aside>
       </div>
-
-    </div>
+    </main>
   </div>
 
   <!-- Reply Modal -->
