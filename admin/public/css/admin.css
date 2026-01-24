@@ -561,7 +561,8 @@ body {
 
 /* When panel is open, shrink list area */
 .content-body.panel-open .submissions-list-area {
-  flex: 0 0 25%;
+  flex: 0 0 20%;
+  min-width: 200px;
 }
 
 /* ===================
@@ -581,7 +582,7 @@ body {
 }
 
 .detail-panel.open {
-  width: 75%;
+  flex: 1 1 80%;
   min-width: 500px;
   opacity: 1;
 }
@@ -880,7 +881,7 @@ body {
 
 /* Panel size in reply mode */
 .detail-panel.reply-mode {
-  width: 75%;
+  flex: 1 1 80%;
   min-width: 500px;
 }
 
@@ -972,8 +973,13 @@ body {
 
 /* Currently viewing state (when panel is open) */
 .submission-item.viewing {
-  background: var(--lln-purple-50);
-  border-right: 4px solid var(--lln-purple-600);
+  background: var(--lln-purple-200);
+  border-left: 4px solid var(--lln-purple-700) !important;
+  box-shadow: inset 0 0 0 1px var(--lln-purple-400);
+}
+
+.submission-item.viewing .submission-name {
+  color: var(--lln-purple-800);
 }
 
 /* Checkbox */
@@ -1281,12 +1287,13 @@ body {
    =================== */
 @media (max-width: 1024px) {
   .content-body.panel-open .submissions-list-area {
-    flex: 0 0 30%;
+    flex: 0 0 25%;
+    min-width: 180px;
   }
 
   .detail-panel.open {
-    width: 70%;
-    min-width: 400px;
+    flex: 1 1 75%;
+    min-width: 350px;
   }
 }
 
