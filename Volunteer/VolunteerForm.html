@@ -148,12 +148,12 @@
                     </div>
                 </div>
 
-                <div class="section comment">
-                    <div class="field text comment">
-                        <label for="comment">
+                <div class="section custom-fields">
+                    <div class="field text CustomInteractionField_1058817">
+                        <label for="CustomInteractionField_1058817">
                             <span class="label">Additional Comments</span>
                         </label>
-                        <textarea id="comment" name="comment" placeholder="Tell us more about your availability, skills, or any questions you have..."></textarea>
+                        <textarea id="CustomInteractionField_1058817" name="CustomInteractionField_1058817" maxlength="255" placeholder="Tell us more about your availability, skills, or any questions you have..."></textarea>
                     </div>
                 </div>
 
@@ -287,8 +287,6 @@
                         .homeEmail(val(".interaction-form #email-address"))
                         .homePhone(val(".interaction-form #phone-number"))
                         .applyInteractionCustomFields();
-
-                    Bloomerang.Interaction.note(val(".interaction-form #comment"));
 
                     if (jQuery("#volunteer-date").length) {
                         Bloomerang.Interaction.date(jQuery("#volunteer-date").val());
