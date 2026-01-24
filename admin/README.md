@@ -10,110 +10,96 @@ A password-protected admin panel to view and reply to form submissions from Bloo
 - **Get Safe Fund Application** - DV assistance applications
 - **Donate** - Donations
 
-## Setup
+## Deployment on Netlify
 
-### 1. Install Dependencies
+### 1. Connect to Netlify
 
-```bash
-cd admin/server
-npm install
-```
+1. Go to [Netlify](https://app.netlify.com)
+2. Click "Add new site" > "Import an existing project"
+3. Connect your GitHub repository
+4. Set the **Base directory** to: `admin`
+5. Build settings will be auto-detected from `netlify.toml`
 
 ### 2. Configure Environment Variables
 
-Copy the example environment file:
+In Netlify dashboard, go to **Site settings** > **Environment variables** and add:
 
-```bash
-cp .env.example .env
-```
+| Variable | Description |
+|----------|-------------|
+| `ADMIN_PASSWORD` | Your admin login password |
+| `BLOOMERANG_API_KEY` | Your Bloomerang private API key |
+| `SESSION_SECRET` | Random string for signing auth tokens |
+| `SMTP_HOST` | SMTP server hostname |
+| `SMTP_PORT` | SMTP port (usually 587) |
+| `SMTP_USER` | SMTP username |
+| `SMTP_PASS` | SMTP password |
+| `FROM_EMAIL` | Sender email address |
 
-Edit `.env` with your values:
+### 3. Deploy
 
-```env
-# Admin Authentication
-ADMIN_PASSWORD=your_secure_password_here
+Netlify will automatically deploy when you push to your repository.
 
-# Bloomerang API
-BLOOMERANG_API_KEY=your_bloomerang_private_api_key
-
-# SMTP Configuration
-SMTP_HOST=smtp.your-email-provider.com
-SMTP_PORT=587
-SMTP_USER=your_smtp_username
-SMTP_PASS=your_smtp_password
-FROM_EMAIL=info@lovelifenow.org
-
-# Session Configuration
-SESSION_SECRET=generate_a_random_string_here
-
-# Server Configuration
-PORT=3005
-```
-
-### 3. Get Your Bloomerang API Key
+## Get Your Bloomerang API Key
 
 1. Log in to Bloomerang
 2. Go to Settings > Integrations > API Keys
 3. Create a new API key with read access
-4. Copy the private key to your `.env` file
+4. Copy the private key to Netlify environment variables
 
-### 4. Configure SMTP
+## SMTP Configuration
 
 For sending reply emails, you need SMTP credentials. Common options:
 
 - **Gmail**: Use App Passwords (smtp.gmail.com, port 587)
 - **SendGrid**: Use API key as password (smtp.sendgrid.net, port 587)
 - **Mailgun**: Use SMTP credentials from dashboard
-- **Your hosting provider**: Check their SMTP settings
-
-## Running the Server
-
-### Development
-
-```bash
-cd admin/server
-npm run dev
-```
-
-### Production
-
-```bash
-cd admin/server
-npm start
-```
-
-The server runs at `http://localhost:3005` by default.
 
 ## Usage
 
-1. Open `http://localhost:3005` in your browser
+1. Visit your Netlify site URL
 2. Enter the admin password
 3. Use the sidebar to switch between form types
 4. Click "View" on any submission to see details
 5. Click "Reply via Email" to send a response
 
-## Security Notes
+## Local Development
 
-- Keep your `.env` file secure and never commit it to git
-- Use a strong admin password
-- In production, run behind HTTPS
-- Consider adding rate limiting for production use
-
-## Deployment Options
-
-### Heroku
+For local testing, you can still use the Express server:
 
 ```bash
 cd admin/server
-heroku create
-heroku config:set ADMIN_PASSWORD=xxx BLOOMERANG_API_KEY=xxx ...
-git push heroku main
+npm install
+cp .env.example .env
+# Edit .env with your values
+npm start
 ```
 
-### Vercel/Netlify
+Then visit `http://localhost:3005`
 
-Not recommended for this app due to session management. Use Heroku, Railway, or a traditional VPS instead.
+## Project Structure
 
-### Local Server
+```
+admin/
+├── netlify.toml          # Netlify configuration
+├── package.json          # Dependencies for Netlify Functions
+├── public/               # Static frontend files
+│   ├── index.html        # Login page
+│   ├── dashboard.html    # Main dashboard
+│   ├── css/admin.css     # Styles
+│   └── js/               # Frontend JavaScript
+├── netlify/functions/    # Serverless functions
+│   ├── auth-login.js     # Login endpoint
+│   ├── auth-logout.js    # Logout endpoint
+│   ├── auth-check.js     # Auth verification
+│   ├── submissions.js    # Fetch form submissions
+│   ├── email-reply.js    # Send reply emails
+│   └── utils/auth.js     # Shared auth utilities
+└── server/               # Express server (for local dev)
+```
 
-Simply run `npm start` and access via localhost or configure a reverse proxy (nginx/Apache) for external access.
+## Security Notes
+
+- Environment variables are securely stored in Netlify
+- Auth tokens are signed with HMAC-SHA256
+- Cookies are httpOnly and secure in production
+- Never commit sensitive credentials to git

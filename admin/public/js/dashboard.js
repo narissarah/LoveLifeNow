@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function setupLogout() {
     logoutBtn.addEventListener('click', async () => {
       try {
-        await fetch('/api/auth/logout', {
+        await fetch('/api/auth-logout', {
           method: 'POST',
           credentials: 'include'
         });
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pageTitle.textContent = formLabels[formType];
 
     try {
-      const response = await fetch(`/api/submissions/${formType}`, {
+      const response = await fetch(`/api/submissions?type=${formType}`, {
         credentials: 'include'
       });
 
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
     successDiv.style.display = 'none';
 
     try {
-      const response = await fetch('/api/email/reply', {
+      const response = await fetch('/api/email-reply', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
