@@ -233,12 +233,6 @@ Love Life Now Foundation Team`
       nameCell.textContent = sub.constituent?.name || 'Unknown';
       tr.appendChild(nameCell);
 
-      // Subject cell
-      const subjectCell = document.createElement('td');
-      subjectCell.className = 'subject-cell';
-      subjectCell.textContent = sub.subject;
-      tr.appendChild(subjectCell);
-
       submissionsBody.appendChild(tr);
     });
   }
