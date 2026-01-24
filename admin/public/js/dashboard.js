@@ -112,13 +112,13 @@ Love Life Now Foundation Team`
   const contentBody = document.querySelector('.content-body');
   const detailPanel = document.getElementById('detailPanel');
   const closePanel = document.getElementById('closePanel');
-  const closePanelReply = document.getElementById('closePanelReply');
   const replyBtn = document.getElementById('replyBtn');
+  const backToView = document.getElementById('backToView');
+  const sendReplyBtn = document.getElementById('sendReplyBtn');
 
   // Panel modes
   const viewMode = document.getElementById('viewMode');
   const replyMode = document.getElementById('replyMode');
-  const backToView = document.getElementById('backToView');
   const replyForm = document.getElementById('replyForm');
 
   // Sidebar elements
@@ -301,9 +301,8 @@ Love Life Now Foundation Team`
 
   // Panel and Modal handling
   function setupModals() {
-    // Detail panel close buttons
+    // Detail panel close
     closePanel.addEventListener('click', hideDetailPanel);
-    closePanelReply.addEventListener('click', hideDetailPanel);
 
     // Reply button - switch to reply mode
     replyBtn.addEventListener('click', () => {
@@ -352,11 +351,17 @@ Love Life Now Foundation Team`
     });
   }
 
-  // Switch to reply mode in panel
+  // Switch to reply mode in panel (split view)
   function showReplyMode() {
     if (!currentSubmission?.constituent?.email) return;
 
-    // Reset form
+    // Populate left side (original submission details)
+    document.getElementById('replyDetailName').textContent = currentSubmission.constituent?.name || 'Unknown';
+    document.getElementById('replyDetailEmail').textContent = currentSubmission.constituent?.email || '-';
+    document.getElementById('replyDetailDate').textContent = formatDate(currentSubmission.date);
+    document.getElementById('replyDetailMessage').textContent = currentSubmission.note || 'No message content';
+
+    // Reset reply form
     document.getElementById('templateSelect').value = '';
     document.getElementById('replyTo').value = currentSubmission.constituent.email;
     document.getElementById('replySubject').value = `Re: ${currentSubmission.subject}`;
@@ -364,15 +369,25 @@ Love Life Now Foundation Team`
     document.getElementById('replyError').style.display = 'none';
     document.getElementById('replySuccess').style.display = 'none';
 
-    // Switch modes
+    // Switch modes and update header buttons
     viewMode.style.display = 'none';
     replyMode.style.display = 'flex';
+    replyBtn.style.display = 'none';
+    backToView.style.display = 'inline-flex';
+    sendReplyBtn.style.display = 'inline-flex';
+    detailPanel.classList.add('reply-mode');
+    document.getElementById('panelTitle').textContent = 'Reply to Submission';
   }
 
   // Switch back to view mode
   function showViewMode() {
     replyMode.style.display = 'none';
-    viewMode.style.display = 'flex';
+    viewMode.style.display = 'block';
+    replyBtn.style.display = 'inline-flex';
+    backToView.style.display = 'none';
+    sendReplyBtn.style.display = 'none';
+    detailPanel.classList.remove('reply-mode');
+    document.getElementById('panelTitle').textContent = 'Submission Details';
   }
 
   function showDetailPanel(submission) {
@@ -460,8 +475,13 @@ Love Life Now Foundation Team`
     replyBtn.disabled = !submission.constituent?.email;
 
     // Ensure view mode is shown (not reply mode)
-    viewMode.style.display = 'flex';
+    viewMode.style.display = 'block';
     replyMode.style.display = 'none';
+    replyBtn.style.display = 'inline-flex';
+    backToView.style.display = 'none';
+    sendReplyBtn.style.display = 'none';
+    detailPanel.classList.remove('reply-mode');
+    document.getElementById('panelTitle').textContent = 'Submission Details';
 
     // Show panel
     detailPanel.style.display = 'flex';
@@ -471,6 +491,7 @@ Love Life Now Foundation Team`
 
   function hideDetailPanel() {
     detailPanel.classList.remove('open');
+    detailPanel.classList.remove('reply-mode');
     contentBody.classList.remove('panel-open');
 
     // Clear row selection
@@ -482,6 +503,12 @@ Love Life Now Foundation Team`
       if (!detailPanel.classList.contains('open')) {
         detailPanel.style.display = 'none';
         currentSubmission = null;
+        // Reset to view mode
+        viewMode.style.display = 'block';
+        replyMode.style.display = 'none';
+        replyBtn.style.display = 'inline-flex';
+        backToView.style.display = 'none';
+        sendReplyBtn.style.display = 'none';
       }
     }, 300);
   }

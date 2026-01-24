@@ -575,21 +575,122 @@ body {
 }
 
 .panel-body {
-  padding: var(--space-lg);
   overflow-y: auto;
   flex: 1;
 }
 
-/* Panel modes (view/reply) */
-.panel-mode {
+/* Panel content area */
+.panel-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-content > .panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg);
+}
+
+/* Split view for reply mode */
+.panel-split {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  gap: 1px;
+  background: var(--lln-gray-200);
+}
+
+.split-left,
+.split-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  overflow: hidden;
+}
+
+.split-header {
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--lln-gray-100);
+  background: var(--lln-gray-50);
+}
+
+.split-header h3 {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--lln-purple-700);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.split-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-lg);
+}
+
+.detail-item-compact {
+  margin-bottom: var(--space-md);
+}
+
+.detail-item-compact label {
+  display: block;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lln-gray-500);
+  margin-bottom: var(--space-xs);
+}
+
+.detail-item-compact span {
+  font-size: 0.875rem;
+  color: var(--lln-gray-800);
+}
+
+.detail-message-box {
+  margin-top: var(--space-lg);
+}
+
+.detail-message-box label {
+  display: block;
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lln-gray-500);
+  margin-bottom: var(--space-sm);
+}
+
+/* Reply form in split view */
+.split-right .reply-form {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.panel-mode .panel-body {
+.split-right .split-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.split-right .form-group:last-of-type {
   flex: 1;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.split-right textarea {
+  flex: 1;
+  min-height: 120px;
+}
+
+/* Panel expands wider in reply mode */
+.detail-panel.reply-mode {
+  width: 70%;
+  min-width: 700px;
 }
 
 /* ===================
@@ -907,22 +1008,6 @@ body {
   min-height: 150px;
 }
 
-/* Reply form in panel */
-.panel-mode .reply-form {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.panel-mode .reply-form .panel-body {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.panel-mode .reply-form textarea {
-  flex: 1;
-  min-height: 200px;
-}
 
 /* Saved Reply Templates */
 .template-selector {
