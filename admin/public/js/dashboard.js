@@ -157,6 +157,7 @@ Love Life Now Foundation Team`
   const detailPanel = document.getElementById('detailPanel');
   const closePanel = document.getElementById('closePanel');
   const sendReplyBtn = document.getElementById('sendReplyBtn');
+  const notifyMeBtn = document.getElementById('notifyMeBtn');
   const replyForm = document.getElementById('replyForm');
 
   // Sidebar elements
@@ -497,6 +498,9 @@ Love Life Now Foundation Team`
     // Reply form submit
     replyForm.addEventListener('submit', handleReplySubmit);
 
+    // Notify me button - send submission to admin's email
+    notifyMeBtn.addEventListener('click', handleNotifyMe);
+
     // Template selector - populate options
     const templateSelect = document.getElementById('templateSelect');
     replyTemplates.forEach(template => {
@@ -710,6 +714,47 @@ Love Life Now Foundation Team`
       sendReplyBtn.disabled = false;
       sendReplyBtn.querySelector('.btn-text').style.display = 'inline';
       sendReplyBtn.querySelector('.btn-loading').style.display = 'none';
+    }
+  }
+
+  // Send submission notification to admin's email
+  async function handleNotifyMe() {
+    if (!currentSubmission) {
+      alert('No submission selected');
+      return;
+    }
+
+    notifyMeBtn.disabled = true;
+    notifyMeBtn.querySelector('.btn-text').style.display = 'none';
+    notifyMeBtn.querySelector('.btn-loading').style.display = 'inline';
+
+    try {
+      const response = await fetch('/api/notify-submission', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          submissionId: currentSubmission.id,
+          formType: currentFormType
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        alert(`✅ Submission sent to your email!\n\nSent to: ${data.sentTo}\nReply-To: ${data.replyTo || 'Not available'}`);
+      } else {
+        alert(`❌ Failed to send: ${data.error || 'Unknown error'}\n\n${data.details || ''}`);
+      }
+    } catch (error) {
+      console.error('Notify error:', error);
+      alert('❌ Unable to send notification. Please check your email settings.');
+    } finally {
+      notifyMeBtn.disabled = false;
+      notifyMeBtn.querySelector('.btn-text').style.display = 'inline';
+      notifyMeBtn.querySelector('.btn-loading').style.display = 'none';
     }
   }
 
