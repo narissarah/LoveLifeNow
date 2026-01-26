@@ -7,6 +7,10 @@
 [functions]
   node_bundler = "esbuild"
 
+# Scheduled function - check for new submissions every 5 minutes
+[functions."auto-notify"]
+  schedule = "*/5 * * * *"
+
 # Redirect /api/* to Netlify functions
 [[redirects]]
   from = "/api/*"
