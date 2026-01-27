@@ -891,7 +891,7 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
             var distance = 100;
             var offset = element.offset().top;
             var offsetTop = offset > distance ? offset - distance : offset;
-		        jQuery('html, body').animate({ scrollTop : offsetTop}, 500);
+                jQuery('html, body').animate({ scrollTop : offsetTop}, 500);
         };
         Bloomerang.Api.OnSuccess = Bloomerang.Widget.Donation.OnSuccess = function (response) {
             jQuery("#donation-processing-container").hide();
@@ -1356,8 +1356,8 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
 
               SpreedlyExpress.onPaymentMethod(function(token, paymentMethod) {
                 Bloomerang.CreditCard.spreedlyToken(token);
-	              submitDonation();
-	            });
+                  submitDonation();
+                });
 
               SpreedlyExpress.openView();
             }

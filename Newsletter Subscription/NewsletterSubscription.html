@@ -76,6 +76,11 @@
         .form-loading.hidden {
             display: none;
         }
+        /* Success message styling */
+        .donation-success { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; min-height: 400px; }
+        .donation-success img { max-width: 180px; height: auto; margin: 1rem 0; }
+        .donation-success h2 { color: var(--lln-purple-700); font-size: 1.5rem; margin: 1rem 0; }
+        .donation-success p { font-size: 1.1rem; color: var(--lln-gray-600); line-height: 1.6; margin: 0.5rem 0; }
     </style>
 </head>
 
@@ -145,8 +150,10 @@
         var insertForm751616 = function () {
             var html751616 = document.getElementById('styled-form-content').innerHTML;
             var successHtml751616 = '<div class=\'donation-success\'>' +
+                '  <img src="../shared/Thanks You!.png" alt="Love Life Now Foundation Thanks You!">' +
                 '  <h2>Thank you for Subscribing!</h2>' +
                 '  <p>You\'ve been added to our mailing list. Watch your inbox for updates and stories of hope.</p>' +
+                '  <img src="../shared/Thanks You!.png" alt="Love Life Now Foundation Thanks You!">' +
                 '\u003cdiv class=\"social-media-buttons\" style=\"margin-top:10px;\"\u003e\u003cdiv class=\"fb-like\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\" data-show-faces=\"true\" style=\"padding-right: 10px;\" data-action=\"like\" \u003e\u003c/div\u003e\u003cdiv id=\"facebookShareOnly\" class=\"fb-share-button\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\"\u003e\u003c/div\u003e\u003cscript type=\u0027text/javascript\u0027\u003edocument.getElementById(\u0027facebookShareOnly\u0027).setAttribute(\u0027data-href\u0027, window.location.href);\u003c/script\u003e\u003c/div\u003e  \u003cdiv id=\"fb-root\"\u003e\u003c/div\u003e \u003cscript\u003e(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1\u0026version=v2.8\"; fjs.parentNode.insertBefore(js, fjs); }(document, \u0027script\u0027, \u0027facebook-jssdk\u0027));\u003c/script\u003e ' +
                 '</div>';
 

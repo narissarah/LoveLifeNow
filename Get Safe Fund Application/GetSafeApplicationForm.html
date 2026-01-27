@@ -89,6 +89,11 @@
         .form-loading.hidden {
             display: none;
         }
+        /* Success message styling */
+        .donation-success { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; min-height: 400px; }
+        .donation-success img { max-width: 180px; height: auto; margin: 1rem 0; }
+        .donation-success h2 { color: var(--lln-purple-700); font-size: 1.5rem; margin: 1rem 0; }
+        .donation-success p { font-size: 1.1rem; color: var(--lln-gray-600); line-height: 1.6; margin: 0.5rem 0; }
     </style>
 </head>
 
@@ -441,8 +446,10 @@
         var insertForm748544 = function () {
             var html748544 = document.getElementById('styled-form-content').innerHTML;
             var successHtml748544 = '<div class=\'donation-success\'>' +
+                '  <img src="../shared/Thanks You!.png" alt="Love Life Now Foundation Thanks You!">' +
                 '  <h2>Thank You for Your Application</h2>' +
                 '  <p>Please allow up to 48 hours for a response,<br>between the hours of 8am to 5pm - Monday through Friday.</p>' +
+                '  <img src="../shared/Thanks You!.png" alt="Love Life Now Foundation Thanks You!">' +
                 '</div>';
 
             (function ($) {
