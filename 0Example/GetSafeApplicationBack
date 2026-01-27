@@ -469,9 +469,9 @@
 '<label for="CustomInteractionField_719873"><span class="label">Please note the DAY and MONTH of your most recent DV situation?</span><span class="required-star">*</span></label>' + 
 '<input id="CustomInteractionField_719873" name="CustomInteractionField_719873" class="required" type="text" maxlength="255"></input>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_720897" >' + 
-'<label for="CustomInteractionField_720897">Do you have children?</label>' + 
-'<select id="CustomInteractionField_720897" name="CustomInteractionField_720897"><option value=""></option>' + 
+'<div class="field text CustomInteractionField_720897 required" >' + 
+'<label for="CustomInteractionField_720897">Do you have children?<span class="required-star">*</span></label>' + 
+'<select id="CustomInteractionField_720897" name="CustomInteractionField_720897" class="required"><option value=""></option>' + 
 '<option value="722945">No</option>' + 
 '<option value="721921">Yes</option>' + 
 '</select>' + 

@@ -466,9 +466,9 @@
 '<option value="932865">Other</option>' + 
 '</select>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_933889 required" >' + 
-'<label for="CustomInteractionField_933889"><span class="label">If you selected “Other,” please explain.</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_933889" name="CustomInteractionField_933889" class="required" type="text" maxlength="255"></input>' + 
+'<div class="field text CustomInteractionField_933889" >' + 
+'<label for="CustomInteractionField_933889"><span class="label">If you selected “Other,” please explain.</span></label>' + 
+'<input id="CustomInteractionField_933889" name="CustomInteractionField_933889" type="text" maxlength="255"></input>' + 
 '</div>' + 
 '<div class="field text CustomInteractionField_934913 required" >' + 
 '<label for="CustomInteractionField_934913"><span class="label">Organization name</span><span class="required-star">*</span></label>' + 
@@ -485,9 +485,9 @@
 '<option value="942081">Other</option>' + 
 '</select>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_943105 required" >' + 
-'<label for="CustomInteractionField_943105"><span class="label">If you selected “Other,” please explain.</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_943105" name="CustomInteractionField_943105" class="required" type="text" maxlength="255"></input>' + 
+'<div class="field text CustomInteractionField_943105" >' + 
+'<label for="CustomInteractionField_943105"><span class="label">If you selected “Other,” please explain.</span></label>' + 
+'<input id="CustomInteractionField_943105" name="CustomInteractionField_943105" type="text" maxlength="255"></input>' + 
 '</div>' + 
 '<div class="field date CustomInteractionField_945153 required" >' + 
 '<label for="CustomInteractionField_945153"><span class="label">Event Date / Ideal Date</span><span class="required-star">*</span></label>' + 
@@ -501,9 +501,9 @@
 '<label for="CustomInteractionField_947201"><span class="label">Event Location</span><span class="required-star">*</span></label>' + 
 '<input id="CustomInteractionField_947201" name="CustomInteractionField_947201" class="required" type="text" maxlength="255"></input>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_948225 required" >' + 
-'<label for="CustomInteractionField_948225"><span class="label">Additional Comments</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_948225" name="CustomInteractionField_948225" class="required" type="text" maxlength="255"></input>' + 
+'<div class="field text CustomInteractionField_1219585" >' + 
+'<label for="CustomInteractionField_1219585"><span class="label">Additional Comments</span></label>' + 
+'<input id="CustomInteractionField_1219585" name="CustomInteractionField_1219585" type="text" maxlength="255"></input>' + 
 '</div>' + 
 '' + 
 '</div>' + 
@@ -542,7 +542,7 @@
 '' +  '';var successHtml763905 = '<div class=\'donation-success\'>' +
                                                        '  <h2>success</h2>' +
                                                        '  <p>success</p>' + 
-                                                        '\u003cdiv class=\"social-media-buttons\" style=\"margin-top:10px;\"\u003e\u003cdiv class=\"fb-like\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\" data-show-faces=\"true\" style=\"padding-right: 10px;\" data-action=\"like\" \u003e\u003c/div\u003e\u003cdiv id=\"facebookShareOnly\" class=\"fb-share-button\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\"\u003e\u003c/div\u003e\u003cscript type=\u0027text/javascript\u0027\u003edocument.getElementById(\u0027facebookShareOnly\u0027).setAttribute(\u0027data-href\u0027, window.location.href);\u003c/script\u003e\u003c/div\u003e  \u003cdiv id=\"fb-root\"\u003e\u003c/div\u003e \u003cscript\u003e(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1\u0026version=v2.8\"; fjs.parentNode.insertBefore(js, fjs); }(document, \u0027script\u0027, \u0027facebook-jssdk\u0027));\u003c/script\u003e ' + 
+                                                        '   ' + 
                                                         '</div>';( function($) {if (!Bloomerang.useInteractionId('763905')) {
                                     html763905 = '<p style="color: red">Only one Volunteer Activity or Constituent Information form can be used on each page.</p>';
                                 }
