@@ -476,9 +476,9 @@
 '<option value="721921">Yes</option>' + 
 '</select>' + 
 '</div>' + 
-'<div class="field text CustomInteractionField_723969 required" >' + 
-'<label for="CustomInteractionField_723969"><span class="label">If yes, how many? Please include their ages</span><span class="required-star">*</span></label>' + 
-'<input id="CustomInteractionField_723969" name="CustomInteractionField_723969" class="required" type="text" maxlength="255"></input>' + 
+'<div class="field text CustomInteractionField_723969" >' + 
+'<label for="CustomInteractionField_723969"><span class="label">If yes, how many? Please include their ages</span></label>' + 
+'<input id="CustomInteractionField_723969" name="CustomInteractionField_723969" type="text" maxlength="255"></input>' + 
 '</div>' + 
 '<div class="field text CustomInteractionField_744449 required" >' + 
 '<label for="CustomInteractionField_744449">Do you have pets?<span class="required-star">*</span></label>' + 
@@ -522,8 +522,8 @@
 '<div class="field text CustomInteractionField_738305 required" >' + 
 '<label for="CustomInteractionField_738305">I consent for Love Life Now Foundation representatives to communicate with my DV advocate about my case, confidentially.<span class="required-star">*</span></label>' + 
 '<select id="CustomInteractionField_738305" name="CustomInteractionField_738305" class="required"><option value=""></option>' + 
-'<option value="740353">False</option>' + 
-'<option value="739329">True</option>' + 
+'<option value="740353">No</option>' + 
+'<option value="739329">Yes</option>' + 
 '</select>' + 
 '</div>' + 
 '<div class="field text CustomInteractionField_741377 required" >' + 

@@ -90,7 +90,7 @@
             display: none;
         }
         /* Success message styling */
-        .donation-success { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; min-height: 400px; }
+        .donation-success { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; min-height: 100vh; }
         .donation-success img { max-width: 180px; height: auto; margin: 1rem 0; }
         .donation-success h2 { color: var(--lln-purple-700); font-size: 1.5rem; margin: 1rem 0; }
         .donation-success p { font-size: 1.1rem; color: var(--lln-gray-600); line-height: 1.6; margin: 0.5rem 0; }
@@ -304,12 +304,11 @@
                         </div>
                     </div>
 
-                    <div class="field text CustomInteractionField_723969 required">
+                    <div class="field text CustomInteractionField_723969">
                         <label for="CustomInteractionField_723969">
                             <span class="label">If yes (children), how many? Please include their ages</span>
-                            <span class="required-star">*</span>
                         </label>
-                        <input id="CustomInteractionField_723969" name="CustomInteractionField_723969" class="required" type="text" placeholder="e.g., 2 children - ages 5 and 8">
+                        <input id="CustomInteractionField_723969" name="CustomInteractionField_723969" type="text" placeholder="e.g., 2 children - ages 5 and 8">
                     </div>
 
                     <div class="field text CustomInteractionField_724993 required">
@@ -383,8 +382,8 @@
                         </label>
                         <select id="CustomInteractionField_738305" name="CustomInteractionField_738305" class="required">
                             <option value=""></option>
-                            <option value="740353">False</option>
-                            <option value="739329">True</option>
+                            <option value="740353">No</option>
+                            <option value="739329">Yes</option>
                         </select>
                     </div>
 
