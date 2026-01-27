@@ -617,6 +617,7 @@
 '' + 
 '</div>' + 
 '    ' + 
+'    <p id="preview-text" style="font-style:italic;font-size:13px;font-family:Prompt, sans-serif;letter-spacing:0.25px;display:none;">More payment information appears on your live form. For a complete preview, go to the forms list and select View Hosted Form.</p>' + 
 '    <div class="btn-group">' + 
 '      <input class="btn btn-submit btn-submit-donation" type="submit" value="Donate Now" id="express-submit" disabled="true" />' + 
 '    </div>' + 
@@ -630,7 +631,7 @@
 '' +  '';var successHtml535552 = '<div class=\'donation-success\'>' +
                                                        '  <h2>LLN Thanks You for Your Donation!</h2>' +
                                                        '  <p>We acknowledge, with great thanks, your generous donation, which contributes to Love Life Now’s (LLN) year-round domestic violence (DV) awareness initiatives.</p>' + 
-                                                        '\u003cdiv class=\"social-media-buttons\" style=\"margin-top:10px;\"\u003e\u003cdiv class=\"fb-like\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\" data-show-faces=\"true\" style=\"padding-right: 10px;\" data-action=\"like\" \u003e\u003c/div\u003e\u003cdiv id=\"facebookShareOnly\" class=\"fb-share-button\" data-href=\"https://facebook.com/lovelifenowfound\" data-layout=\"button_count\"\u003e\u003c/div\u003e\u003cscript type=\u0027text/javascript\u0027\u003edocument.getElementById(\u0027facebookShareOnly\u0027).setAttribute(\u0027data-href\u0027, window.location.href);\u003c/script\u003e\u003c/div\u003e  \u003cdiv id=\"fb-root\"\u003e\u003c/div\u003e \u003cscript\u003e(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1\u0026version=v2.8\"; fjs.parentNode.insertBefore(js, fjs); }(document, \u0027script\u0027, \u0027facebook-jssdk\u0027));\u003c/script\u003e ' + 
+                                                        '   ' + 
                                                         '</div>';( function($) {if (Bloomerang.useDonationId('535552')) { 
                                 Bloomerang.useProcessor('534529', 'StripeExpress', 'pk_live_iZYXFefCkt380zu63aqUIo7y');
                             } else {
@@ -665,13 +666,13 @@
                             });
                         
                         Bloomerang.Data.PayPal.IsPayPalVenmoEnabled = false;
-                                           jQuery("#donation-form .recurring-paypal-venmo-label-info").remove();
+                                           jQuery("form.donation-form .recurring-paypal-venmo-label-info, #donation-form .recurring-paypal-venmo-label-info").remove();
                                            jQuery("#paypal-button-container").remove();
-                                           jQuery("#donation-form .PayPalVenmo").remove();
-                                           jQuery("#donation-form .PayPal").remove();
-                                           jQuery("#donation-form .Venmo").remove();
+                                           jQuery("form.donation-form .PayPalVenmo, #donation-form .PayPalVenmo").remove();
+                                           jQuery("form.donation-form .PayPal, #donation-form .PayPal").remove();
+                                           jQuery("form.donation-form .Venmo, #donation-form .Venmo").remove();
 Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.Data.PayPal.IsVenmoSameDayDonationEnabled = false;
-                        jQuery("#donation-form .section.onepay h3").remove();
+                        
                     };
                     if (Bloomerang.paymentFormLoaded) {
                                             return false;
@@ -786,6 +787,10 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
                     
                     Bloomerang.useKey('pub_7950352a-2c1c-11f0-abbb-062e8fd2ede7');
 
+        if (typeof isPreviewMode !== 'undefined' && isPreviewMode) {
+          document.querySelector('#preview-text').style.display = 'block';
+        }
+        
         Bloomerang.isDonationForm=true;
         Bloomerang.Util.getDonationAmount = function() {
           return Number(accounting.unformat(jQuery(".donation-form .section.donation input[name='donation-level']:checked").val() || jQuery(".donation-form #donation-amount").val()));
@@ -1096,6 +1101,9 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
         Bloomerang.Util.updateDonateButtonText = function() {
             var amount = Bloomerang.Util.getDonationAmount();
             var impactAmount = Bloomerang.Util.getDonationTrueImpactAmount();
+            if (Bloomerang.Util.isProcessorOnePay() && Bloomerang.Data.DigitalWallet && (Bloomerang.Data.DigitalWallet === "GooglePay" || Bloomerang.Data.DigitalWallet === "ApplePay")) {
+              Bloomerang.Util.sendOnePayTotalAmount((amount + impactAmount)*100);
+            }
             jQuery(".btn-submit-donation").val("Donate Now " + accounting.formatMoney(amount + impactAmount));
         };
 
@@ -1561,7 +1569,7 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
                         window.bloomerangLoadStarted = true;
                         var script = document.createElement('script');
                         script.type = 'text/javascript';
-                        script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=1765570449';
+                        script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=1768604272';
                         document.getElementsByTagName('head')[0].appendChild(script);
                         waitForBloomerangLoad(function() { Bloomerang.Util.requireJQueryValidationAndStripe(function() { insertForm535552(); })});
                     }
