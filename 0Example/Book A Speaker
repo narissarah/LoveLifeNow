@@ -501,6 +501,10 @@
 '<label for="CustomInteractionField_947201"><span class="label">Event Location</span><span class="required-star">*</span></label>' + 
 '<input id="CustomInteractionField_947201" name="CustomInteractionField_947201" class="required" type="text" maxlength="255"></input>' + 
 '</div>' + 
+'<div class="field text CustomInteractionField_1219585" >' + 
+'<label for="CustomInteractionField_1219585"><span class="label">Additional Comments</span></label>' + 
+'<input id="CustomInteractionField_1219585" name="CustomInteractionField_1219585" type="text" maxlength="255"></input>' + 
+'</div>' + 
 '' + 
 '</div>' + 
 '    <div class="section comment">' + 

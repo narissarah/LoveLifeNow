@@ -170,12 +170,9 @@
         '          <input id="CustomInteractionField_947201" name="CustomInteractionField_947201" class="required" type="text" maxlength="255">' +
         '        </div>' +
         '      </div>' +
-        '    </div>' +
-
-        '    <div class="section comment">' +
-        '      <div class="field text comment">' +
-        '        <label for="comment"><span class="label">Comments</span></label>' +
-        '        <textarea id="comment" name="comment"></textarea>' +
+        '      <div class="field text CustomInteractionField_1219585">' +
+        '        <label for="CustomInteractionField_1219585"><span class="label">Additional Comments</span></label>' +
+        '        <textarea id="CustomInteractionField_1219585" name="CustomInteractionField_1219585" maxlength="255"></textarea>' +
         '      </div>' +
         '    </div>' +
 
@@ -347,7 +344,6 @@
                     country
                 );
 
-                Bloomerang.Interaction.note(val(".interaction-form #comment"));
                 Bloomerang.Interaction.applyInteractionCustomFields();
             };
 
