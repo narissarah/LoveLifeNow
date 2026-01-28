@@ -454,7 +454,7 @@
 '    <div class="section custom-fields">' + 
 '      <h3>Additional Information</h3>' + 
 '      <div class="field text CustomInteractionField_1037313 required" >' + 
-'<label for="CustomInteractionField_1037313"><span class="label">Which VOLUNTEER opportunity are you interested in?</span><span class="required-star">*</span></label>' + 
+'<label for="CustomInteractionField_1037313"><span class="label">What type of volunteer opportunity are you interested in?</span><span class="required-star">*</span></label>' + 
 '<input id="CustomInteractionField_1037313" name="CustomInteractionField_1037313" class="required" type="text" maxlength="255"></input>' + 
 '</div>' + 
 '<div class="field text CustomInteractionField_1058817" >' + 
