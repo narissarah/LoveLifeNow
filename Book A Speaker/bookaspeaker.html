@@ -25,23 +25,8 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .form-loading.hidden { display: none; }
 
-        /* Bloomerang interaction-form styles from snippet */
-        .interaction-form label { color: #404040; display: block; }
-        .interaction-form label.error { color: #900; display: inline-block; padding: 0 10px; }
-        .interaction-form .field { padding: 4px 0; }
-        .interaction-form .field .required-star { color: #aa0000; display: inline-block; margin-left: 5px; }
-        .interaction-form .field input,
-        .interaction-form .field select,
-        .interaction-form .field textarea { padding: 8px; max-width: 100%; width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        .interaction-form .field textarea { min-height: 80px; }
-        .interaction-form .errors { border: 1px solid #900; color: #900; padding: 10px; margin-bottom: 1rem; border-radius: 4px; }
+        /* Let shared forms.css handle all interaction-form styling for consistency */
         .interaction-form .hidden { display: none; }
-        .interaction-form h3 { margin: 1.5rem 0 0.75rem; color: var(--lln-purple-700); font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 0.5rem; }
-        .interaction-form .section:first-child h3 { margin-top: 0; }
-        .btn-submit-interaction { width: 100%; padding: 1rem; background: linear-gradient(135deg, var(--lln-purple-600), var(--lln-purple-700)); color: white; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 1rem; }
-        .btn-submit-interaction:hover { background: linear-gradient(135deg, var(--lln-purple-700), var(--lln-purple-800)); }
-        .btn-submit-interaction:disabled, .btn-submit-interaction.disabled { opacity: 0.6; cursor: not-allowed; }
-        .section.captcha { margin: 1rem 0; }
         .donation-success { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; height: 100vh; overflow: hidden; }
         .donation-success img { max-width: 180px; height: auto; margin: 1rem 0; }
         .donation-success h2 { color: var(--lln-purple-700); font-size: 1.5rem; margin: 1rem 0; }
