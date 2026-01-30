@@ -1,378 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donate - Love Life Now Foundation</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-    <link href="../shared/forms.css" rel="stylesheet">
-    <style>
-        /* Embed-specific styles - no header/footer for Wix */
-        body {
-            background: transparent;
-            min-height: auto;
-            font-family: var(--font-body, 'Inter', sans-serif);
-        }
-
-        .page-wrapper {
-            min-height: auto;
-        }
-
-        .form-container {
-            max-width: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Loading spinner */
-        .form-loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 3rem;
-        }
-
-        .form-loading .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--lln-purple-100, #f3e8ff);
-            border-top-color: var(--lln-purple-600, #9333ea);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .form-loading.hidden {
-            display: none;
-        }
-
-        /* ============================================
-           BLOOMERANG FORM STYLE OVERRIDES
-           These styles customize the dynamically
-           generated Bloomerang donation form
-           ============================================ */
-
-        /* Form container */
-        #donation-form-container {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-        }
-
-        /* Section headings */
-        .donation-form h3 {
-            font-family: var(--font-heading, 'Poppins', sans-serif);
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--lln-purple-700, #7c3aed);
-            margin: 1.5rem 0 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--lln-purple-100, #f3e8ff);
-        }
-
-        .donation-form h3:first-child {
-            margin-top: 0;
-        }
-
-        /* Form sections */
-        .donation-form .section {
-            margin-bottom: 1rem;
-        }
-
-        /* Labels */
-        .donation-form label {
-            color: var(--lln-gray-700, #374151);
-            font-weight: 500;
-            font-size: 0.875rem;
-        }
-
-        .donation-form .required-star {
-            color: #dc2626;
-        }
-
-        /* Input fields */
-        .donation-form input[type="text"],
-        .donation-form input[type="email"],
-        .donation-form input[type="tel"],
-        .donation-form input[type="number"],
-        .donation-form input[type="date"],
-        .donation-form select,
-        .donation-form textarea {
-            width: 100%;
-            max-width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--lln-gray-200, #e5e7eb);
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            box-sizing: border-box;
-        }
-
-        .donation-form input:focus,
-        .donation-form select:focus,
-        .donation-form textarea:focus {
-            outline: none;
-            border-color: var(--lln-purple-500, #a855f7);
-            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
-        }
-
-        /* Radio and checkbox styling */
-        .donation-form .field.radio label,
-        .donation-form .field.checkbox label {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--lln-gray-200, #e5e7eb);
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: white;
-        }
-
-        .donation-form .field.radio label:hover,
-        .donation-form .field.checkbox label:hover {
-            border-color: var(--lln-purple-400, #c084fc);
-            background: var(--lln-purple-50, #faf5ff);
-        }
-
-        .donation-form .field.radio input:checked + .label,
-        .donation-form .field.checkbox input:checked + .label {
-            color: var(--lln-purple-700, #7c3aed);
-            font-weight: 600;
-        }
-
-        .donation-form .field.radio input,
-        .donation-form .field.checkbox input {
-            width: auto;
-            margin-right: 0.75rem;
-            accent-color: var(--lln-purple-600, #9333ea);
-        }
-
-        /* Other amount field inline */
-        .donation-form .field.other-amount {
-            display: inline-block;
-            margin-left: 1rem;
-        }
-
-        .donation-form #other-amount {
-            width: 120px;
-            display: inline-block;
-        }
-
-        /* Recurring section */
-        .donation-form .section.recurring {
-            background: var(--lln-gray-50, #f9fafb);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        /* True impact section */
-        .donation-form .section.true-impact {
-            background: var(--lln-purple-50, #faf5ff);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-            border: 1px solid var(--lln-purple-100, #f3e8ff);
-        }
-
-        .donation-form .section.true-impact label {
-            border: none;
-            padding: 0;
-            background: transparent;
-        }
-
-        .donation-form .section.true-impact label:hover {
-            background: transparent;
-            border: none;
-        }
-
-        /* Stripe card element */
-        .donation-form #card-element {
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--lln-gray-200, #e5e7eb);
-            border-radius: 0.5rem;
-            background: white;
-        }
-
-        .donation-form #card-errors {
-            color: #dc2626;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Error messages */
-        .donation-form .errors {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #dc2626;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .donation-form .errors.hidden {
-            display: none;
-        }
-
-        .donation-form label.error {
-            color: #dc2626;
-            font-size: 0.875rem;
-            font-weight: 400;
-            margin-top: 0.25rem;
-        }
-
-        /* CAPTCHA section */
-        .donation-form .section.captcha {
-            margin: 1.5rem 0;
-        }
-
-        .donation-form .noCaptchaResponseError {
-            color: #dc2626;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Submit button */
-        .donation-form .btn-submit-donation {
-            width: 100%;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--lln-purple-600, #9333ea) 0%, var(--lln-purple-700, #7c3aed) 100%);
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-size: 1.125rem;
-            font-weight: 600;
-            font-family: var(--font-heading, 'Poppins', sans-serif);
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 1rem;
-        }
-
-        .donation-form .btn-submit-donation:hover:not(:disabled) {
-            background: linear-gradient(135deg, var(--lln-purple-700, #7c3aed) 0%, var(--lln-purple-800, #6b21a8) 100%);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
-        }
-
-        .donation-form .btn-submit-donation:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        /* Processing container */
-        #donation-processing-container {
-            text-align: center;
-            padding: 3rem;
-        }
-
-        #donation-processing-container h2 {
-            color: var(--lln-purple-700, #7c3aed);
-            font-family: var(--font-heading, 'Poppins', sans-serif);
-        }
-
-        /* Success message */
-        .donation-success {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .donation-success img {
-            max-width: 180px;
-            height: auto;
-            margin: 1rem 0;
-        }
-
-        .donation-success h2 {
-            color: var(--lln-purple-700, #7c3aed);
-            font-family: var(--font-heading, 'Poppins', sans-serif);
-            margin: 1rem 0;
-            font-size: 1.5rem;
-        }
-
-        .donation-success p {
-            color: var(--lln-gray-600, #4b5563);
-            line-height: 1.6;
-            font-size: 1.1rem;
-            margin: 0.5rem 0;
-        }
-
-        /* Hide payment type options we don't use (EFT, PayPal) */
-        .donation-form .field.radio.Savings,
-        .donation-form .field.radio.Checking,
-        .donation-form .field.radio.PayPalVenmo,
-        .donation-form .field.radio.PayPal,
-        .donation-form .field.radio.Venmo,
-        .donation-form .field.routingNumber,
-        .donation-form .field.accountNumber,
-        .donation-form .recurring-paypal-venmo-label-info,
-        #paypal-button-container {
-            display: none !important;
-        }
-
-        /* Hide preview text */
-        #preview-text {
-            display: none !important;
-        }
-
-        /* Two-column layout for contact fields on larger screens */
-        @media (min-width: 640px) {
-            .donation-form .section.contact .field.first-name,
-            .donation-form .section.contact .field.last-name,
-            .donation-form .section.contact .field.email-address,
-            .donation-form .section.contact .field.phone-number {
-                display: inline-block;
-                width: calc(50% - 0.5rem);
-                vertical-align: top;
-            }
-
-            .donation-form .section.contact .field.first-name,
-            .donation-form .section.contact .field.email-address {
-                margin-right: 0.5rem;
-            }
-
-            .donation-form .section.billing-address .field.city,
-            .donation-form .section.billing-address .field.state,
-            .donation-form .section.billing-address .field.province {
-                display: inline-block;
-                width: calc(50% - 0.5rem);
-                vertical-align: top;
-            }
-
-            .donation-form .section.billing-address .field.city {
-                margin-right: 0.5rem;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <div class="page-wrapper">
-        <div class="form-container">
-            <div class="form-loading" id="form-loading">
-                <div class="spinner"></div>
-            </div>
-            <div id="bloomerang-form-container">
-                <!-- Bloomerang dynamically generates the form here -->
-                <script type="text/javascript" id="bloomerangForm535552"></script>
-            </div>
-        </div>
-    </div>
-
-    <script type="text/javascript">
+<script type="text/javascript" id="bloomerangForm535552"></script>
+<pre><script type="text/javascript">
     var insertForm535552 = function() {
         var html535552 = '<style text=\'text/css\'>' + 
 '.donation-form label{color: #404040;' + 
@@ -498,21 +125,21 @@
 '  <form id="donation-form" class="donation-form" method="post" onsubmit="event.preventDefault(); collectPayment();">' + 
 '    <div class="errors hidden"></div>' + 
 '    <div class="section donation">' + 
-'      <h3>Donate Now</h3>' + 
+'      <h3>Donation</h3>' + 
 '      <div class="field radio 537600 required" >' + 
 '<label for="537600"><input id="537600" name="donation-level" class="required" type="radio" value="50.000000" maxlength="255"></input><span class="label">$50.00 - Transportation</span></label>' + 
 '</div>' + 
 '<div class="field radio 537601 required" >' + 
-'<label for="537601"><input id="537601" name="donation-level" class="required" type="radio" value="100.000000" maxlength="255"></input><span class="label">$100.00 - Food</span></label>' +
-'</div>' +
-'<div class="field radio 537603 required" >' +
-'<label for="537603"><input id="537603" name="donation-level" class="required" type="radio" value="500.000000" maxlength="255"></input><span class="label">$500.00 - Emergency Stays</span></label>' +
-'</div>' +
-'<div class="field radio other-option required" >' +
-'<label for="other-option"><input id="other-option" name="donation-level" class="required" type="radio" maxlength="255"></input><span class="label">Other Amount</span></label>' +
-'</div>' +
-'<div class="field text other-amount" >' +
-'<input id="other-amount" name="other-amount" class="otherAmount" type="text" placeholder="$0.00"></input>' +
+'<label for="537601"><input id="537601" name="donation-level" class="required" type="radio" value="100.000000" maxlength="255"></input><span class="label">$100.00 - Food</span></label>' + 
+'</div>' + 
+'<div class="field radio 537603 required" >' + 
+'<label for="537603"><input id="537603" name="donation-level" class="required" type="radio" value="500.000000" maxlength="255"></input><span class="label">$500.00 - Emergency Stays</span></label>' + 
+'</div>' + 
+'<div class="field radio other-option required" >' + 
+'<label for="other-option"><input id="other-option" name="donation-level" class="required" type="radio" maxlength="255"></input><span class="label">Other</span></label>' + 
+'</div>' + 
+'<div class="field text other-amount" >' + 
+'<input id="other-amount" name="other-amount" class="otherAmount" type="text" placeholder="$0.00"></input>' + 
 '</div>' + 
 '' + 
 '</div>' + 
@@ -996,10 +623,9 @@
 '</div>' + 
 '' + 
 '' +  '';var successHtml535552 = '<div class=\'donation-success\'>' +
-                                                       '  <img src="../shared/Thanks You!.png" alt="Love Life Now Foundation Thanks You!">' +
-                                                       '  <h2>LLN Thanks You<br>for Your Donation!</h2>' +
-                                                       '  <p>We acknowledge, with great thanks, your generous donation,<br>which contributes to our year-round domestic violence (DV) awareness initiatives.</p>' +
-                                                       '  <img src="../shared/Thanks You!.png" alt="Love Life Now Foundation Thanks You!">' +
+                                                       '  <h2>LLN Thanks You for Your Donation!</h2>' +
+                                                       '  <p>We acknowledge, with great thanks, your generous donation, which contributes to Love Life Now’s (LLN) year-round domestic violence (DV) awareness initiatives.</p>' + 
+                                                        '   ' + 
                                                         '</div>';( function($) {if (Bloomerang.useDonationId('535552')) { 
                                 Bloomerang.useProcessor('534529', 'StripeExpress', 'pk_live_iZYXFefCkt380zu63aqUIo7y');
                             } else {
@@ -1029,7 +655,6 @@
                               jQuery(".registration-form #express-submit").val("Register Now");
                               jQuery(".membership-form #express-submit").val("Start Membership • $0.00");
                               jQuery("#express-submit").attr("disabled", false);
-                              jQuery("#form-loading").addClass("hidden"); // Hide loading spinner
                               Bloomerang.donationFormStripeOnBehalfOfFlag = true; 
                               Bloomerang.StripeAccountId = 'acct_1SSjRKH0Bc6gCg0T';
                             });
@@ -1963,7 +1588,4 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
                 };
 
                 startBloomerangLoad();
-    </script>
-</body>
-
-</html>
+</script></pre>

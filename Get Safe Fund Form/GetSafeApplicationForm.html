@@ -601,6 +601,15 @@
                     var offset = formContainer.offset().top;
                     var offsetTop = offset > distance ? offset - distance : offset;
                     jQuery('html, body').animate({ scrollTop: offsetTop }, 500);
+
+                    // Assign constituent to group
+                    if (response && response.Id) {
+                        fetch('/api/assign-group', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ constituentId: response.Id, formName: 'get-safe-fund' })
+                        }).catch(function(err) { console.error('Group assignment error:', err); });
+                    }
                 };
 
                 Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError = function (response) {
@@ -660,7 +669,7 @@
                 window.bloomerangLoadStarted = true;
                 var script = document.createElement('script');
                 script.type = 'text/javascript';
-                script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=1765570449';
+                script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=1768604272';
                 document.getElementsByTagName('head')[0].appendChild(script);
                 waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm748544(); }) });
             }

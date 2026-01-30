@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Love Life Now Foundation</title>
+    <title>Volunteer - Love Life Now Foundation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -76,10 +76,6 @@
         .form-loading.hidden {
             display: none;
         }
-        /* Contact form specific: larger message textarea */
-        .interaction-form textarea {
-            min-height: 150px;
-        }
         /* Success message styling */
         .donation-success { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; height: 100vh; overflow: hidden; }
         .donation-success img { max-width: 180px; height: auto; margin: 1rem 0; }
@@ -91,14 +87,13 @@
 <body>
     <div class="page-wrapper">
         <div class="form-container">
-            <!-- Loading spinner shown while form loads -->
             <div class="form-loading" id="form-loading">
                 <div class="spinner"></div>
             </div>
             <div class="form-card" id="form-card">
                 <div class="form-body">
                     <div id="bloomerang-form-container">
-                        <script type="text/javascript" id="bloomerangForm1050624"></script>
+                        <script type="text/javascript" id="bloomerangForm1048576"></script>
                     </div>
                 </div>
             </div>
@@ -112,7 +107,7 @@
                 <div class="errors hidden"></div>
 
                 <div class="section contact">
-                    <h3>Your Information</h3>
+                    <h3>Volunteer Inquiry Form </h3>
                     <div class="form-row">
                         <div class="field text first-name required">
                             <label for="first-name">
@@ -147,47 +142,49 @@
                 </div>
 
                 <div class="section custom-fields">
-                    <h3>Your Message</h3>
-                    <div class="field text CustomInteractionField_1040385 required">
-                        <label for="CustomInteractionField_1040385">
-                            <span class="label">Message</span>
+                    <div class="field text CustomInteractionField_1037313 required">
+                        <label for="CustomInteractionField_1037313">
+                            <span class="label">What type of volunteer opportunity are you interested in?</span>
                             <span class="required-star">*</span>
                         </label>
-                        <textarea id="CustomInteractionField_1040385" name="CustomInteractionField_1040385" class="required" maxlength="1000" placeholder="How can we help you? Tell us about your inquiry..."></textarea>
+                        <input id="CustomInteractionField_1037313" name="CustomInteractionField_1037313" class="required" type="text" maxlength="255" placeholder="example: Drive support, host LLN event">
+                    </div>
+                    <div class="field text CustomInteractionField_1058817">
+                        <label for="CustomInteractionField_1058817">
+                            <span class="label">Additional Comments</span>
+                        </label>
+                        <input id="CustomInteractionField_1058817" name="CustomInteractionField_1058817" type="text" maxlength="255" placeholder="Tell us more about your availability, skills, or any questions you have...">
                     </div>
                 </div>
 
                 <div class="section captcha">
                     <label id="noCaptchaResponseError" class="error noCaptchaResponseError" style="display: none">Please complete the CAPTCHA verification</label>
-                    <div id="captcha1050624"></div>
+                    <div id="captcha1048576"></div>
                 </div>
 
                 <div class="btn-group">
-                    <input class="btn btn-submit btn-submit-interaction" type="submit" value="Send Message" />
+                    <input class="btn btn-submit btn-submit-interaction" type="submit" value="Submit" />
                 </div>
             </form>
         </div>
     </template>
 
     <script type="text/javascript">
-        var insertForm1050624 = function () {
-            var html1050624 = document.getElementById('styled-form-content').innerHTML;
-            var successHtml1050624 = '<div class=\'donation-success\'>' +
+        var insertForm1048576 = function () {
+            var html1048576 = document.getElementById('styled-form-content').innerHTML;
+            var successHtml1048576 = '<div class=\'donation-success\'>' +
                 '  <img src="../shared/Thanks You!.png" alt="Love Life Now Foundation Thanks You!">' +
-                '  <h2>Message Received!</h2>' +
-                '  <p>Someone will get back to you within 24 to 48 hours.</p>' +
-                '  <p>Please note, if you are looking for assistance from the<br>Get Safe Fund, please fill out the application at<br><a href="https://www.lovelifenow.org/getsafe" target="_blank">www.lovelifenow.org/getsafe</a></p>' +
-                '  <img src="../shared/Thanks You!.png" alt="Love Life Now Foundation Thanks You!">' +
+                '  <p>Thank you for your heart to serve alongside us!<br>We will be in touch soon to follow-up.</p>' +
                 '</div>';
 
             (function ($) {
-                if (!Bloomerang.useInteractionId('1050624')) {
-                    html1050624 = '<p style="color: red">Only one Volunteer Activity or Constituent Information form can be used on each page.</p>';
+                if (!Bloomerang.useInteractionId('1048576')) {
+                    html1048576 = '<p style="color: red">Only one Volunteer Activity or Constituent Information form can be used on each page.</p>';
                 }
                 Bloomerang.Util.requireStripe();
 
-                if (jQuery('#bloomerangForm1050624').length) {
-                    jQuery('#bloomerangForm1050624').after(html1050624);
+                if (jQuery('#bloomerangForm1048576').length) {
+                    jQuery('#bloomerangForm1048576').after(html1048576);
                     // Show form and hide loading spinner
                     document.getElementById('form-loading').classList.add('hidden');
                     document.getElementById('form-card').classList.add('loaded');
@@ -239,7 +236,7 @@
                         function () { return Bloomerang.gRecaptchaLoaded; },
                         function () {
                             jQuery('.section.captcha').removeAttr('style');
-                            jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha1050624', { 'sitekey': '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
+                            jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha1048576', { 'sitekey': '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
                             if ((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.reCaptchaV3SiteKey && Bloomerang.isDonationForm)) {
                                 jQuery('.section.captcha').attr('style', 'display: none');
                             }
@@ -280,7 +277,7 @@
 
                 // Register proper callbacks for Interaction form submission
                 Bloomerang.Widget.Interaction.OnSubmit = function (args) {
-                    jQuery(".btn-submit-interaction").val("Sending...").prop("disabled", true).addClass("disabled");
+                    jQuery(".btn-submit-interaction").val("Submitting...").prop("disabled", true).addClass("disabled");
                     var val = function (selector) { return jQuery(selector).val(); };
 
                     Bloomerang.Account
@@ -290,6 +287,10 @@
                         .homeEmail(val(".interaction-form #email-address"))
                         .homePhone(val(".interaction-form #phone-number"))
                         .applyInteractionCustomFields();
+
+                    if (jQuery("#volunteer-date").length) {
+                        Bloomerang.Interaction.date(jQuery("#volunteer-date").val());
+                    }
 
                     Bloomerang.Interaction.applyInteractionCustomFields();
                 };
@@ -310,15 +311,24 @@
 
                 Bloomerang.Api.OnSuccess = Bloomerang.Widget.Interaction.OnSuccess = function (response) {
                     var formContainer = jQuery("#interaction-form-container");
-                    formContainer.html(successHtml1050624);
+                    formContainer.html(successHtml1048576);
                     var distance = 100;
                     var offset = formContainer.offset().top;
                     var offsetTop = offset > distance ? offset - distance : offset;
                     jQuery('html, body').animate({ scrollTop: offsetTop }, 500);
+
+                    // Assign constituent to group
+                    if (response && response.Id) {
+                        fetch('/api/assign-group', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ constituentId: response.Id, formName: 'volunteer' })
+                        }).catch(function(err) { console.error('Group assignment error:', err); });
+                    }
                 };
 
                 Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError = function (response) {
-                    jQuery(".btn-submit-interaction").val("Send Message").prop("disabled", false).removeClass("disabled");
+                    jQuery(".btn-submit-interaction").val("Sign Up to Volunteer").prop("disabled", false).removeClass("disabled");
                     jQuery("#interaction-form-container .errors").removeClass("hidden").html(response.Message);
                     var distance = 100;
                     var offset = jQuery("#interaction-form-container .errors").offset().top;
@@ -419,10 +429,10 @@
                 script.type = 'text/javascript';
                 script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=' + Date.now();
                 document.getElementsByTagName('head')[0].appendChild(script);
-                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm1050624(); }) });
+                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm1048576(); }) });
             }
             else {
-                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm1050624(); }) });
+                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm1048576(); }) });
             }
         };
 

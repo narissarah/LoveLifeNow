@@ -351,6 +351,15 @@
                 var offset = jQuery("#interaction-form-container").offset().top;
                 var offsetTop = offset > distance ? offset - distance : offset;
                 jQuery('html, body').animate({ scrollTop: offsetTop }, 500);
+
+                // Assign constituent to group
+                if (response && response.Id) {
+                    fetch('/api/assign-group', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ constituentId: response.Id, formName: 'book-a-speaker' })
+                    }).catch(function(err) { console.error('Group assignment error:', err); });
+                }
             };
 
             Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError = function(response) {

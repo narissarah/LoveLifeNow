@@ -540,8 +540,8 @@
 '</div>' + 
 '' + 
 '' +  '';var successHtml763905 = '<div class=\'donation-success\'>' +
-                                                       '  <h2>success</h2>' +
-                                                       '  <p>success</p>' + 
+                                                       '  <h2>Booking Inquiry Received</h2>' +
+                                                       '  <p>Submission of this form does not confirm booking.</p>' + 
                                                         '   ' + 
                                                         '</div>';( function($) {if (!Bloomerang.useInteractionId('763905')) {
                                     html763905 = '<p style="color: red">Only one Volunteer Activity or Constituent Information form can be used on each page.</p>';

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volunteer - Love Life Now Foundation</title>
+    <title>Newsletter Subscription - Love Life Now Foundation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -93,107 +93,84 @@
             <div class="form-card" id="form-card">
                 <div class="form-body">
                     <div id="bloomerang-form-container">
-                        <script type="text/javascript" id="bloomerangForm1048576"></script>
+                        <script type="text/javascript" id="bloomerangForm751616"></script>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bloomerang Interaction Form Template - CRITICAL: Do not modify IDs or field names -->
+    <!-- Bloomerang Form Template - CRITICAL: Do not modify IDs or field names -->
     <template id="styled-form-content">
-        <div id="interaction-form-container">
-            <form id="interaction-form" class="interaction-form" method="post" action="javascript:void(0)">
+        <div id="email-registration-form-container">
+            <form id="email-registration-form" class="email-registration-form" method="post" action="javascript:void(0)">
                 <div class="errors hidden"></div>
 
                 <div class="section contact">
-                    <h3>Volunteer Inquiry Form </h3>
-                    <div class="form-row">
+                    <h3>Subscribe to LLN's Newsletter!</h3>
+                    <div class="form-row form-row-3">
                         <div class="field text first-name required">
                             <label for="first-name">
                                 <span class="label">First Name</span>
                                 <span class="required-star">*</span>
                             </label>
-                            <input id="first-name" name="first-name" class="required" type="text" placeholder="Enter your first name">
+                            <input id="first-name" name="first-name" class="required" type="text" placeholder="First Name">
                         </div>
                         <div class="field text last-name required">
                             <label for="last-name">
                                 <span class="label">Last Name</span>
                                 <span class="required-star">*</span>
                             </label>
-                            <input id="last-name" name="last-name" class="required" type="text" placeholder="Enter your last name">
+                            <input id="last-name" name="last-name" class="required" type="text" placeholder="Last Name">
                         </div>
-                    </div>
-                    <div class="form-row">
                         <div class="field email email-address required">
                             <label for="email-address">
-                                <span class="label">Email Address</span>
+                                <span class="label">Email</span>
                                 <span class="required-star">*</span>
                             </label>
                             <input id="email-address" name="email-address" class="email required" type="email" placeholder="you@example.com">
                         </div>
-                        <div class="field tel phone-number">
-                            <label for="phone-number">
-                                <span class="label">Phone</span>
-                            </label>
-                            <input id="phone-number" name="phone-number" class="phoneUS" type="tel" placeholder="(555) 123-4567">
-                        </div>
                     </div>
-                </div>
-
-                <div class="section custom-fields">
-                    <div class="field text CustomInteractionField_1037313 required">
-                        <label for="CustomInteractionField_1037313">
-                            <span class="label">What type of volunteer opportunity are you interested in?</span>
-                            <span class="required-star">*</span>
-                        </label>
-                        <input id="CustomInteractionField_1037313" name="CustomInteractionField_1037313" class="required" type="text" maxlength="255" placeholder="example: Drive support, host LLN event">
-                    </div>
-                    <div class="field text CustomInteractionField_1058817">
-                        <label for="CustomInteractionField_1058817">
-                            <span class="label">Additional Comments</span>
-                        </label>
-                        <input id="CustomInteractionField_1058817" name="CustomInteractionField_1058817" type="text" maxlength="255" placeholder="Tell us more about your availability, skills, or any questions you have...">
-                    </div>
+                    <p class="consent">By subscribing, you agree to receive email updates from Love Life Now Foundation. You can unsubscribe at any time.</p>
                 </div>
 
                 <div class="section captcha">
                     <label id="noCaptchaResponseError" class="error noCaptchaResponseError" style="display: none">Please complete the CAPTCHA verification</label>
-                    <div id="captcha1048576"></div>
+                    <div id="captcha751616"></div>
                 </div>
 
                 <div class="btn-group">
-                    <input class="btn btn-submit btn-submit-interaction" type="submit" value="Submit" />
+                    <input class="btn btn-submit btn-submit-email" type="submit" value="Subscribe" />
                 </div>
             </form>
         </div>
     </template>
 
     <script type="text/javascript">
-        var insertForm1048576 = function () {
-            var html1048576 = document.getElementById('styled-form-content').innerHTML;
-            var successHtml1048576 = '<div class=\'donation-success\'>' +
+        var insertForm751616 = function () {
+            var html751616 = document.getElementById('styled-form-content').innerHTML;
+            var successHtml751616 = '<div class=\'donation-success\'>' +
                 '  <img src="../shared/Thanks You!.png" alt="Love Life Now Foundation Thanks You!">' +
-                '  <p>Thank you for your heart to serve alongside us!<br>We will be in touch soon to follow-up.</p>' +
+                '  <h2>Thank you for subscribing!</h2>' +
                 '</div>';
 
             (function ($) {
-                if (!Bloomerang.useInteractionId('1048576')) {
-                    html1048576 = '<p style="color: red">Only one Volunteer Activity or Constituent Information form can be used on each page.</p>';
+                if (!Bloomerang.useEmailId('751616')) {
+                    html751616 = '<p style="color: red">Only one email sign-up form can be used on each page.</p>';
                 }
                 Bloomerang.Util.requireStripe();
 
-                if (jQuery('#bloomerangForm1048576').length) {
-                    jQuery('#bloomerangForm1048576').after(html1048576);
+                if (jQuery('#bloomerangForm751616').length) {
+                    jQuery('#bloomerangForm751616').after(html751616);
                     // Show form and hide loading spinner
                     document.getElementById('form-loading').classList.add('hidden');
                     document.getElementById('form-card').classList.add('loaded');
                 };
 
-                if (Bloomerang.interactionFormLoaded) {
+                if (Bloomerang.emailSignupFormLoaded) {
                     return false;
                 }
-                Bloomerang.interactionFormLoaded = true;
+                Bloomerang.emailSignupFormLoaded = true;
 
                 Bloomerang.reCaptchaV3SiteKey = '6LeyBk4sAAAAAIVtFr2PRuCOEzZR8L94d_lEK436';
                 Bloomerang.gRecaptchaV3Threshold = 0.5;
@@ -236,7 +213,7 @@
                         function () { return Bloomerang.gRecaptchaLoaded; },
                         function () {
                             jQuery('.section.captcha').removeAttr('style');
-                            jQuery('form.interaction-form').data('captcha-id', grecaptcha.render('captcha1048576', { 'sitekey': '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
+                            jQuery('form.email-registration-form').data('captcha-id', grecaptcha.render('captcha751616', { 'sitekey': '6Ld0D04sAAAAAM1V1FzEL8QeC4kvMV8RgOnynJpe' }));
                             if ((Bloomerang.donationFormReCaptchaV3Flag && Bloomerang.isBloomerangHostedForm && Bloomerang.isDonationForm) || (Bloomerang.donationFormReCaptchaV3SelfHostedFlag && !Bloomerang.isBloomerangHostedForm && Bloomerang.reCaptchaV3SiteKey && Bloomerang.isDonationForm)) {
                                 jQuery('.section.captcha').attr('style', 'display: none');
                             }
@@ -275,138 +252,97 @@
 
                 Bloomerang.useKey('pub_7950352a-2c1c-11f0-abbb-062e8fd2ede7');
 
-                // Register proper callbacks for Interaction form submission
-                Bloomerang.Widget.Interaction.OnSubmit = function (args) {
-                    jQuery(".btn-submit-interaction").val("Submitting...").prop("disabled", true).addClass("disabled");
+                Bloomerang.Widget.Email.OnSubmit = function (args) {
+                    jQuery(".btn-submit-email").val("Subscribing...").prop("disabled", true).addClass("disabled");
                     var val = function (selector) { return jQuery(selector).val(); };
 
                     Bloomerang.Account
                         .individual()
-                        .firstName(val(".interaction-form #first-name"))
-                        .lastName(val(".interaction-form #last-name"))
-                        .homeEmail(val(".interaction-form #email-address"))
-                        .homePhone(val(".interaction-form #phone-number"))
-                        .applyInteractionCustomFields();
+                        .firstName(val(".email-registration-form #first-name"))
+                        .lastName(val(".email-registration-form #last-name"))
+                        .homeEmail(val(".email-registration-form #email-address"))
+                        .applyEmailSignupCustomFields();
 
-                    if (jQuery("#volunteer-date").length) {
-                        Bloomerang.Interaction.date(jQuery("#volunteer-date").val());
-                    }
-
-                    Bloomerang.Interaction.applyInteractionCustomFields();
+                    Bloomerang.Interaction.applyEmailSignupCustomFields();
                 };
 
-                Bloomerang.ValidateInteractionFormCaptcha = function () {
-                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.Interaction).children().length) {
-                        var captchaResponse = grecaptcha.getResponse(jQuery(".interaction-form").data("captcha-id"));
+                Bloomerang.ValidateEmailSignupFormCaptcha = function () {
+                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.EmailSignup).children().length) {
+                        var captchaResponse = grecaptcha.getResponse(jQuery(".email-registration-form").data("captcha-id"));
                         if (captchaResponse) {
-                            jQuery(".interaction-form .noCaptchaResponseError").hide();
+                            jQuery(".email-registration-form .noCaptchaResponseError").hide();
                             Bloomerang.captchaResponse(captchaResponse);
                             return true;
                         } else {
-                            jQuery(".interaction-form .noCaptchaResponseError").show();
+                            jQuery(".email-registration-form .noCaptchaResponseError").show();
                             return false;
                         }
                     } else return true;
                 };
 
-                Bloomerang.Api.OnSuccess = Bloomerang.Widget.Interaction.OnSuccess = function (response) {
-                    var formContainer = jQuery("#interaction-form-container");
-                    formContainer.html(successHtml1048576);
+                Bloomerang.Api.OnSuccess = Bloomerang.Widget.Email.OnSuccess = function (response) {
+                    var formContainer = jQuery("#email-registration-form-container");
+                    formContainer.html(successHtml751616);
                     var distance = 100;
                     var offset = formContainer.offset().top;
                     var offsetTop = offset > distance ? offset - distance : offset;
                     jQuery('html, body').animate({ scrollTop: offsetTop }, 500);
-                };
 
-                Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError = function (response) {
-                    jQuery(".btn-submit-interaction").val("Sign Up to Volunteer").prop("disabled", false).removeClass("disabled");
-                    jQuery("#interaction-form-container .errors").removeClass("hidden").html(response.Message);
-                    var distance = 100;
-                    var offset = jQuery("#interaction-form-container .errors").offset().top;
-                    var offsetTop = offset > distance ? offset - distance : offset;
-                    jQuery('html, body').animate({ scrollTop: offsetTop }, 500);
-
-                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.Interaction).children().length) {
-                        grecaptcha.reset(jQuery(".interaction-form").data("captcha-id"));
+                    // Assign constituent to group
+                    if (response && response.Id) {
+                        fetch('/api/assign-group', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ constituentId: response.Id, formName: 'newsletter' })
+                        }).catch(function(err) { console.error('Group assignment error:', err); });
                     }
                 };
 
-                // Custom field helpers for Interaction form
-                Bloomerang.Util.applyInteractionCustomFields = function (obj, type) {
-                    // Clear any fields from a previous failed submission
-                    obj.clearCustomFields();
+                Bloomerang.Api.OnError = Bloomerang.Widget.Email.OnError = function (response) {
+                    jQuery(".btn-submit-email").prop("disabled", false).removeClass("disabled").val("Subscribe");
+                    jQuery("#email-registration-form-container .errors").removeClass("hidden").html(response.Message);
+                    var distance = 100;
+                    var offset = jQuery("#email-registration-form-container .errors").offset().top;
+                    var offsetTop = offset > distance ? offset - distance : offset;
+                    jQuery('html, body').animate({ scrollTop: offsetTop }, 500);
 
-                    // Apply all <input> (not multiselect), <select> and <textarea> fields
-                    jQuery(".interaction-form .section.custom-fields :input:not(a > input, select)[id*=" + type + "]").each(function () {
+                    if (typeof (grecaptcha) !== "undefined" && jQuery("#captcha" + Bloomerang.Data.WidgetIds.EmailSignup).children().length) {
+                        grecaptcha.reset(jQuery(".email-registration-form").data("captcha-id"));
+                    }
+                };
+
+                // Custom field helpers
+                Bloomerang.Util.applyEmailSignupCustomFields = function (obj, type) {
+                    obj.clearCustomFields();
+                    jQuery(".email-registration-form .section.custom-fields :input:not(a > input, select)[id*=" + type + "]").each(function () {
                         if (jQuery(this).val().hasValue()) {
                             obj.customFreeformField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
                         }
                     });
-
-                    // Apply all <select> fields
-                    jQuery(".interaction-form .section.custom-fields select[id*=" + type + "]").each(function () {
+                    jQuery(".email-registration-form .section.custom-fields select[id*=" + type + "]").each(function () {
                         if (jQuery(this).val().hasValue()) {
                             obj.customPickField(jQuery(this).attr("id").toUntypedValue(), jQuery(this).val());
                         }
                     });
-
-                    // Apply all multiselect fields
-                    jQuery(".interaction-form .section.custom-fields .checkboxes[id*=" + type + "]").each(function () {
-                        obj.customPickField(jQuery(this).attr("id").toUntypedValue(),
-                            jQuery.map(jQuery(this).children(".checkbox.selected"), function (v) { return jQuery(v).attr("data-id"); }));
-                    });
                 };
 
                 // Prototype helpers
-                String.prototype.hasValue = function () {
-                    return (this && jQuery.trim(this));
-                };
+                String.prototype.hasValue = function () { return (this && jQuery.trim(this)); };
+                Bloomerang.Account.applyEmailSignupCustomFields = function () { Bloomerang.Util.applyEmailSignupCustomFields(this, "Account"); return this; };
+                Bloomerang.Interaction.applyEmailSignupCustomFields = function () { Bloomerang.Util.applyEmailSignupCustomFields(this, "Interaction"); return this; };
+                String.prototype.toUntypedValue = function () { return this.substring(this.indexOf('_') + 1); };
 
-                Bloomerang.Account.applyInteractionCustomFields = function () {
-                    Bloomerang.Util.applyInteractionCustomFields(this, "Account");
-                    return this;
-                };
-
-                Bloomerang.Interaction.applyInteractionCustomFields = function () {
-                    Bloomerang.Util.applyInteractionCustomFields(this, "Interaction");
-                    return this;
-                };
-
-                String.prototype.toUntypedValue = function () {
-                    return this.substring(this.indexOf('_') + 1);
-                };
-
-                // Phone number validation
-                jQuery.validator.addMethod("phoneUS", function (phone_number, element) {
-                    var digits = phone_number.replace(/\D/g, "");
-                    return this.optional(element) || digits.length == 7 || digits.length == 10 || digits.length == 11;
-                }, "Please specify a valid phone number or use '+' for international.");
-
-                jQuery.validator.addMethod("phoneInternational", function (phone_number, element) {
-                    return this.optional(element) || /^\+[0-9\-\(\)\s.]+$/i.test(phone_number);
-                }, "Please specify a valid phone number.");
-                jQuery.validator.classRuleSettings.phoneInternational = { phoneInternational: true };
-
-                // Phone field toggle for international numbers
-                jQuery(".interaction-form #phone-number").change(function () {
-                    var phoneField = jQuery(".interaction-form #phone-number");
-                    var internationalNumber = phoneField.val().substring(0, 1) === '+';
-                    phoneField.toggleClass("phoneUS", !internationalNumber);
-                    phoneField.toggleClass("phoneInternational", internationalNumber);
-                });
-
-                // Initialize validation and form submission
-                jQuery("#interaction-form-container form").validate({
+                // Initialize validation
+                jQuery("#email-registration-form-container form").validate({
                     submitHandler: function () {
-                        if (!Bloomerang.ValidateInteractionFormCaptcha()) {
+                        if (!Bloomerang.ValidateEmailSignupFormCaptcha()) {
                             return false;
                         }
 
-                        // Restore proper callbacks in case there are multiple widgets on the page
-                        Bloomerang.Api.OnSubmit = Bloomerang.Widget.Interaction.OnSubmit;
-                        Bloomerang.Api.OnSuccess = Bloomerang.Widget.Interaction.OnSuccess;
-                        Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError;
-                        Bloomerang.Api.submitInteraction();
+                        Bloomerang.Api.OnSubmit = Bloomerang.Widget.Email.OnSubmit;
+                        Bloomerang.Api.OnSuccess = Bloomerang.Widget.Email.OnSuccess;
+                        Bloomerang.Api.OnError = Bloomerang.Widget.Email.OnError;
+                        Bloomerang.Api.joinMailingList();
                     }
                 });
 
@@ -418,12 +354,12 @@
                 window.bloomerangLoadStarted = true;
                 var script = document.createElement('script');
                 script.type = 'text/javascript';
-                script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=' + Date.now();
+                script.src = 'https://crm.bloomerang.co/Content/Scripts/Api/Bloomerang-v2.js?nocache=1768604272';
                 document.getElementsByTagName('head')[0].appendChild(script);
-                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm1048576(); }) });
+                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm751616(); }) });
             }
             else {
-                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm1048576(); }) });
+                waitForBloomerangLoad(function () { Bloomerang.Util.requireJQueryValidation(function () { insertForm751616(); }) });
             }
         };
 
