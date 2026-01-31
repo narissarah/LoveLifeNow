@@ -1276,12 +1276,18 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
             Bloomerang.scrollToElement(formContainer);
 
             // Assign constituent to group
-            if (response && response.Id) {
+            console.log('Bloomerang OnSuccess response:', JSON.stringify(response));
+            var constituentId = (response && (response.AccountId || response.Id)) ||
+                (function() { var m = document.cookie.match(/bloomerangConstituent=(\d+)/); return m ? m[1] : null; })();
+            console.log('Constituent ID for group assignment:', constituentId);
+            if (constituentId) {
                 fetch('/api/assign-group', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ constituentId: response.Id, formName: 'donate' })
-                }).catch(function(err) { console.error('Group assignment error:', err); });
+                    body: JSON.stringify({ constituentId: constituentId, formName: 'donate' })
+                }).then(function(r) { return r.json(); })
+                  .then(function(data) { console.log('Group assignment result:', data); })
+                  .catch(function(err) { console.error('Group assignment error:', err); });
             }
         };
         Bloomerang.Api.OnError = Bloomerang.Widget.Donation.OnError = function (response) {
