@@ -1269,6 +1269,27 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
 		        jQuery('html, body').animate({ scrollTop : offsetTop}, 500);
         };
         Bloomerang.Api.OnSuccess = Bloomerang.Widget.Donation.OnSuccess = function (response) {
+            // Capture form data for email notification before HTML is replaced
+            var _v = function(s) { return jQuery(s).val() || ''; };
+            var donationAmount = '';
+            try { donationAmount = '$' + (Bloomerang.Util.getDonationAmount() + Bloomerang.Util.getDonationTrueImpactAmount()).toFixed(2); } catch(e) {}
+            var isRecurring = jQuery('.donation-form #recurring').prop('checked');
+            var _notifyData = {
+                formName: 'donate',
+                firstName: _v('.donation-form #first-name'),
+                lastName: _v('.donation-form #last-name'),
+                email: _v('.donation-form #email-address'),
+                phone: _v('.donation-form #phone-number'),
+                address: [_v('.donation-form #street-address'), _v('.donation-form #city'), _v('.donation-form #state'), _v('.donation-form #zip-code')].filter(Boolean).join(', '),
+                customFields: []
+            };
+            if (donationAmount) _notifyData.customFields.push({ name: 'Donation Amount', value: donationAmount });
+            if (isRecurring) _notifyData.customFields.push({ name: 'Recurring', value: 'Yes - Monthly' });
+            var fundText = jQuery('.donation-form #fund option:selected').text();
+            if (fundText) _notifyData.customFields.push({ name: 'Fund', value: fundText });
+            var comment = _v('.donation-form #comment');
+            if (comment) _notifyData.message = comment;
+
             jQuery("#donation-processing-container").hide();
             var formContainer = jQuery("#donation-form-container");
             formContainer.show();
@@ -1289,6 +1310,16 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
                   .then(function(data) { console.log('Group assignment result:', data); })
                   .catch(function(err) { console.error('Group assignment error:', err); });
             }
+
+            // Send instant email notification
+            _notifyData.constituentId = constituentId || null;
+            fetch('/api/form-notify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(_notifyData)
+            }).then(function(r) { return r.json(); })
+              .then(function(data) { console.log('Email notification result:', data); })
+              .catch(function(err) { console.error('Email notification error:', err); });
         };
         Bloomerang.Api.OnError = Bloomerang.Widget.Donation.OnError = function (response) {
             jQuery(".btn-submit-donation").prop("disabled", false).removeClass("disabled");

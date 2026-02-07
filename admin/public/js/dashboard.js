@@ -54,7 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     volunteer: 'Volunteer Sign-ups',
     speaker: 'Book A Speaker Requests',
     getsafe: 'Get Safe Fund Applications',
-    donate: 'Donations'
+    donate: 'Donations',
+    newsletter: 'Newsletter Sign-ups'
   };
 
   // Saved reply templates
@@ -134,6 +135,21 @@ Your contribution will be used to provide essential services including emergency
 A tax receipt will be sent to you separately for your records.
 
 With heartfelt gratitude,
+Love Life Now Foundation Team`
+    },
+    {
+      id: 'newsletter-welcome',
+      title: 'Welcome to Our Newsletter',
+      subject: 'Welcome to the Love Life Now Newsletter!',
+      message: `Dear {{name}},
+
+Thank you for subscribing to the Love Life Now Foundation newsletter! We're glad to have you in our community.
+
+You'll receive updates on our programs, events, success stories, and ways you can help support domestic violence survivors.
+
+If you ever wish to unsubscribe, simply reply to any newsletter with "unsubscribe."
+
+Warmly,
 Love Life Now Foundation Team`
     }
   ];

@@ -310,6 +310,22 @@
                 };
 
                 Bloomerang.Api.OnSuccess = Bloomerang.Widget.Interaction.OnSuccess = function (response) {
+                    // Capture form data for email notification before HTML is replaced
+                    var _v = function(s) { return jQuery(s).val() || ''; };
+                    var _notifyData = {
+                        formName: 'volunteer',
+                        firstName: _v('.interaction-form #first-name'),
+                        lastName: _v('.interaction-form #last-name'),
+                        email: _v('.interaction-form #email-address'),
+                        phone: _v('.interaction-form #phone-number'),
+                        customFields: []
+                    };
+                    jQuery('.interaction-form [id*="Custom"]').each(function() {
+                        var lbl = jQuery('label[for="' + this.id + '"] .label').text() || jQuery('label[for="' + this.id + '"]').first().text();
+                        var val = jQuery(this).is('select') ? jQuery(this).find('option:selected').text() : jQuery(this).val();
+                        if (val && val.trim() && lbl && lbl.trim()) _notifyData.customFields.push({ name: lbl.trim(), value: val.trim() });
+                    });
+
                     var formContainer = jQuery("#interaction-form-container");
                     formContainer.html(successHtml1048576);
                     var distance = 100;
@@ -331,6 +347,16 @@
                           .then(function(data) { console.log('Group assignment result:', data); })
                           .catch(function(err) { console.error('Group assignment error:', err); });
                     }
+
+                    // Send instant email notification
+                    _notifyData.constituentId = constituentId || null;
+                    fetch('/api/form-notify', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(_notifyData)
+                    }).then(function(r) { return r.json(); })
+                      .then(function(data) { console.log('Email notification result:', data); })
+                      .catch(function(err) { console.error('Email notification error:', err); });
                 };
 
                 Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError = function (response) {

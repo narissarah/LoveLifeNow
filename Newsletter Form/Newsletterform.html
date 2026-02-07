@@ -281,6 +281,16 @@
                 };
 
                 Bloomerang.Api.OnSuccess = Bloomerang.Widget.Email.OnSuccess = function (response) {
+                    // Capture form data for email notification before HTML is replaced
+                    var _v = function(s) { return jQuery(s).val() || ''; };
+                    var _notifyData = {
+                        formName: 'newsletter',
+                        firstName: _v('.email-registration-form #first-name'),
+                        lastName: _v('.email-registration-form #last-name'),
+                        email: _v('.email-registration-form #email-address'),
+                        customFields: []
+                    };
+
                     var formContainer = jQuery("#email-registration-form-container");
                     formContainer.html(successHtml751616);
                     var distance = 100;
@@ -302,6 +312,16 @@
                           .then(function(data) { console.log('Group assignment result:', data); })
                           .catch(function(err) { console.error('Group assignment error:', err); });
                     }
+
+                    // Send instant email notification
+                    _notifyData.constituentId = constituentId || null;
+                    fetch('/api/form-notify', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(_notifyData)
+                    }).then(function(r) { return r.json(); })
+                      .then(function(data) { console.log('Email notification result:', data); })
+                      .catch(function(err) { console.error('Email notification error:', err); });
                 };
 
                 Bloomerang.Api.OnError = Bloomerang.Widget.Email.OnError = function (response) {

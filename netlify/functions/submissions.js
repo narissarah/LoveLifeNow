@@ -7,7 +7,8 @@ const FORM_SUBJECTS = {
   volunteer: 'Volunteer',
   speaker: 'Book A Speaker',
   getsafe: 'GetSafeApplication',
-  donate: 'Donation'
+  donate: 'Donation',
+  newsletter: 'Newsletter'
 };
 
 // Create axios instance for Bloomerang API
@@ -108,24 +109,30 @@ exports.handler = async (event) => {
           message = messageField.value;
         }
 
+        // Build constituent name with fallback to interaction AccountName
+        const constituentName = constituent
+          ? `${constituent.FirstName || ''} ${constituent.LastName || ''}`.trim()
+          : null;
+        const fallbackName = interaction.AccountName || null;
+
       return {
         id: interaction.Id,
         date: interaction.Date,
         subject: interaction.Subject || 'No Subject',
         note: message,
-        constituent: constituent ? {
-          id: constituent.Id,
-          name: `${constituent.FirstName || ''} ${constituent.LastName || ''}`.trim(),
-          email: constituent.PrimaryEmail?.Value || null,
-          phone: constituent.PrimaryPhone?.Number || null,
-          address: constituent.PrimaryAddress ? {
+        constituent: {
+          id: constituent?.Id || interaction.AccountId || null,
+          name: constituentName || fallbackName || null,
+          email: constituent?.PrimaryEmail?.Value || null,
+          phone: constituent?.PrimaryPhone?.Number || null,
+          address: constituent?.PrimaryAddress ? {
             street: constituent.PrimaryAddress.Street || '',
             city: constituent.PrimaryAddress.City || '',
             state: constituent.PrimaryAddress.State || '',
             country: constituent.PrimaryAddress.Country || '',
             zip: constituent.PrimaryAddress.PostalCode || ''
           } : null
-        } : null,
+        },
         customFields: customFields,
         // Also include constituent custom values (age, race, ethnicity, etc.)
         constituentCustomFields: constituent?.CustomValues?.map(cv => ({
