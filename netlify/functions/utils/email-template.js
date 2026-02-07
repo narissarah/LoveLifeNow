@@ -107,18 +107,6 @@ function formatHtml({ name, email, phone, address, date, customFields, message, 
         </td></tr>
         ` : ''}
 
-        <!-- Actions -->
-        <tr><td style="padding:24px 30px 0;">
-          <table cellpadding="0" cellspacing="0"><tr>
-            ${bloomerangLink ? `<td style="padding-right:10px;">
-              <a href="${bloomerangLink}" style="display:inline-block;padding:10px 20px;background:#801C80;color:#ffffff;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;">View in Bloomerang CRM &rarr;</a>
-            </td>` : ''}
-            <td>
-              <a href="https://lovelifenow.netlify.app/admin/dashboard" style="display:inline-block;padding:10px 20px;background:#ffffff;color:#801C80;text-decoration:none;border-radius:6px;font-size:13px;font-weight:600;border:1px solid #801C80;">Admin Dashboard &rarr;</a>
-            </td>
-          </tr></table>
-        </td></tr>
-
         ${email ? `
         <!-- Reply Note -->
         <tr><td style="padding:20px 30px 0;">
@@ -173,12 +161,7 @@ function formatText({ name, email, phone, address, date, customFields, message, 
     text += message + '\n';
   }
 
-  if (constituentId) {
-    text += `\nBloomerang CRM: https://crm.bloomerang.co/Constituent/${constituentId}\n`;
-  }
-
   if (email) text += `\n---\nReply to this email to respond directly to ${displayName}.\n`;
-  text += 'Admin Dashboard: https://lovelifenow.netlify.app/admin/dashboard\n';
   return text;
 }
 
