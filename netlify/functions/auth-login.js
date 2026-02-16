@@ -10,7 +10,6 @@ function createAuthToken(secret) {
 }
 
 exports.handler = async (event) => {
-  // Only allow POST
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
@@ -25,8 +24,24 @@ exports.handler = async (event) => {
       };
     }
 
-    if (password === process.env.ADMIN_PASSWORD) {
-      const token = createAuthToken(process.env.SESSION_SECRET || 'default-secret');
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    const secret = process.env.SESSION_SECRET;
+
+    if (!adminPassword || !secret) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Server configuration error' })
+      };
+    }
+
+    // Timing-safe password comparison
+    const passwordBuf = Buffer.from(password);
+    const adminBuf = Buffer.from(adminPassword);
+    const isValid = passwordBuf.length === adminBuf.length &&
+      crypto.timingSafeEqual(passwordBuf, adminBuf);
+
+    if (isValid) {
+      const token = createAuthToken(secret);
 
       return {
         statusCode: 200,
@@ -34,7 +49,7 @@ exports.handler = async (event) => {
           'Content-Type': 'application/json',
           'Set-Cookie': cookie.serialize('auth_token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             sameSite: 'lax',
             maxAge: 60 * 60 * 24, // 24 hours
             path: '/'

@@ -1324,7 +1324,7 @@ Bloomerang.Data.PayPal.IsPayPalPaymentMethodVaultingEnabled = false;Bloomerang.D
         Bloomerang.Api.OnError = Bloomerang.Widget.Donation.OnError = function (response) {
             jQuery(".btn-submit-donation").prop("disabled", false).removeClass("disabled");
             Bloomerang.Util.updateDonateButtonText();
-            jQuery("#donation-form-container .errors").removeClass("hidden").html(response.Message);
+            jQuery("#donation-form-container .errors").removeClass("hidden").text(response.Message);
             jQuery("#donation-processing-container").hide();
             jQuery("#donation-form-container").show();
             Bloomerang.scrollToElement(jQuery("#donation-form-container .errors"));

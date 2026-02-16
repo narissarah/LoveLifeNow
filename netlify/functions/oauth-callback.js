@@ -1,4 +1,6 @@
 const axios = require('axios');
+const crypto = require('crypto');
+const cookie = require('cookie');
 const { getStore } = require('@netlify/blobs');
 
 // Handles the OAuth callback from Bloomerang
@@ -6,20 +8,68 @@ const { getStore } = require('@netlify/blobs');
 exports.handler = async (event) => {
   const code = event.queryStringParameters?.code;
   const error = event.queryStringParameters?.error;
+  const state = event.queryStringParameters?.state;
+
+  // Clear the state cookie in all responses
+  const clearStateCookie = cookie.serialize('oauth_state', '', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+    maxAge: 0,
+    path: '/'
+  });
 
   if (error) {
     return {
       statusCode: 400,
-      headers: { 'Content-Type': 'text/html' },
-      body: `<h1>Authorization failed</h1><p>${error}</p>`
+      headers: { 'Content-Type': 'text/html', 'Set-Cookie': clearStateCookie },
+      body: '<h1>Authorization failed</h1><p>Bloomerang denied the request. Please try again.</p>'
     };
   }
 
   if (!code) {
     return {
       statusCode: 400,
-      headers: { 'Content-Type': 'text/html' },
+      headers: { 'Content-Type': 'text/html', 'Set-Cookie': clearStateCookie },
       body: '<h1>Missing authorization code</h1>'
+    };
+  }
+
+  // Validate state parameter against signed cookie
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) {
+    return {
+      statusCode: 500,
+      headers: { 'Content-Type': 'text/html', 'Set-Cookie': clearStateCookie },
+      body: '<h1>Server configuration error</h1>'
+    };
+  }
+
+  const cookies = cookie.parse(event.headers.cookie || '');
+  const storedState = cookies.oauth_state;
+
+  if (!state || !storedState) {
+    return {
+      statusCode: 400,
+      headers: { 'Content-Type': 'text/html', 'Set-Cookie': clearStateCookie },
+      body: '<h1>Invalid request</h1><p>Missing state parameter. Please start the OAuth flow again.</p>'
+    };
+  }
+
+  const [originalState, storedSignature] = storedState.split(':');
+  const expectedSignature = crypto.createHmac('sha256', secret).update(state).digest('hex');
+
+  // Both signatures are hex-encoded HMAC-SHA256 (always 64 chars)
+  if (
+    state !== originalState ||
+    !storedSignature ||
+    storedSignature.length !== expectedSignature.length ||
+    !crypto.timingSafeEqual(Buffer.from(storedSignature), Buffer.from(expectedSignature))
+  ) {
+    return {
+      statusCode: 400,
+      headers: { 'Content-Type': 'text/html', 'Set-Cookie': clearStateCookie },
+      body: '<h1>Invalid state</h1><p>The request may have been tampered with. Please try again.</p>'
     };
   }
 
@@ -58,7 +108,7 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'text/html' },
+      headers: { 'Content-Type': 'text/html', 'Set-Cookie': clearStateCookie },
       body: `
         <h1>Bloomerang OAuth Connected!</h1>
         <p>Access token and refresh token have been stored.</p>
@@ -68,11 +118,11 @@ exports.handler = async (event) => {
     };
 
   } catch (err) {
-    console.error('OAuth token exchange error:', err.response?.data || err.message);
+    console.error('OAuth token exchange error:', err.response?.status, err.response?.data || err.message);
     return {
       statusCode: 500,
-      headers: { 'Content-Type': 'text/html' },
-      body: `<h1>Token exchange failed</h1><pre>${JSON.stringify(err.response?.data || err.message, null, 2)}</pre>`
+      headers: { 'Content-Type': 'text/html', 'Set-Cookie': clearStateCookie },
+      body: '<h1>Token exchange failed</h1><p>Could not exchange the authorization code. Check the server logs for details.</p>'
     };
   }
 };

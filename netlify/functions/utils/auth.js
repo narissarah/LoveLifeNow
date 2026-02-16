@@ -21,12 +21,21 @@ function verifyAuth(event) {
     return false;
   }
 
-  // Verify signature
-  const secret = process.env.SESSION_SECRET || 'default-secret';
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) {
+    return false;
+  }
+
+  // Verify signature with timing-safe comparison
   const data = `authenticated:${timestamp}`;
   const expectedSignature = crypto.createHmac('sha256', secret).update(data).digest('hex');
 
-  return signature === expectedSignature;
+  // Both are hex-encoded HMAC-SHA256 (always 64 chars)
+  if (signature.length !== expectedSignature.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature));
 }
 
 // Return unauthorized response

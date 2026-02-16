@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { verifyAuth, unauthorizedResponse } = require('./utils/auth');
+const { getPool, initDb } = require('./utils/db');
 
 // Form type to Subject pattern mapping
 const FORM_SUBJECTS = {
@@ -25,9 +26,11 @@ exports.handler = async (event) => {
     return unauthorizedResponse();
   }
 
-  // Parse form type from query parameter
+  // Parse query parameters
   const params = event.queryStringParameters || {};
   const formType = params.type;
+  const searchTerm = (params.search || '').trim().toLowerCase();
+  const includeDeleted = params.includeDeleted === 'true';
 
   const subjectPattern = FORM_SUBJECTS[formType];
   if (!subjectPattern) {
@@ -142,13 +145,55 @@ exports.handler = async (event) => {
       };
     });
 
+    // Fetch DB statuses and merge
+    let statusMap = {};
+    try {
+      await initDb();
+      const sql = getPool();
+      const rows = await sql`
+        SELECT submission_id, is_read, is_archived, is_deleted, notes
+        FROM submission_status
+        WHERE form_type = ${formType}
+      `;
+      rows.forEach(r => {
+        statusMap[r.submission_id] = {
+          read: r.is_read,
+          archived: r.is_archived,
+          deleted: r.is_deleted,
+          notes: r.notes || ''
+        };
+      });
+    } catch (dbErr) {
+      console.log('DB status fetch error (continuing without):', dbErr.message);
+    }
+
+    // Merge status into each submission
+    let results = enrichedSubmissions.map(sub => ({
+      ...sub,
+      status: statusMap[String(sub.id)] || { read: false, archived: false, deleted: false, notes: '' }
+    }));
+
+    // Filter out soft-deleted unless requested
+    if (!includeDeleted) {
+      results = results.filter(sub => !sub.status.deleted);
+    }
+
+    // Search filter (case-insensitive on name and email)
+    if (searchTerm) {
+      results = results.filter(sub => {
+        const name = (sub.constituent?.name || '').toLowerCase();
+        const email = (sub.constituent?.email || '').toLowerCase();
+        return name.includes(searchTerm) || email.includes(searchTerm);
+      });
+    }
+
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         formType,
-        total: enrichedSubmissions.length,
-        submissions: enrichedSubmissions
+        total: results.length,
+        submissions: results
       })
     };
 
@@ -158,8 +203,7 @@ exports.handler = async (event) => {
       statusCode: 500,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        error: 'Failed to fetch submissions',
-        details: error.response?.data?.Message || error.message
+        error: 'Failed to fetch submissions'
       })
     };
   }

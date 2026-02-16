@@ -64,6 +64,21 @@ exports.handler = async (event) => {
     };
   }
 
+  // Origin validation
+  const origin = event.headers.origin || event.headers.referer || '';
+  const siteUrl = process.env.URL || '';
+  const isAllowedOrigin = siteUrl && origin.startsWith(siteUrl) ||
+    origin.startsWith('http://localhost') ||
+    origin.startsWith('https://localhost');
+
+  if (!isAllowedOrigin) {
+    return {
+      statusCode: 403,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Forbidden' })
+    };
+  }
+
   try {
     const { constituentId, formName } = JSON.parse(event.body || '{}');
 

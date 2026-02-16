@@ -1,6 +1,10 @@
 const nodemailer = require('nodemailer');
 const { getConfig, formatHtml, formatText } = require('./utils/email-template');
 
+const VALID_FORM_NAMES = [
+  'contact-us', 'volunteer', 'donate', 'newsletter', 'book-a-speaker', 'get-safe-fund'
+];
+
 function getTransporter() {
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -18,15 +22,30 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
+  // Origin validation — allow the Netlify site and localhost for dev
+  const origin = event.headers.origin || event.headers.referer || '';
+  const siteUrl = process.env.URL || ''; // Netlify sets this automatically
+  const isAllowedOrigin = siteUrl && origin.startsWith(siteUrl) ||
+    origin.startsWith('http://localhost') ||
+    origin.startsWith('https://localhost');
+
+  if (!isAllowedOrigin) {
+    return {
+      statusCode: 403,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Forbidden' })
+    };
+  }
+
   try {
     const body = JSON.parse(event.body || '{}');
     const { formName } = body;
 
-    if (!formName) {
+    if (!formName || !VALID_FORM_NAMES.includes(formName)) {
       return {
         statusCode: 400,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ error: 'Missing formName' })
+        body: JSON.stringify({ error: 'Invalid formName' })
       };
     }
 
@@ -47,7 +66,7 @@ exports.handler = async (event) => {
       email: body.email || null,
       phone: body.phone || null,
       address: body.address || null,
-      date: null, // uses current time
+      date: null,
       customFields: body.customFields || [],
       message: body.message || null,
       constituentId: body.constituentId || null,
@@ -75,7 +94,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Failed to send notification', details: error.message })
+      body: JSON.stringify({ error: 'Failed to send notification' })
     };
   }
 };

@@ -326,7 +326,7 @@
 
                 Bloomerang.Api.OnError = Bloomerang.Widget.Email.OnError = function (response) {
                     jQuery(".btn-submit-email").prop("disabled", false).removeClass("disabled").val("Subscribe");
-                    jQuery("#email-registration-form-container .errors").removeClass("hidden").html(response.Message);
+                    jQuery("#email-registration-form-container .errors").removeClass("hidden").text(response.Message);
                     var distance = 100;
                     var offset = jQuery("#email-registration-form-container .errors").offset().top;
                     var offsetTop = offset > distance ? offset - distance : offset;

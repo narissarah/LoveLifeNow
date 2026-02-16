@@ -361,7 +361,7 @@
 
                 Bloomerang.Api.OnError = Bloomerang.Widget.Interaction.OnError = function (response) {
                     jQuery(".btn-submit-interaction").val("Sign Up to Volunteer").prop("disabled", false).removeClass("disabled");
-                    jQuery("#interaction-form-container .errors").removeClass("hidden").html(response.Message);
+                    jQuery("#interaction-form-container .errors").removeClass("hidden").text(response.Message);
                     var distance = 100;
                     var offset = jQuery("#interaction-form-container .errors").offset().top;
                     var offsetTop = offset > distance ? offset - distance : offset;
