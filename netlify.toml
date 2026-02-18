@@ -27,10 +27,11 @@
     X-Frame-Options = "SAMEORIGIN"
 
 # Form pages: allow embedding on Wix site only
+# Pattern must be lowercase — Netlify Pretty URLs lowercases all paths
 [[headers]]
-  for = "/*Form/*"
+  for = "/*form/*"
   [headers.values]
-    Content-Security-Policy = "frame-ancestors 'self' https://www.lovelifenow.org"
+    Content-Security-Policy = "frame-ancestors 'self' https://www.lovelifenow.org https://lovelifenow.org"
 
 # Redirect /api/* to Netlify functions
 [[redirects]]
