@@ -16,10 +16,21 @@
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "SAMEORIGIN"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Admin pages: block iframe embedding
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+
+# Form pages: allow embedding on Wix site only
+[[headers]]
+  for = "/*Form/*"
+  [headers.values]
+    Content-Security-Policy = "frame-ancestors 'self' https://www.lovelifenow.org"
 
 # Redirect /api/* to Netlify functions
 [[redirects]]
