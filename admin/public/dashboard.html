@@ -68,6 +68,9 @@
     <main class="main-content">
       <header class="content-header">
         <h1 id="pageTitle">Contact Form Submissions</h1>
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search by name or email...">
+        </div>
         <div class="header-actions">
           <button id="archiveToggle" class="btn btn-secondary btn-small">Show Archived</button>
           <button id="refreshBtn" class="btn btn-secondary btn-small">
@@ -88,6 +91,8 @@
           <span class="divider"></span>
           <button id="archiveBtn" class="btn btn-secondary btn-small">Archive</button>
           <button id="unarchiveBtn" class="btn btn-secondary btn-small">Unarchive</button>
+          <span class="divider"></span>
+          <button id="deleteBtn" class="btn btn-danger btn-small">Delete</button>
         </div>
       </div>
 
@@ -187,6 +192,15 @@
                     <div id="customFieldsSection" class="detail-section" style="display: none;">
                       <h3>Additional Information</h3>
                       <div id="customFieldsGrid" class="detail-grid"></div>
+                    </div>
+
+                    <div class="detail-section">
+                      <h3>Admin Notes</h3>
+                      <textarea id="adminNotes" placeholder="Add notes about this submission..." rows="3"></textarea>
+                      <div class="notes-actions">
+                        <button id="saveNotesBtn" class="btn btn-secondary btn-small">Save Notes</button>
+                        <span id="notesSavedIndicator" class="notes-saved" style="display: none;">Saved</span>
+                      </div>
                     </div>
                   </div>
                 </div>

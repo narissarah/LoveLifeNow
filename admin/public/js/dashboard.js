@@ -1,5 +1,6 @@
 /**
  * Dashboard functionality for Love Life Now Admin Panel
+ * Uses server-side PostgreSQL for submission status persistence
  */
 document.addEventListener('DOMContentLoaded', () => {
   // State
@@ -8,45 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let submissions = [];
   let selectedIds = new Set();
   let showArchived = false;
-
-  // Local storage keys
-  const STORAGE_KEY = 'lln_submission_status';
-
-  // Get submission statuses from localStorage
-  function getSubmissionStatuses() {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    } catch {
-      return {};
-    }
-  }
-
-  // Save submission statuses to localStorage
-  function saveSubmissionStatuses(statuses) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(statuses));
-  }
-
-  // Get status for a specific submission
-  function getStatus(submissionId) {
-    const statuses = getSubmissionStatuses();
-    return statuses[submissionId] || { read: false, archived: false };
-  }
-
-  // Update status for a submission
-  function updateStatus(submissionId, updates) {
-    const statuses = getSubmissionStatuses();
-    statuses[submissionId] = { ...getStatus(submissionId), ...updates };
-    saveSubmissionStatuses(statuses);
-  }
-
-  // Update status for multiple submissions
-  function updateMultipleStatuses(ids, updates) {
-    const statuses = getSubmissionStatuses();
-    ids.forEach(id => {
-      statuses[id] = { ...statuses[id] || { read: false, archived: false }, ...updates };
-    });
-    saveSubmissionStatuses(statuses);
-  }
+  let statusMap = {}; // { submissionId: { read, archived, deleted, notes } }
+  let searchDebounceTimer = null;
 
   // Form type labels
   const formLabels = {
@@ -167,6 +131,7 @@ Love Life Now Foundation Team`
   const selectedCount = document.getElementById('selectedCount');
   const archiveToggle = document.getElementById('archiveToggle');
   const logoutBtn = document.getElementById('logoutBtn');
+  const searchInput = document.getElementById('searchInput');
 
   // Panel elements
   const contentBody = document.querySelector('.content-body');
@@ -190,7 +155,71 @@ Love Life Now Foundation Team`
     setupRefresh();
     setupPanel();
     setupBulkActions();
+    setupSearch();
     loadSubmissions(currentFormType);
+  }
+
+  // --- Status helpers (using statusMap from API) ---
+
+  function getStatus(submissionId) {
+    return statusMap[String(submissionId)] || { read: false, archived: false, deleted: false, notes: '' };
+  }
+
+  async function callAction(payload) {
+    try {
+      const response = await fetch('/api/submission-actions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload)
+      });
+      if (response.status === 401) {
+        window.location.href = '/admin/';
+        return false;
+      }
+      return response.ok;
+    } catch (err) {
+      console.error('Action error:', err);
+      return false;
+    }
+  }
+
+  async function updateStatus(submissionId, action) {
+    const id = String(submissionId);
+    // Optimistic local update
+    if (!statusMap[id]) statusMap[id] = { read: false, archived: false, deleted: false, notes: '' };
+    const fieldMap = { read: 'read', unread: 'read', archive: 'archived', unarchive: 'archived', delete: 'deleted', restore: 'deleted' };
+    const valueMap = { read: true, unread: false, archive: true, unarchive: false, delete: true, restore: false };
+    if (fieldMap[action]) {
+      statusMap[id][fieldMap[action]] = valueMap[action];
+    }
+    await callAction({ id, formType: currentFormType, action });
+  }
+
+  async function updateMultipleStatuses(ids, action) {
+    const stringIds = ids.map(String);
+    // Optimistic local update
+    const fieldMap = { read: 'read', unread: 'read', archive: 'archived', unarchive: 'archived', delete: 'deleted', restore: 'deleted' };
+    const valueMap = { read: true, unread: false, archive: true, unarchive: false, delete: true, restore: false };
+    stringIds.forEach(id => {
+      if (!statusMap[id]) statusMap[id] = { read: false, archived: false, deleted: false, notes: '' };
+      if (fieldMap[action]) {
+        statusMap[id][fieldMap[action]] = valueMap[action];
+      }
+    });
+    await callAction({ ids: stringIds, formType: currentFormType, action });
+  }
+
+  // --- Search ---
+
+  function setupSearch() {
+    if (!searchInput) return;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(() => {
+        loadSubmissions(currentFormType, searchInput.value.trim());
+      }, 300);
+    });
   }
 
   // Bulk actions toolbar
@@ -206,39 +235,49 @@ Love Life Now Foundation Team`
     }
 
     // Mark as read
-    document.getElementById('markReadBtn')?.addEventListener('click', () => {
+    document.getElementById('markReadBtn')?.addEventListener('click', async () => {
       if (selectedIds.size > 0) {
-        updateMultipleStatuses([...selectedIds], { read: true });
+        await updateMultipleStatuses([...selectedIds], 'read');
         clearSelection();
         renderSubmissions(submissions);
       }
     });
 
     // Mark as unread
-    document.getElementById('markUnreadBtn')?.addEventListener('click', () => {
+    document.getElementById('markUnreadBtn')?.addEventListener('click', async () => {
       if (selectedIds.size > 0) {
-        updateMultipleStatuses([...selectedIds], { read: false });
+        await updateMultipleStatuses([...selectedIds], 'unread');
         clearSelection();
         renderSubmissions(submissions);
       }
     });
 
     // Archive
-    document.getElementById('archiveBtn')?.addEventListener('click', () => {
+    document.getElementById('archiveBtn')?.addEventListener('click', async () => {
       if (selectedIds.size > 0) {
-        updateMultipleStatuses([...selectedIds], { archived: true });
+        await updateMultipleStatuses([...selectedIds], 'archive');
         clearSelection();
         renderSubmissions(submissions);
       }
     });
 
     // Unarchive
-    document.getElementById('unarchiveBtn')?.addEventListener('click', () => {
+    document.getElementById('unarchiveBtn')?.addEventListener('click', async () => {
       if (selectedIds.size > 0) {
-        updateMultipleStatuses([...selectedIds], { archived: false });
+        await updateMultipleStatuses([...selectedIds], 'unarchive');
         clearSelection();
         renderSubmissions(submissions);
       }
+    });
+
+    // Delete
+    document.getElementById('deleteBtn')?.addEventListener('click', async () => {
+      if (selectedIds.size === 0) return;
+      const count = selectedIds.size;
+      if (!confirm(`Are you sure you want to delete ${count} submission${count > 1 ? 's' : ''}? They can be restored later.`)) return;
+      await updateMultipleStatuses([...selectedIds], 'delete');
+      clearSelection();
+      renderSubmissions(submissions);
     });
 
     // Select all
@@ -277,6 +316,7 @@ Love Life Now Foundation Team`
   function getVisibleSubmissions() {
     return submissions.filter(sub => {
       const status = getStatus(String(sub.id));
+      if (status.deleted) return false;
       return showArchived ? status.archived : !status.archived;
     });
   }
@@ -305,6 +345,7 @@ Love Life Now Foundation Team`
           updateActiveNav(item);
           hideDetailPanel();
           clearSelection();
+          if (searchInput) searchInput.value = '';
           loadSubmissions(formType);
         }
       });
@@ -334,17 +375,22 @@ Love Life Now Foundation Team`
   // Refresh
   function setupRefresh() {
     refreshBtn.addEventListener('click', () => {
-      loadSubmissions(currentFormType);
+      loadSubmissions(currentFormType, searchInput?.value?.trim());
     });
   }
 
   // Load submissions
-  async function loadSubmissions(formType) {
+  async function loadSubmissions(formType, searchTerm) {
     showLoading();
     pageTitle.textContent = formLabels[formType];
 
     try {
-      const response = await fetch(`/api/submissions?type=${formType}`, {
+      let url = `/api/submissions?type=${formType}`;
+      if (searchTerm) {
+        url += `&search=${encodeURIComponent(searchTerm)}`;
+      }
+
+      const response = await fetch(url, {
         credentials: 'include'
       });
 
@@ -359,6 +405,14 @@ Love Life Now Foundation Team`
 
       const data = await response.json();
       submissions = data.submissions || [];
+
+      // Build statusMap from submission.status (merged by server)
+      statusMap = {};
+      submissions.forEach(sub => {
+        if (sub.status) {
+          statusMap[String(sub.id)] = sub.status;
+        }
+      });
 
       if (submissions.length === 0) {
         showEmpty();
@@ -376,9 +430,10 @@ Love Life Now Foundation Team`
   function renderSubmissions(submissionsList) {
     submissionsBody.textContent = '';
 
-    // Filter based on archived status
+    // Filter based on archived/deleted status
     const visibleSubmissions = submissionsList.filter(sub => {
       const status = getStatus(String(sub.id));
+      if (status.deleted) return false;
       return showArchived ? status.archived : !status.archived;
     });
 
@@ -407,7 +462,7 @@ Love Life Now Foundation Team`
       // Checkbox
       const checkbox = document.createElement('div');
       checkbox.className = 'submission-checkbox';
-      checkbox.innerHTML = isSelected ? '☑' : '☐';
+      checkbox.textContent = isSelected ? '\u2611' : '\u2610';
       checkbox.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleSelection(subId);
@@ -433,8 +488,7 @@ Love Life Now Foundation Team`
 
       // Click on content opens the submission and marks as read
       content.addEventListener('click', () => {
-        // Mark as read
-        updateStatus(subId, { read: true });
+        updateStatus(subId, 'read');
         selectSubmission(sub, item);
         renderSubmissions(submissions);
       });
@@ -539,12 +593,40 @@ Love Life Now Foundation Team`
       }
     });
 
+    // Notes - save button
+    document.getElementById('saveNotesBtn')?.addEventListener('click', saveNotes);
+
+    // Notes - Ctrl+Enter to save
+    document.getElementById('adminNotes')?.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'Enter') {
+        saveNotes();
+      }
+    });
+
     // Escape key closes panel
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         hideDetailPanel();
       }
     });
+  }
+
+  async function saveNotes() {
+    if (!currentSubmission) return;
+    const notesEl = document.getElementById('adminNotes');
+    const indicator = document.getElementById('notesSavedIndicator');
+    const notes = notesEl.value;
+    const id = String(currentSubmission.id);
+
+    // Update local statusMap
+    if (!statusMap[id]) statusMap[id] = { read: false, archived: false, deleted: false, notes: '' };
+    statusMap[id].notes = notes;
+
+    const ok = await callAction({ id, formType: currentFormType, action: 'notes', notes });
+    if (ok && indicator) {
+      indicator.style.display = 'inline';
+      setTimeout(() => { indicator.style.display = 'none'; }, 2000);
+    }
   }
 
   function showDetailPanel(submission) {
@@ -626,6 +708,15 @@ Love Life Now Foundation Team`
     } else {
       customFieldsSection.style.display = 'none';
     }
+
+    // Admin Notes
+    const adminNotes = document.getElementById('adminNotes');
+    const notesSaved = document.getElementById('notesSavedIndicator');
+    if (adminNotes) {
+      const status = getStatus(String(submission.id));
+      adminNotes.value = status.notes || '';
+    }
+    if (notesSaved) notesSaved.style.display = 'none';
 
     // Populate History tab
     document.getElementById('historyName').textContent = submission.constituent?.name || 'Unknown';
@@ -760,13 +851,13 @@ Love Life Now Foundation Team`
       const data = await response.json();
 
       if (response.ok && data.success) {
-        alert(`✅ Submission sent to your email!\n\nSent to: ${data.sentTo}\nReply-To: ${data.replyTo || 'Not available'}`);
+        alert(`Submission sent to your email!\n\nSent to: ${data.sentTo}\nReply-To: ${data.replyTo || 'Not available'}`);
       } else {
-        alert(`❌ Failed to send: ${data.error || 'Unknown error'}\n\n${data.details || ''}`);
+        alert(`Failed to send: ${data.error || 'Unknown error'}\n\n${data.details || ''}`);
       }
     } catch (error) {
       console.error('Notify error:', error);
-      alert('❌ Unable to send notification. Please check your email settings.');
+      alert('Unable to send notification. Please check your email settings.');
     } finally {
       notifyMeBtn.disabled = false;
       notifyMeBtn.querySelector('.btn-text').style.display = 'inline';

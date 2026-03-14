@@ -51,6 +51,15 @@ exports.handler = async (event) => {
 
     const config = getConfig(formName);
 
+    // Only send email notifications for Get Safe Fund submissions
+    if (formName !== 'get-safe-fund') {
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ success: true, message: 'Notification skipped (email disabled for this form)' })
+      };
+    }
+
     const notificationEmail = process.env.NOTIFICATION_EMAIL || process.env.FROM_EMAIL;
     if (!notificationEmail) {
       return {

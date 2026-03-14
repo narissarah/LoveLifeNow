@@ -32,6 +32,16 @@ exports.handler = async (event) => {
   try {
     const { submissionId, formType } = JSON.parse(event.body || '{}');
 
+    // Only send email notifications for Get Safe Fund submissions
+    const getSafeKeys = ['get-safe-fund', 'getsafe', 'GetSafeApplication'];
+    if (!getSafeKeys.includes(formType) && !(formType && formType.includes('GetSafe'))) {
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ success: false, message: 'Email notifications are disabled for this form type' })
+      };
+    }
+
     if (!submissionId || !formType) {
       return {
         statusCode: 400,

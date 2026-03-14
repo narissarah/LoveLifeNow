@@ -74,7 +74,13 @@ exports.handler = async (event) => {
     const transporter = getTransporter();
     let sentCount = 0;
 
-    for (const interaction of recentSubmissions) {
+    // Only send email notifications for Get Safe Fund submissions
+    const getSafeSubmissions = recentSubmissions.filter(i =>
+      i.Subject && (i.Subject.includes('GetSafeApplication') || i.Subject.includes('Get Safe'))
+    );
+    console.log(`Filtered to ${getSafeSubmissions.length} Get Safe Fund submissions for email`);
+
+    for (const interaction of getSafeSubmissions) {
       const constituent = constituentsMap[interaction.AccountId];
       const config = getConfig(interaction.Subject);
       const submission = buildSubmissionData(interaction, constituent);

@@ -1,12 +1,10 @@
-# Local Netlify folder
-.netlify
 
 # Dependencies
-node_modules/
-
 # Environment variables
-.env
-.env.*
-
+# Local Netlify folder
 # OS files
 .DS_Store
+.env
+.env.*
+.netlify
+node_modules/
