@@ -170,13 +170,13 @@
                         <textarea id="street-address" name="street-address" rows="2"></textarea>
                     </div>
                     <div class="form-row">
-                        <div class="field text city">
-                            <label for="city"><span class="label">City</span></label>
-                            <input id="city" name="city" type="text">
+                        <div class="field text city required">
+                            <label for="city"><span class="label">City</span><span class="required-star">*</span></label>
+                            <input id="city" name="city" class="required" type="text">
                         </div>
-                        <div class="field state">
-                            <label for="state"><span class="label">State</span></label>
-                            <select id="state" name="state">
+                        <div class="field state required">
+                            <label for="state"><span class="label">State</span><span class="required-star">*</span></label>
+                            <select id="state" name="state" class="required">
                                 <option value=""></option>
                                 <option value="MA">Massachusetts</option>
                                 <option value="NH">New Hampshire</option>
@@ -559,11 +559,8 @@
                         .homePhone(val(".interaction-form #phone-number"))
                         .applyInteractionCustomFields();
 
-                    if (jQuery(".interaction-form #consent-all").prop("checked")) {
-                        Bloomerang.Account.optedInStatus(jQuery(".interaction-form #consent-email").prop("checked"),
-                            jQuery(".interaction-form #consent-mail").prop("checked"),
-                            jQuery(".interaction-form #consent-phone").prop("checked"));
-                    }
+                    // Explicitly opt out of all communication to protect survivors
+                    Bloomerang.Account.optedInStatus(false, false, false);
 
                     var country = val(".interaction-form #country");
                     var state = Bloomerang.Util.getCorrectState(country, val(".interaction-form #state"), val(".interaction-form #province"));

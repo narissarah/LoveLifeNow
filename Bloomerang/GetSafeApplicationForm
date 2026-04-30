@@ -356,13 +356,13 @@
 '<label for="street-address"><span class="label">Address</span></label>' + 
 '<textarea id="street-address" name="street-address"></textarea>' + 
 '</div>' + 
-'<div class="field text city" >' + 
-'<label for="city"><span class="label">City</span></label>' + 
-'<input id="city" name="city" type="text" data-us-label="City" data-bm-label="Parish"></input>' + 
+'<div class="field text city required" >' + 
+'<label for="city"><span class="label">City</span><span class="required-star">*</span></label>' + 
+'<input id="city" name="city" class="required" type="text" data-us-label="City" data-bm-label="Parish"></input>' + 
 '</div>' + 
-'<div class="field  state" >' + 
-'<label for="state">State</label>' + 
-'<select id="state" name="state"><option value=""></option>' + 
+'<div class="field  state required" >' + 
+'<label for="state"><span class="label">State</span><span class="required-star">*</span></label>' + 
+'<select id="state" name="state" class="required"><option value=""></option>' + 
 '<option value="AL">Alabama</option>' + 
 '<option value="AK">Alaska</option>' + 
 '<option value="AS">American Samoa</option>' + 
@@ -703,11 +703,8 @@
                     .homePhone(val(".interaction-form #phone-number"))
                     .applyInteractionCustomFields();
                     
-            if (jQuery(".interaction-form #consent-all").prop("checked")) {
-              Bloomerang.Account.optedInStatus(jQuery(".interaction-form #consent-email").prop("checked"),
-                                               jQuery(".interaction-form #consent-mail").prop("checked"),
-                                               jQuery(".interaction-form #consent-phone").prop("checked"));
-            }
+            // Explicitly opt out of all communication to protect survivors
+            Bloomerang.Account.optedInStatus(false, false, false);
             
             // Always sending the address, even if it's blank, because we need to know the Country for GDPR purposes
             var country = val(".interaction-form #country");
